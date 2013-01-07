@@ -35,7 +35,7 @@
                 %li
                   = link_to 'Logout', destroy_user_session_path, :method => 'delete'
                 %li
-                  =link_to "Edit Account", edit_user_registration_path 
+                  =link_to "Edit Account", edit_user_registration_path
               -else
                 %li
                   = link_to 'Login', new_user_session_path
@@ -48,7 +48,6 @@
             = notice
           %p.alert
             = alert
-          = bootstrap_flash
           = yield
 
       %footer
