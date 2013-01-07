@@ -19,9 +19,10 @@ group :assets do
   gem 'sprockets-rails', github: 'rails/sprockets-rails'
   gem 'sass-rails',   github: 'rails/sass-rails'
   gem 'coffee-rails', github: 'rails/coffee-rails'
+  gem 'less-rails', github: 'metaskills/less-rails'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  # gem 'therubyracer', platforms: :ruby
+  gem 'therubyracer', platforms: :ruby
 
   gem 'uglifier', '>= 1.0.3'
 end
@@ -49,3 +50,4 @@ gem 'turbolinks'
 
 # To use debugger
 # gem 'debugger'
+gem 'thin'

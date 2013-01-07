@@ -13,5 +13,8 @@ module Railspeople
 
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/extras)
+
+    # Enable the asset pipeline.
+    config.assets.enabled = true
   end
 end
