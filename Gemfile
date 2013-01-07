@@ -7,6 +7,7 @@ gem 'activerecord-deprecated_finders', github: 'rails/activerecord-deprecated_fi
 
 gem 'haml'
 gem 'haml-rails'
+gem 'gmaps4rails'
 
 gem 'mysql2'
 
