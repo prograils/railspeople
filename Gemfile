@@ -8,7 +8,7 @@ gem 'activerecord-deprecated_finders', github: 'rails/activerecord-deprecated_fi
 gem 'haml'
 gem 'haml-rails'
 gem 'gmaps4rails'
-gem 'twitter-bootstrap-rails', github: 'seyhunak/twitter-bootstrap-rails'
+gem "twitter-bootstrap-rails"
 
 
 gem 'mysql2'
