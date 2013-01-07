@@ -1,4 +1,5 @@
 GIT
+<<<<<<< HEAD
   remote: git://github.com/jnicklas/capybara.git
   revision: e1d713e85242029655dc7d31fef8bf129de3320a
   specs:
@@ -11,6 +12,8 @@ GIT
       xpath (~> 1.0.0)
 
 GIT
+=======
+>>>>>>> 2dc9a2d9bb6926c86d52a41752d63ef97bbff6c5
   remote: git://github.com/rails/activerecord-deprecated_finders.git
   revision: 2c4ebb2e79095efdd189c08861e3e7f694c52215
   specs:
@@ -91,6 +94,7 @@ GIT
       activesupport (>= 3.0)
       sprockets (~> 2.8)
 
+<<<<<<< HEAD
 GIT
   remote: git://github.com/versioncontrol/devise.git
   revision: bfd83545ecc5de65aa115fe2f8b503f77fd73365
@@ -110,31 +114,59 @@ GEM
     builder (3.1.4)
     childprocess (0.3.6)
       ffi (~> 1.0, >= 1.0.6)
+=======
+GEM
+  remote: https://rubygems.org/
+  specs:
+    atomic (1.0.1)
+    bcrypt-ruby (3.0.1)
+    builder (3.1.4)
+>>>>>>> 2dc9a2d9bb6926c86d52a41752d63ef97bbff6c5
     coffee-script (2.2.0)
       coffee-script-source
       execjs
     coffee-script-source (1.4.0)
+<<<<<<< HEAD
+=======
+    devise (1.5.3)
+      bcrypt-ruby (~> 3.0)
+      orm_adapter (~> 0.0.3)
+      warden (~> 1.1)
+>>>>>>> 2dc9a2d9bb6926c86d52a41752d63ef97bbff6c5
     diff-lcs (1.1.3)
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
+<<<<<<< HEAD
     factory_girl (4.1.0)
       activesupport (>= 3.0.0)
     factory_girl_rails (4.1.0)
       factory_girl (~> 4.1.0)
       railties (>= 3.0.0)
     ffi (1.2.0)
+=======
+    gmaps4rails (1.5.6)
+    haml (3.1.7)
+    haml-rails (0.3.5)
+      actionpack (>= 3.1, < 4.1)
+      activesupport (>= 3.1, < 4.1)
+      haml (~> 3.1)
+      railties (>= 3.1, < 4.1)
+>>>>>>> 2dc9a2d9bb6926c86d52a41752d63ef97bbff6c5
     hike (1.2.1)
     i18n (0.6.1)
     jquery-rails (2.1.4)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
     json (1.7.6)
+<<<<<<< HEAD
     launchy (2.1.2)
       addressable (~> 2.3)
     libwebsocket (0.1.7.1)
       addressable
       websocket
+=======
+>>>>>>> 2dc9a2d9bb6926c86d52a41752d63ef97bbff6c5
     mail (2.5.3)
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
@@ -143,8 +175,12 @@ GEM
     minitest (4.3.3)
     multi_json (1.5.0)
     mysql2 (0.3.11)
+<<<<<<< HEAD
     nokogiri (1.5.6)
     orm_adapter (0.4.0)
+=======
+    orm_adapter (0.0.7)
+>>>>>>> 2dc9a2d9bb6926c86d52a41752d63ef97bbff6c5
     polyglot (0.3.3)
     rack (1.4.2)
     rack-test (0.6.2)
@@ -163,6 +199,7 @@ GEM
       rspec-core (~> 2.12.0)
       rspec-expectations (~> 2.12.0)
       rspec-mocks (~> 2.12.0)
+<<<<<<< HEAD
     rubyzip (0.9.9)
     sass (3.2.5)
     selenium-webdriver (2.27.2)
@@ -170,6 +207,9 @@ GEM
       libwebsocket (~> 0.1.3)
       multi_json (~> 1.0)
       rubyzip
+=======
+    sass (3.2.5)
+>>>>>>> 2dc9a2d9bb6926c86d52a41752d63ef97bbff6c5
     sprockets (2.8.2)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -184,15 +224,25 @@ GEM
       polyglot (>= 0.3.1)
     turbolinks (0.6.1)
       coffee-rails
+<<<<<<< HEAD
+=======
+    twitter-bootstrap-rails (2.1.8)
+      actionpack (>= 3.1)
+      execjs
+      railties (>= 3.1)
+>>>>>>> 2dc9a2d9bb6926c86d52a41752d63ef97bbff6c5
     tzinfo (0.3.35)
     uglifier (1.3.0)
       execjs (>= 0.3.0)
       multi_json (~> 1.0, >= 1.0.2)
     warden (1.2.1)
       rack (>= 1.0)
+<<<<<<< HEAD
     websocket (1.0.6)
     xpath (1.0.0)
       nokogiri (~> 1.3)
+=======
+>>>>>>> 2dc9a2d9bb6926c86d52a41752d63ef97bbff6c5
 
 PLATFORMS
   ruby
@@ -200,16 +250,29 @@ PLATFORMS
 DEPENDENCIES
   activerecord-deprecated_finders!
   arel!
+<<<<<<< HEAD
   capybara!
   coffee-rails!
   devise!
   factory_girl_rails (~> 4.0)
   jquery-rails
   launchy
+=======
+  coffee-rails!
+  devise
+  gmaps4rails
+  haml
+  haml-rails
+  jquery-rails
+>>>>>>> 2dc9a2d9bb6926c86d52a41752d63ef97bbff6c5
   mysql2
   rails!
   rspec-rails
   sass-rails!
   sprockets-rails!
   turbolinks
+<<<<<<< HEAD
+=======
+  twitter-bootstrap-rails
+>>>>>>> 2dc9a2d9bb6926c86d52a41752d63ef97bbff6c5
   uglifier (>= 1.0.3)
