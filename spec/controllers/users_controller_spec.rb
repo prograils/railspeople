@@ -12,7 +12,7 @@ describe UsersController do
     end
     it "returns http success if user is loggged in" do
       sign_in @user
-      get 'index'
+      get 'show'
       response.should be_success
     end
   end
