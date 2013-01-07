@@ -79,6 +79,15 @@ GIT
       activesupport (>= 3.0)
       sprockets (~> 2.8)
 
+GIT
+  remote: git://github.com/seyhunak/twitter-bootstrap-rails.git
+  revision: 65a0e966ce2aa10b81c87a6c6ced8457b113d8a9
+  specs:
+    twitter-bootstrap-rails (2.2.0)
+      actionpack (>= 3.1)
+      execjs
+      railties (>= 3.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -97,6 +106,7 @@ GEM
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
+    gmaps4rails (1.5.6)
     haml (3.1.7)
     haml-rails (0.3.5)
       actionpack (>= 3.1, < 4.1)
@@ -166,6 +176,7 @@ DEPENDENCIES
   arel!
   coffee-rails!
   devise
+  gmaps4rails
   haml
   haml-rails
   jquery-rails
@@ -175,4 +186,5 @@ DEPENDENCIES
   sass-rails!
   sprockets-rails!
   turbolinks
+  twitter-bootstrap-rails!
   uglifier (>= 1.0.3)

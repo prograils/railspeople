@@ -1112,3 +1112,48 @@ Started GET "/assets/home.js?body=1" for 127.0.0.1 at 2013-01-07 13:11:01 +0100
 
 Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-01-07 13:11:01 +0100
   [1m[35mActiveRecord::SchemaMigration Load (0.3ms)[0m  SELECT `schema_migrations`.* FROM `schema_migrations`
+  [1m[36mActiveRecord::SchemaMigration Load (0.6ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.4ms)[0m  SELECT `schema_migrations`.* FROM `schema_migrations`
+
+
+Started GET "/" for 127.0.0.1 at 2013-01-07 14:01:36 +0100
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+Processing by HomeController#index as HTML
+  Rendered home/index.html.haml within layouts/application (2.9ms)
+Completed 200 OK in 658ms (Views: 656.6ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-01-07 14:01:37 +0100
+  [1m[35mActiveRecord::SchemaMigration Load (3.7ms)[0m  SELECT `schema_migrations`.* FROM `schema_migrations`
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-01-07 14:01:37 +0100
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+
+
+Started GET "/assets/home.css?body=1" for 127.0.0.1 at 2013-01-07 14:01:37 +0100
+  [1m[35mActiveRecord::SchemaMigration Load (0.4ms)[0m  SELECT `schema_migrations`.* FROM `schema_migrations`
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-01-07 14:01:37 +0100
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2013-01-07 14:01:37 +0100
+  [1m[35mActiveRecord::SchemaMigration Load (0.3ms)[0m  SELECT `schema_migrations`.* FROM `schema_migrations`
+
+
+Started GET "/assets/home.js?body=1" for 127.0.0.1 at 2013-01-07 14:01:37 +0100
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-01-07 14:01:37 +0100
+  [1m[35mActiveRecord::SchemaMigration Load (1.7ms)[0m  SELECT `schema_migrations`.* FROM `schema_migrations`
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-01-07 14:01:38 +0100
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2013-01-07 14:01:38 +0100
+  [1m[35mActiveRecord::SchemaMigration Load (0.3ms)[0m  SELECT `schema_migrations`.* FROM `schema_migrations`
