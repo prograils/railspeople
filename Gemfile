@@ -10,6 +10,7 @@ gem 'haml'
 gem 'haml-rails'
 gem 'gmaps4rails'
 gem "twitter-bootstrap-rails"
+gem "cancan"
 
 gem 'mysql2'
 
