@@ -11,8 +11,6 @@ GIT
       xpath (~> 1.0.0)
 
 GIT
-<<<<<<< HEAD
-=======
   remote: git://github.com/metaskills/less-rails.git
   revision: 1ded292354c5af8e10a28e918e2442e14d04e00f
   specs:
@@ -21,7 +19,6 @@ GIT
       less (~> 2.2.0)
 
 GIT
->>>>>>> 28c67cb58ccc186d165fe019d358235321c5535e
   remote: git://github.com/rails/activerecord-deprecated_finders.git
   revision: 2c4ebb2e79095efdd189c08861e3e7f694c52215
   specs:
@@ -125,11 +122,8 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.4.0)
-<<<<<<< HEAD
-=======
     commonjs (0.2.6)
     daemons (1.1.9)
->>>>>>> 28c67cb58ccc186d165fe019d358235321c5535e
     diff-lcs (1.1.3)
     erubis (2.7.0)
     eventmachine (1.0.0)
@@ -248,10 +242,7 @@ DEPENDENCIES
   haml-rails
   jquery-rails
   launchy
-<<<<<<< HEAD
-=======
   less-rails!
->>>>>>> 28c67cb58ccc186d165fe019d358235321c5535e
   mysql2
   rails!
   rspec-rails
