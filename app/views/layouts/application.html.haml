@@ -28,8 +28,8 @@
           = link_to "Railspeople", root_path, :class => 'brand'
           .container.nav-collapse
             %ul.nav
-              %li= link_to "Link 1", "/path1"
-              %li= link_to "Link 2", "/path2"
+              %li= link_to "About", about_index_path 
+              %li= link_to "Search", "/path2"
               %li= link_to "Link 3", "/path3"
               -if user_signed_in?
                 %li
