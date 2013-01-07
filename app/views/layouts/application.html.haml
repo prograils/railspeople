@@ -35,7 +35,7 @@
                 %li
                   = link_to 'Logout', destroy_user_session_path, :method => 'delete'
                 %li
-                  =link_to "Edit Account", edit_user_registration_path 
+                  =link_to "Edit Account", edit_user_registration_path
               -else
                 %li
                   = link_to 'Login', new_user_session_path
@@ -54,3 +54,4 @@
       \==================================================
     / Placed at the end of the document so the pages load faster
     = javascript_include_tag "application"
+    = yield :scripts
