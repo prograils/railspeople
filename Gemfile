@@ -1,15 +1,15 @@
 source 'https://rubygems.org'
 
-gem 'devise'
+gem 'devise', 	 github: 'versioncontrol/devise'
 gem 'rails',     github: 'rails/rails'
 gem 'arel',      github: 'rails/arel'
 gem 'activerecord-deprecated_finders', github: 'rails/activerecord-deprecated_finders'
+
 
 gem 'haml'
 gem 'haml-rails'
 gem 'gmaps4rails'
 gem "twitter-bootstrap-rails"
-
 
 gem 'mysql2'
 
@@ -27,8 +27,12 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
+gem "factory_girl_rails", "~> 4.0"
+
 group :development, :test do
   gem 'rspec-rails'
+  gem 'capybara', :git => 'git://github.com/jnicklas/capybara.git'
+  gem 'launchy'
 end
 
 gem 'jquery-rails'
