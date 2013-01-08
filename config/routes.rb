@@ -1,4 +1,5 @@
 Railspeople::Application.routes.draw do
+  get "search/index"
   get "about/index"
   get "users/show"
   get "home/index"
