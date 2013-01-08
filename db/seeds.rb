@@ -5,3 +5,15 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+
+100.times do |i|
+User.create(
+            :email => "sample@from_seed#{i}.pl",
+            :password => "foobar", 
+            :password_confirmation => 'foobar',
+            :country => "Poland", 
+            :latitude => "1.#{i}123", 
+            :longitude => "2.#{i}229"
+           )
+end

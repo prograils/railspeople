@@ -1,17 +1,112 @@
 %h2 Sign up
 = form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f|
   = devise_error_messages!
+  %h4 1. Tell us who you are
+  %div
+    = f.label :username
+    = f.text_field :username
+  %div
+    = f.label :first_name
+    = f.text_field :first_name 
+  %div
+    = f.label :last_name
+    = f.text_field :last_name
   %div
     = f.label :email
-    %br/
     = f.email_field :email
   %div
     = f.label :password
-    %br/
     = f.password_field :password
   %div
     = f.label :password_confirmation
-    %br/
     = f.password_field :password_confirmation
-  %div= f.submit "Sign up"
+
+  %h4 2. Tell us where you live
+
+  = gmaps4rails(@json)
+  - content_for :scripts do
+    :javascript 
+      var markersArray = [];
+      // On click, clear markers, place a new one, update coordinates in the form
+      Gmaps.map.callback = function() {
+          google.maps.event.addListener(Gmaps.map.serviceObject, 'click', function(event) {
+            clearOverlays();
+            placeMarker(event.latLng);
+            updateFormLocation(event.latLng);
+          });
+      };
+      // Update form attributes with given coordinates
+      function updateFormLocation(latLng) {
+          $('#user_latitude').val(latLng.lat());
+          $('#user_longitude').val(latLng.lng());
+          //$('#location_attributes_gmaps_zoom').val(Gmaps.map.serviceObject.getZoom());
+      }
+      // Add a marker with an open infowindow
+      function placeMarker(latLng) {
+          var marker = new google.maps.Marker({
+              position: latLng, 
+              map: Gmaps.map.serviceObject,
+              draggable: true
+          });
+          markersArray.push(marker);
+          // Set and open infowindow
+          var infowindow = new google.maps.InfoWindow({
+              content: '<div class="popup"><h2>Awesome!</h2><p>Drag me and adjust the zoom level.</p>'
+          });
+          infowindow.open(Gmaps.map.serviceObject,marker);
+          // Listen to drag & drop
+          google.maps.event.addListener(marker, 'dragend', function() {
+              updateFormLocation(this.getPosition());
+          });
+      }
+      // Removes the overlays from the map
+      function clearOverlays() {
+        if (markersArray) {
+          for (var i = 0; i < markersArray.length; i++ ) {
+            markersArray[i].setMap(null);
+          }
+        }
+        markersArray.length = 0;
+      }
+
+  
+  %div
+    = f.text_field :latitude, :style => "display: none;"
+  %div
+    = f.text_field :longitude, :style => "display: none;"
+  %br
+  %div
+    = f.label :country
+    = f.country_select :country
+  
+  %h4 3. And a bit about you...
+  %div
+    = f.label :bio
+    = f.text_area :bio
+  %div
+    = f.label :blog_url
+    = f.text_field :blog_url 
+  %div
+    = f.label :twitter
+    = f.text_field :twitter
+  %div
+    = f.label :facebook
+    = f.text_field :facebook
+  %div
+    = f.label :google_plus
+    = f.text_field :google_plus
+  %div
+    = f.label :github
+    = f.text_field :github
+  %div
+    = f.label :stackoverflow
+    = f.text_field :stackoverflow
+
+  %h4 4. Your privacy settings
+  %p TODO
+
+  %h4 5. Your skills and interests
+  %p TODO
+
+  %div= f.submit "Sign me up"
 = render :partial => "devise/shared/links"

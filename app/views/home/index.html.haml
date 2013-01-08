@@ -1,6 +1,26 @@
-%h1= 'Railspeople'
-%p
-  Search for ruby on rails people
+- if params[:selected]
+  %h1= params[:selected]
+  = @people_count
+  people
+- else   
+  %h1= 'Rails People'
+  Discover users of the 
+  =link_to "Ruby on Rails Web", "http://rubyonrails.org/", :target => "_blank"
+  framework near you
 
-.img
-  = gmaps4rails(@json)
+= gmaps4rails(@json)
+
+- if params[:selected]
+  = will_paginate @people
+  - @people.each do |person|
+    .row.span4
+      = link_to person.email, user_path(person)
+      %br
+      = person.country
+- else
+  %br
+  - @countries_printable_names.each do |country|
+    .row.span4
+      = link_to "#{country}", home_index_path(:selected => country)
+      = User.where(:country => country).count
+      people

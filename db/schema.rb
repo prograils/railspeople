@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130107131319) do
+ActiveRecord::Schema.define(version: 20130108121037) do
 
   create_table "users", force: true do |t|
     t.string   "email",                              default: "", null: false
@@ -29,6 +29,16 @@ ActiveRecord::Schema.define(version: 20130107131319) do
     t.string   "country"
     t.float    "latitude"
     t.float    "longitude"
+    t.string   "username"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.text     "bio"
+    t.string   "blog_url"
+    t.string   "twitter"
+    t.string   "facebook"
+    t.string   "google_plus"
+    t.string   "github"
+    t.string   "stackoverflow"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

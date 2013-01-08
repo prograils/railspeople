@@ -7,12 +7,12 @@ describe UsersController do
 
   describe "GET 'show'" do
     it "returns http success for non logged in user" do
-      get 'show'
+      get 'show', :id => @user.id
       response.should be_success
     end
     it "returns http success if user is logged in" do
       sign_in @user
-      get 'show'
+      get 'show', :id => @user.id
       response.should be_success
     end
   end
