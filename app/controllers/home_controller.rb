@@ -4,9 +4,14 @@ class HomeController < InheritedResources::Base
       scope = User.where(:country => params[:selected])
       @json = scope.to_gmaps4rails
       @people_count = scope.count
-    else  
+      @people = scope
+    else
       @json = User.all.to_gmaps4rails
     end
     @countries_printable_names = Country.printable_names
   end
+
+
+
+
 end

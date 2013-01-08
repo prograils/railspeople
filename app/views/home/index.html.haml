@@ -9,11 +9,17 @@
   framework near you
 
 = gmaps4rails(@json)
-%br
-- @countries_printable_names.each do |c|
-  .row.span4
-    = link_to "#{c}", home_index_path(:selected => c)
-    = User.where(:country => c).count
-    people
-      
-      
+
+- if params[:selected]
+  - @people.each do |person|
+    .row.span4
+      = link_to person.email, user_path(person)
+      %br
+      = person.country
+- else
+  %br
+  - @countries_printable_names.each do |country|
+    .row.span4
+      = link_to "#{country}", home_index_path(:selected => country)
+      = User.where(:country => country).count
+      people
