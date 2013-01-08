@@ -6,7 +6,24 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def resource_params
-    params.require(:user).permit(:username, :first_name, :last_name, :email, :password, :password_confirmation, :latitude, :longitude, :country)
+    params.require(:user).permit(
+      :username, 
+      :first_name, 
+      :last_name, 
+      :email, 
+      :password, 
+      :password_confirmation, 
+      :latitude, 
+      :longitude, 
+      :country,
+      :bio,
+      :blog_url,
+      :twitter,
+      :facebook,
+      :google_plus,
+      :github,
+      :stackoverflow
+    )
   end
   private :resource_params
 end

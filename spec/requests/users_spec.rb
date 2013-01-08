@@ -10,9 +10,18 @@ describe "Users" do
       fill_in "Email", :with => "ruby@rails.com"
       fill_in "user[password]", :with => "foobar12"
       fill_in "user[password_confirmation]", :with => "foobar12"
+      
       select "Poland", :from => 'user[country]'
+      
+      fill_in "Bio", :with => 'some description text ...'
+      fill_in "Blog url", :with => 'www.myblog.app.com'
+      fill_in "Twitter", :with => "www.twitter.com/1234"
+      fill_in "Facebook", :with => "www.facebook.com/1234"
+      fill_in "Google plus", :with => "www.googleplus.com/123"
+      fill_in "Github", :with => 'www.github.com/123'
+      fill_in "Stackoverflow", :with => "www.stackoverflow/1234"
 
-      click_button "Sign up"
+      click_button "Sign me up"
       page.should have_content("Welcome! You have signed up successfully.")
     end
   end

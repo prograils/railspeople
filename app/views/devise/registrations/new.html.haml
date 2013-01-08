@@ -21,7 +21,7 @@
     = f.label :password_confirmation
     = f.password_field :password_confirmation
 
-  %h4 1.2. Tell us where you live
+  %h4 2. Tell us where you live
 
   = gmaps4rails(@json)
   - content_for :scripts do
@@ -82,6 +82,35 @@
   %div
     = f.label :country
     = f.country_select :country
+  
+  %h4 3. And a bit about you...
+  %div
+    = f.label :bio
+    = f.text_area :bio
+  %div
+    = f.label :blog_url
+    = f.text_field :blog_url 
+  %div
+    = f.label :twitter
+    = f.text_field :twitter
+  %div
+    = f.label :facebook
+    = f.text_field :facebook
+  %div
+    = f.label :google_plus
+    = f.text_field :google_plus
+  %div
+    = f.label :github
+    = f.text_field :github
+  %div
+    = f.label :stackoverflow
+    = f.text_field :stackoverflow
 
-  %div= f.submit "Sign up"
+  %h4 4. Your privacy settings
+  %p TODO
+
+  %h4 5. Your skills and interests
+  %p TODO
+
+  %div= f.submit "Sign me up"
 = render :partial => "devise/shared/links"
