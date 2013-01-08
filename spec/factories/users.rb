@@ -1,5 +1,8 @@
 FactoryGirl.define do
   factory :user do
+    username "user"
+    first_name "James"
+    last_name "Brown"
     country "Poland"
     latitude "1.237846"
     longitude "2.43248"
