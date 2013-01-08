@@ -5,3 +5,7 @@
   framework near you
 
   = gmaps4rails(@json)
+  %br
+  - @countries_printable_names.each do |c|
+    .row.span4
+      =link_to "#{c}", "#"
