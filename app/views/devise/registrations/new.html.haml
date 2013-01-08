@@ -1,29 +1,87 @@
 %h2 Sign up
 = form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f|
   = devise_error_messages!
+  %h4 1. Tell us who you are
+  %div
+    = f.label :username
+    = f.text_field :username
+  %div
+    = f.label :first_name
+    = f.text_field :first_name 
+  %div
+    = f.label :last_name
+    = f.text_field :last_name
   %div
     = f.label :email
-    %br/
     = f.email_field :email
   %div
-    = f.label :latitude
-    %br/
-    = f.text_field :latitude
-  %div
-    = f.label :longitude
-    %br/
-    = f.text_field :longitude
-  %div
-    = f.label :country
-    %br/
-    = f.country_select :country
-    %div
     = f.label :password
-    %br/
     = f.password_field :password
   %div
     = f.label :password_confirmation
-    %br/
     = f.password_field :password_confirmation
+
+  %h4 1.2. Tell us where you live
+
+  = gmaps4rails(@json)
+  - content_for :scripts do
+    :javascript 
+      alert "test"
+      var markersArray = [];
+      // On click, clear markers, place a new one, update coordinates in the form
+      Gmaps.map.callback = function() {
+          google.maps.event.addListener(Gmaps.map.serviceObject, 'click', function(event) {
+            clearOverlays();
+            placeMarker(event.latLng);
+            updateFormLocation(event.latLng);
+          });
+      };
+      // Update form attributes with given coordinates
+      function updateFormLocation(latLng) {
+          $('#location_attributes_latitude').val(latLng.lat());
+          $('#location_attributes_longitude').val(latLng.lng());
+          $('#location_attributes_gmaps_zoom').val(Gmaps.map.serviceObject.getZoom());
+      }
+      // Add a marker with an open infowindow
+      function placeMarker(latLng) {
+          var marker = new google.maps.Marker({
+              position: latLng, 
+              map: Gmaps.map.serviceObject,
+              draggable: true
+          });
+          markersArray.push(marker);
+          // Set and open infowindow
+          var infowindow = new google.maps.InfoWindow({
+              content: '<div class="popup"><h2>Awesome!</h2><p>Drag me and adjust the zoom level.</p>'
+          });
+          infowindow.open(Gmaps.map.serviceObject,marker);
+          // Listen to drag & drop
+          google.maps.event.addListener(marker, 'dragend', function() {
+              updateFormLocation(this.getPosition());
+          });
+      }
+      // Removes the overlays from the map
+      function clearOverlays() {
+        if (markersArray) {
+          for (var i = 0; i < markersArray.length; i++ ) {
+            markersArray[i].setMap(null);
+          }
+        }
+        markersArray.length = 0;
+      }
+
+  
+  - if false 
+    %div
+      = f.label :latitude
+      = f.text_field :latitude
+    %div
+      = f.label :longitude
+      = f.text_field :longitude
+  %br
+  %div
+    = f.label :country
+    = f.country_select :country
+
   %div= f.submit "Sign up"
 = render :partial => "devise/shared/links"
