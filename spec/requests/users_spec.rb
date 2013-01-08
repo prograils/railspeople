@@ -11,10 +11,12 @@ describe "Users" do
       fill_in "user[password]", :with => "foobar12"
       fill_in "user[password_confirmation]", :with => "foobar12"
 
-      fill_in "user[latitude]", :with => "1.2"
-      fill_in "user[longitude]", :with => "1.2"
+      #TODO
+      #fill_in "user[latitude]", :with => "1.2"
+      #fill_in "user[longitude]", :with => "1.2"
+
       select "Poland", :from => 'user[country]'
-      
+
       fill_in "Bio", :with => 'some description text ...'
       fill_in "Blog url", :with => 'http://www.myblog.app.com'
       fill_in "Twitter", :with => "http://www.twitter.com/1234"
