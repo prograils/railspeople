@@ -4,11 +4,12 @@ describe "Users" do
   describe 'GET /users/sign_up' do
     it "should successfully add new user" do
       visit '/users/sign_up'
+      fill_in "Username", :with => 'prograils_user'
+      fill_in "First name", :with => 'firstname'
+      fill_in "Last name", :with => 'lastname'
       fill_in "Email", :with => "ruby@rails.com"
       fill_in "user[password]", :with => "foobar12"
       fill_in "user[password_confirmation]", :with => "foobar12"
-      fill_in "user[latitude]", :with => '1.2345'
-      fill_in "user[longitude]", :with => '1.4235'
       select "Poland", :from => 'user[country]'
 
       click_button "Sign up"
