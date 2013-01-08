@@ -11,6 +11,7 @@
 = gmaps4rails(@json)
 
 - if params[:selected]
+  = will_paginate @people
   - @people.each do |person|
     .row.span4
       = link_to person.email, user_path(person)

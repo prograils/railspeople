@@ -7,4 +7,7 @@ class User < ActiveRecord::Base
   def gmaps4rails_address
     "#{self.country}"
   end
+  
+  self.per_page = 20
+
 end
