@@ -37,9 +37,9 @@
       };
       // Update form attributes with given coordinates
       function updateFormLocation(latLng) {
-          $('#location_attributes_latitude').val(latLng.lat());
-          $('#location_attributes_longitude').val(latLng.lng());
-          $('#location_attributes_gmaps_zoom').val(Gmaps.map.serviceObject.getZoom());
+          $('#user_latitude').val(latLng.lat());
+          $('#user_longitude').val(latLng.lng());
+          //$('#location_attributes_gmaps_zoom').val(Gmaps.map.serviceObject.getZoom());
       }
       // Add a marker with an open infowindow
       function placeMarker(latLng) {
@@ -70,13 +70,12 @@
       }
 
   
-  - if false 
-    %div
-      = f.label :latitude
-      = f.text_field :latitude
-    %div
-      = f.label :longitude
-      = f.text_field :longitude
+  %div
+    = f.label :latitude
+    = f.text_field :latitude, :style => "display: none;"
+  %div
+    = f.label :longitude
+    = f.text_field :longitude, :style => "display: none;"
   %br
   %div
     = f.label :country
