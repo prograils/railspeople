@@ -5,6 +5,7 @@ gem 'rails',     github: 'rails/rails'
 gem 'arel',      github: 'rails/arel'
 gem 'activerecord-deprecated_finders', github: 'rails/activerecord-deprecated_finders'
 
+gem 'country_select'
 gem 'inherited_resources'
 gem "json_spec", "~> 1.1.0"
 gem 'haml'
