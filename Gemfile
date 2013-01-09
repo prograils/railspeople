@@ -12,8 +12,9 @@ gem "json_spec", "~> 1.1.0"
 gem 'haml'
 gem 'haml-rails'
 gem 'gmaps4rails'
-gem "twitter-bootstrap-rails"
 gem "cancan"
+gem 'bootstrap-sass', '~> 2.2.2.0'
+gem 'bootswatch-rails'
 
 gem 'mysql2'
 
