@@ -6,12 +6,12 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   validates_presence_of :email, :username, :first_name, :last_name, :country, :latitude, :longitude
-  validates :blog_url, :url => true, :allow_blank => true
-  validates :twitter, :url => true, :allow_blank => true
-  validates :facebook, :url => true, :allow_blank => true
-  validates :google_plus, :url => true, :allow_blank => true
-  validates :github, :url => true, :allow_blank => true
-  validates :stackoverflow, :url => true, :allow_blank => true
+  validates :blog_url, :url => {:allow_blank => true, :verify => [:resolve_redirects]}
+  validates :twitter, :url => {:allow_blank => true, :verify => [:resolve_redirects]}
+  validates :facebook, :url => {:allow_blank => true, :verify => [:resolve_redirects]}
+  validates :google_plus, :url => {:allow_blank => true, :verify => [:resolve_redirects]}
+  validates :github, :url => {:allow_blank => true, :verify => [:resolve_redirects]}
+  validates :stackoverflow, :url => {:allow_blank => true, :verify => [:resolve_redirects]}
 
   def gmaps4rails_address
     "#{self.country}"

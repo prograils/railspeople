@@ -30,7 +30,7 @@ describe "Users" do
     end
   end
 
-  describe "user sign in" do
+  describe "GET /users/sign_in" do
     it "allows users to sign in after they have registered" do
       user = FactoryGirl.create(:user, :email => "alindeman@example.com",
                          :password => "ilovegrapes", :password_confirmation => 'ilovegrapes')
