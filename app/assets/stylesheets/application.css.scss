@@ -1,0 +1,19 @@
+// Example using 'Spacelab' bootswatch
+//
+// First import journal variables
+@import "bootswatch/spacelab/variables";
+
+// Then bootstrap itself
+@import "bootstrap";
+
+// Bootstrap body padding for fixed navbar
+body { padding-top: 10px; }
+
+// Responsive styles go here in case you want them
+@import "bootstrap-responsive";
+
+// And finally bootswatch style itself
+@import "bootswatch/spacelab/bootswatch";
+
+// Overrides:
+@import "overrides";
