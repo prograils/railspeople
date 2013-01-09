@@ -11,7 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130108121037) do
+ActiveRecord::Schema.define(version: 20130109131553) do
+
+  create_table "countries", force: true do |t|
+    t.string   "name"
+    t.string   "printable_name"
+    t.string   "iso"
+    t.string   "iso3"
+    t.string   "numcode"
+    t.float    "lat"
+    t.float    "lng"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", force: true do |t|
     t.string   "email",                              default: "", null: false
