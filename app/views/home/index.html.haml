@@ -8,7 +8,7 @@
   =link_to "Ruby on Rails Web", "http://rubyonrails.org/", :target => "_blank"
   framework near you
 
-= gmaps4rails(@json)
+= gmaps({"map_options" => { "auto_adjust" => true, "auto_zoom" => true, "zoom" => 3, "markers" => { "data" => @json }}})
 
 - if params[:selected]
   = will_paginate @people

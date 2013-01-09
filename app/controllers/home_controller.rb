@@ -8,6 +8,6 @@ class HomeController < InheritedResources::Base
     else
       @json = User.all.to_gmaps4rails
     end
-    @countries_printable_names = Country.printable_names
+    @countries_printable_names = Country.all.collect { |t| t.printable_name }
   end
 end
