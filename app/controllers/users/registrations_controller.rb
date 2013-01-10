@@ -17,7 +17,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       :current_password,
       :latitude,
       :longitude,
-      :country,
+      :country_id,
       :bio,
       :blog_url,
       :twitter,

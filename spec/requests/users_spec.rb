@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 describe "Users" do
+  before(:all) do
+    @country = FactoryGirl.create(:country)
+  end
+  
   describe 'GET /users/sign_up' do
     it "should successfully add new user" do
       visit '/users/sign_up'
@@ -13,15 +17,15 @@ describe "Users" do
 
       fill_in "user[latitude]", :with => "1.2"
       fill_in "user[longitude]", :with => "1.2"
-      select "Poland", :from => 'user[country_id]'
-
+      select @country.printable_name, :from => 'user[country_id]'
+      
       fill_in "Bio", :with => 'some description text ...'
-      fill_in "Blog url", :with => 'http://www.myblog.app.com'
-      fill_in "Twitter", :with => "http://www.twitter.com/1234"
-      fill_in "Facebook", :with => "http://www.facebook.com/1234"
-      fill_in "Google plus", :with => "http://www.googleplus.com/123"
-      fill_in "Github", :with => 'http://www.github.com/123'
-      fill_in "Stackoverflow", :with => "http://www.stackoverflow/1234"
+      fill_in "Blog url", :with => 'http://rubyonrails.org/'
+      fill_in "Twitter", :with => "http://rubyonrails.org/"
+      fill_in "Facebook", :with => "http://rubyonrails.org/"
+      fill_in "Google plus", :with => "http://rubyonrails.org/"
+      fill_in "Github", :with => 'http://rubyonrails.org/'
+      fill_in "Stackoverflow", :with => "http://rubyonrails.org/"
 
       click_button "Sign me up"
       page.should have_content("Welcome! You have signed up successfully.")
