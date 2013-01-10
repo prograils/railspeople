@@ -11,6 +11,7 @@
 = gmaps4rails(@json)
 
 - if params[:selected]
+  %br/
   = will_paginate @people
   - @people.each do |person|
     .row.span4
@@ -18,7 +19,7 @@
       %br
       = person.country.printable_name
 - else
-  %br
+  %br/
   - @countries.each do |country|
     .row.span4
       = link_to country.printable_name, home_index_path(:selected => country.printable_name)

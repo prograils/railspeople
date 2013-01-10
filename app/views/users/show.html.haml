@@ -1,2 +1,39 @@
-%h1 Users#show
-%p Find me in app/views/users/show.html.haml
+%h1= @user.first_name + " " + @user.last_name
+%p= @user.country.printable_name
+
+= gmaps4rails(@json)
+
+%br/
+%br/
+.span6
+  - if @user.bio.present?
+    %p
+      Bio: 
+      = @user.bio
+  - if @user.blog_url.present?
+    %p 
+      Blog:
+      = @user.blog_url
+  - if @user.twitter.present?
+    %p
+      Twitter:
+      = @user.twitter
+  - if @user.facebook.present?
+    %p
+      Facebook:
+      = @user.facebook
+  - if @user.google_plus.present?
+    %p 
+      Google+:
+      = @user.google_plus
+  - if @user.github.present?
+    %p
+      Github:
+      = @user.github
+  - if @user.stackoverflow.present?
+    %p 
+      Stackoverflow:
+      = @user.stackoverflow
+.offset6
+  %p
+    People near #{@user.first_name}:
