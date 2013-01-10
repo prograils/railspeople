@@ -7,7 +7,7 @@ describe User do
   
   describe "validatable attributes" do
     it "should not be valid if country is nil" do
-      FactoryGirl.build(:user, :country => nil).should_not be_valid
+      FactoryGirl.build(:user, :country_id => nil).should_not be_valid
     end
     it "should not be valid if email is nil" do
       FactoryGirl.build(:user, :email => nil).should_not be_valid

@@ -7,18 +7,7 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-
-100.times do |i|
-User.create(
-            :email => "sample@from_seed#{i}.pl",
-            :password => "foobar", 
-            :password_confirmation => 'foobar',
-            :country => "Poland", 
-            :latitude => "1.#{i}123", 
-            :longitude => "2.#{i}229"
-           )
-end
-
+Country.delete_all
 Country.create([{ :name => 'AFGHANISTAN', :printable_name => 'Afghanistan', :iso => 'AF', :iso3 => 'AFG', :numcode => '004', :lat => 33, :lng => 65 },
     { :name => 'ALBANIA', :printable_name => 'Albania', :iso => 'AL', :iso3 => 'ALB', :numcode => '008', :lat => 41, :lng => 20 },
     { :name => 'ALGERIA', :printable_name => 'Algeria', :iso => 'DZ', :iso3 => 'DZA', :numcode => '012', :lat => 28, :lng => 3 },
@@ -258,3 +247,21 @@ Country.create([{ :name => 'AFGHANISTAN', :printable_name => 'Afghanistan', :iso
     { :name => 'YEMEN', :printable_name => 'Yemen', :iso => 'YE', :iso3 => 'YEM', :numcode => '887', :lat => 15, :lng => 48 },
     { :name => 'ZAMBIA', :printable_name => 'Zambia', :iso => 'ZM', :iso3 => 'ZMB', :numcode => '894', :lat => -15, :lng => 30 },
     { :name => 'ZIMBABWE', :printable_name => 'Zimbabwe', :iso => 'ZW', :iso3 => 'ZWE', :numcode => '716', :lat => -20, :lng => 30 }])
+
+User.delete_all
+
+country = Country.first
+100.times do |i|
+  User.create(
+            :username => "user #{i}",
+            :first_name => "first name #{i}",
+            :last_name => 'last name #{i}',
+            :email => "sample@from_seed#{i}.pl",
+            :password => "foobar", 
+            :password_confirmation => 'foobar',
+            :country_id => country.id,
+            :latitude => "1.#{i}123", 
+            :longitude => "2.#{i}229"
+           )
+  puts "added user"
+end

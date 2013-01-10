@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
 
   belongs_to :country, :counter_cache => true
 
-  validates_presence_of :email, :username, :first_name, :last_name, :country, :latitude, :longitude
+  validates_presence_of :email, :username, :first_name, :last_name, :country_id, :latitude, :longitude
   validates :blog_url, :url => {:allow_blank => true, :verify => [:resolve_redirects]}
   validates :twitter, :url => {:allow_blank => true, :verify => [:resolve_redirects]}
   validates :facebook, :url => {:allow_blank => true, :verify => [:resolve_redirects]}
