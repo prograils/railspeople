@@ -76,9 +76,8 @@
     = f.text_field :longitude, :style => "display: none;"
   %br
   %div
-    = f.label :country
-    = f.country_select :country
-  
+    = f.label :country_id
+    = f.select :country_id, Country.order('name ASC').map { |c| [c.printable_name, c.id] }, :prompt => true
   %h4 3. And a bit about you...
   %div
     = f.label :bio

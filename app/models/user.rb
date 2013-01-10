@@ -5,6 +5,8 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  belongs_to :country, :counter_cache => true
+
   validates_presence_of :email, :username, :first_name, :last_name, :country, :latitude, :longitude
   validates :blog_url, :url => {:allow_blank => true, :verify => [:resolve_redirects]}
   validates :twitter, :url => {:allow_blank => true, :verify => [:resolve_redirects]}

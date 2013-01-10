@@ -16,11 +16,10 @@
     .row.span4
       = link_to person.email, user_path(person)
       %br
-      = person.country
+      = person.country.printable_name
 - else
   %br
-  - @countries_printable_names.each do |country|
+  - @countries.each do |country|
     .row.span4
-      = link_to "#{country}", home_index_path(:selected => country)
-      = User.where(:country => country).count
-      people
+      = link_to country.printable_name, home_index_path(:selected => country.printable_name)
+      = pluralize country.users.size, 'person'
