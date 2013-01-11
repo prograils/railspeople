@@ -1,4 +1,7 @@
 class User < ActiveRecord::Base
+ 
+  # WILL_PAGINATE 
+  self.per_page = 20
 
   ## DEVISE
   devise :database_authenticatable, :registerable,
@@ -28,7 +31,8 @@ class User < ActiveRecord::Base
   def gmaps4rails_address
     "#{self.country}"
   end
-
-  self.per_page = 20
-
+  
+  def to_s
+    "#{self.first_name} #{self.last_name}"
+  end
 end

@@ -1,4 +1,4 @@
-%h1= @user.first_name + " " + @user.last_name
+%h1= @user.to_s
 = image_tag("famfamfam_flags/#{@user.country.iso.downcase}.png")
 = @user.country.printable_name
 %p= gmaps4rails(@json)
@@ -40,7 +40,7 @@
     %br/
     - @near.each do |n|
       %p
-        =link_to "#{n.first_name} #{n.last_name}", user_path(n)
+        =link_to n.to_s, user_path(n)
         %br/
         = image_tag("famfamfam_flags/#{n.country.iso.downcase}.png")
         = n.country.printable_name
