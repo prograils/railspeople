@@ -1,7 +1,10 @@
 - if params[:selected]
-  %h1= params[:selected]
-  = @people_count
-  people
+  = image_tag("famfamfam_flags/#{@selected_country.iso.downcase}.png", :size => "100x100")
+  %span.selected-country-printable-name 
+    = @selected_country.printable_name 
+  = pluralize @selected_country.users_count, "person"
+  %br/
+  %br/
 - else   
   %h1= 'Rails People'
   Discover users of the 
@@ -17,10 +20,12 @@
     .row.span4
       = link_to person.email, user_path(person)
       %br
+      = image_tag("famfamfam_flags/#{person.country.iso.downcase}.png")
       = person.country.printable_name
 - else
   %br/
   - @countries.each do |country|
     .row.span4
+      = image_tag("famfamfam_flags/#{country.iso.downcase}.png")
       = link_to country.printable_name, home_index_path(:selected => country.printable_name)
-      = pluralize country.users.size, 'person'
+      = pluralize country.users_count, 'person'

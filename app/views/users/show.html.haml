@@ -1,7 +1,7 @@
 %h1= @user.first_name + " " + @user.last_name
-%p= @user.country.printable_name
-
-= gmaps4rails(@json)
+= image_tag("famfamfam_flags/#{@user.country.iso.downcase}.png")
+= @user.country.printable_name
+%p= gmaps4rails(@json)
 
 %br/
 %br/
@@ -39,12 +39,14 @@
     People near #{@user.first_name}:
     %br/
     - @near.each do |n|
-      =link_to "#{n.first_name} #{n.last_name}", user_path(n)
-      %br/
-      = pluralize n.distance_from([resource.latitude, resource.longitude]).round(1), "mile"
-      %br/
-      %br/
-
+      %p
+        =link_to "#{n.first_name} #{n.last_name}", user_path(n)
+        %br/
+        = image_tag("famfamfam_flags/#{@user.country.iso.downcase}.png")
+        = n.country.printable_name
+        %br/
+        = pluralize n.distance_from([resource.latitude, resource.longitude]).round(1), "mile"
+        away
 
 
 
