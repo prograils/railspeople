@@ -55,6 +55,13 @@ describe User do
     end
   end
 
+  it "should add new user with some coordinates values" do
+    @user = FactoryGirl.create(:user, :latitude => "1.2", :longitude => "1.2")
+    @user = FactoryGirl.create(:user, :latitude => "21.2", :longitude => "41.2")
+
+    User.count.should == 2
+  end
+
   it 'should to_gmaps4rails return expected json' do
     @user = FactoryGirl.create(:user, :latitude => '1.2345', :longitude => '6.7890')
     @json = User.all.to_gmaps4rails

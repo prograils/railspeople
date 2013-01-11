@@ -42,7 +42,7 @@
       %p
         =link_to "#{n.first_name} #{n.last_name}", user_path(n)
         %br/
-        = image_tag("famfamfam_flags/#{@user.country.iso.downcase}.png")
+        = image_tag("famfamfam_flags/#{n.country.iso.downcase}.png")
         = n.country.printable_name
         %br/
         = pluralize n.distance_from([resource.latitude, resource.longitude]).round(1), "mile"
