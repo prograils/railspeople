@@ -7,7 +7,7 @@
     = f.text_field :username
   %div
     = f.label :first_name
-    = f.text_field :first_name 
+    = f.text_field :first_name
   %div
     = f.label :last_name
     = f.text_field :last_name
@@ -25,7 +25,7 @@
 
   = gmaps4rails(@json)
   - content_for :scripts do
-    :javascript 
+    :javascript
       var markersArray = [];
       // On click, clear markers, place a new one, update coordinates in the form
       Gmaps.map.callback = function() {
@@ -44,7 +44,7 @@
       // Add a marker with an open infowindow
       function placeMarker(latLng) {
           var marker = new google.maps.Marker({
-              position: latLng, 
+              position: latLng,
               map: Gmaps.map.serviceObject,
               draggable: true
           });
@@ -69,7 +69,7 @@
         markersArray.length = 0;
       }
 
-  
+
   %div
     = f.text_field :latitude, :style => "display: none;"
   %div
@@ -82,9 +82,6 @@
   %div
     = f.label :bio
     = f.text_area :bio
-  %div
-    = f.label :blog_url
-    = f.text_field :blog_url 
   %div
     = f.label :twitter
     = f.text_field :twitter

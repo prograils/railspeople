@@ -12,10 +12,10 @@ class User < ActiveRecord::Base
 
   ## ASSOCIATIONS
   belongs_to :country, :counter_cache => true
+  has_many :blogs, :dependent => :destroy
 
   ## VALIDATIONS
   validates_presence_of :email, :username, :first_name, :last_name, :country_id, :latitude, :longitude
-  validates :blog_url, :url => {:allow_blank => true, :verify => [:resolve_redirects]}
   validates :twitter, :url => {:allow_blank => true, :verify => [:resolve_redirects]}
   validates :facebook, :url => {:allow_blank => true, :verify => [:resolve_redirects]}
   validates :google_plus, :url => {:allow_blank => true, :verify => [:resolve_redirects]}

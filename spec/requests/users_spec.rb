@@ -21,7 +21,6 @@ describe "Users" do
       select @country.printable_name, :from => 'user[country_id]'
 
       fill_in "Bio", :with => 'some description text ...'
-      fill_in "Blog url", :with => 'http://rubyonrails.org/'
       fill_in "Twitter", :with => "http://rubyonrails.org/"
       fill_in "Facebook", :with => "http://rubyonrails.org/"
       fill_in "Google plus", :with => "http://rubyonrails.org/"
