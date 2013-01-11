@@ -35,7 +35,7 @@ describe User do
       it "should not be valid if blog_url is invalid" do
         @user = FactoryGirl.build(:user)
         @user.blog_url = "http://www"
-        @user.should have(2).error_on(:blog_url)
+        @user.should have(1).error_on(:blog_url)
         @user.blog_url = "http://www.6768"
         @user.should have(2).error_on(:blog_url)
         @user.blog_url = "httpd://www.onet.pl"
@@ -57,7 +57,8 @@ describe User do
  
   it "should add new user with some coordinates values" do
     @user = FactoryGirl.create(:user, :latitude => "1.2", :longitude => "1.2")
-    @user = FactoryGirl.create(:user, :latitude => "21.2", :longitude => "41.2") #raise NoMethodError
+    @user = FactoryGirl.create(:user, :latitude => "21.2", :longitude => "41.2")
+    
     User.count.should == 2 
   end
 
