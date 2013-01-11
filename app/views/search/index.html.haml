@@ -1,2 +1,18 @@
 %h1 Search
-%p Find me in app/views/search/index.html.haml
+%p This tool searches by username
+
+=form_tag '', :method=>:get do
+  =text_field_tag :q, params[:q]
+  =link_to "Search", "#", :id => 'search-link'
+
+-if @results.present?
+  %p=gmaps4rails(@json)
+-else
+  No users found.
+
+%p.search-results
+  -@results.each do |user|
+    =link_to user.to_s, user_path(user)
+    %br/
+    =image_tag("famfamfam_flags/#{user.country.iso.downcase}.png")
+    =user.country.printable_name
