@@ -19,7 +19,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
       :longitude,
       :country_id,
       :bio,
-      :blog_url,
       :twitter,
       :facebook,
       :google_plus,

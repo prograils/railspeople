@@ -32,25 +32,25 @@ describe User do
     end
 
     describe "validatable url attributes" do
-      it "should not be valid if blog_url is invalid" do
+      it "should not be valid if stackoverflow url is invalid" do
         @user = FactoryGirl.build(:user)
-        @user.blog_url = "http://www"
-        @user.should have(1).error_on(:blog_url)
-        @user.blog_url = "http://www.6768"
-        @user.should have(2).error_on(:blog_url)
-        @user.blog_url = "httpd://www.onet.pl"
-        @user.should have(2).error_on(:blog_url)
+        @user.stackoverflow = "http://www"
+        @user.should have(1).error_on(:stackoverflow)
+        @user.stackoverflow = "http://www.6768"
+        @user.should have(2).error_on(:stackoverflow)
+        @user.stackoverflow = "httpd://www.onet.pl"
+        @user.should have(2).error_on(:stackoverflow)
       end
-      it "should be valid if blog_url is valid" do
+      it "should be valid if stackoverflow url is valid" do
         @user = FactoryGirl.build(:user)
-        @user.blog_url = "www.onet.pl"
-        @user.should have(0).error_on(:blog_url)
-        @user.blog_url = "http://onet.pl"
-        @user.should have(0).error_on(:blog_url)
-        @user.blog_url = "http://www.onet.pl"
-        @user.should have(0).error_on(:blog_url)
-        @user.blog_url = "https://poczta.onet.pl/"
-        @user.should have(0).error_on(:blog_url)
+        @user.stackoverflow = "www.onet.pl"
+        @user.should have(0).error_on(:stackoverflow)
+        @user.stackoverflow = "http://onet.pl"
+        @user.should have(0).error_on(:stackoverflow)
+        @user.stackoverflow = "http://www.onet.pl"
+        @user.should have(0).error_on(:stackoverflow)
+        @user.stackoverflow = "https://poczta.onet.pl/"
+        @user.should have(0).error_on(:stackoverflow)
       end
     end
   end

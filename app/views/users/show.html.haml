@@ -8,12 +8,11 @@
 .span6
   - if @user.bio.present?
     %p
-      Bio: 
+      Bio:
       = @user.bio
-  - if @user.blog_url.present?
-    %p 
+  - if @user.blogs.any?
+    %p
       Blog:
-      = @user.blog_url
   - if @user.twitter.present?
     %p
       Twitter:
@@ -23,7 +22,7 @@
       Facebook:
       = @user.facebook
   - if @user.google_plus.present?
-    %p 
+    %p
       Google+:
       = @user.google_plus
   - if @user.github.present?
@@ -31,7 +30,7 @@
       Github:
       = @user.github
   - if @user.stackoverflow.present?
-    %p 
+    %p
       Stackoverflow:
       = @user.stackoverflow
 .offset6
