@@ -1,15 +1,19 @@
 class User < ActiveRecord::Base
-  acts_as_gmappable :process_geocoding => false
-  # Include default devise modules. Others available are:
-  # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
+
+  ## DEVISE
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  # GMAP
+  acts_as_gmappable :process_geocoding => false
   reverse_geocoded_by :latitude, :longitude
-  after_validation :reverse_geocode  # auto-fetch address
 
+  ## SCOPES
+
+  ## ASSOCIATIONS
   belongs_to :country, :counter_cache => true
 
+  ## VALIDATIONS
   validates_presence_of :email, :username, :first_name, :last_name, :country_id, :latitude, :longitude
   validates :blog_url, :url => {:allow_blank => true, :verify => [:resolve_redirects]}
   validates :twitter, :url => {:allow_blank => true, :verify => [:resolve_redirects]}
@@ -17,6 +21,9 @@ class User < ActiveRecord::Base
   validates :google_plus, :url => {:allow_blank => true, :verify => [:resolve_redirects]}
   validates :github, :url => {:allow_blank => true, :verify => [:resolve_redirects]}
   validates :stackoverflow, :url => {:allow_blank => true, :verify => [:resolve_redirects]}
+
+  ## BEFORE & AFTER
+  after_validation :reverse_geocode  # auto-fetch address
 
   def gmaps4rails_address
     "#{self.country}"
