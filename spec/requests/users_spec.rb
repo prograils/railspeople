@@ -4,7 +4,8 @@ describe "Users" do
   before(:all) do
     @country = FactoryGirl.create(:country)
   end
-  
+  after(:all) { Country.delete_all }
+
   describe 'GET /users/sign_up' do
     it "should successfully add new user" do
       visit '/users/sign_up'
@@ -18,7 +19,7 @@ describe "Users" do
       fill_in "user[latitude]", :with => "1.2"
       fill_in "user[longitude]", :with => "1.2"
       select @country.printable_name, :from => 'user[country_id]'
-      
+
       fill_in "Bio", :with => 'some description text ...'
       fill_in "Blog url", :with => 'http://rubyonrails.org/'
       fill_in "Twitter", :with => "http://rubyonrails.org/"

@@ -4,8 +4,8 @@ FactoryGirl.define do
     first_name "James"
     last_name "Brown"
     country
-    latitude "1.237846"
-    longitude "2.43248"
+    latitude "52.417"
+    longitude "16.883"
     sequence(:email) { |n| "user_#{n}@railspeople.com" }
     password "foobar12"
     password_confirmation "foobar12"
