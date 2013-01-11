@@ -37,3 +37,22 @@
 .offset6
   %p
     People near #{@user.first_name}:
+    %br/
+    - @near.each do |n|
+      =link_to "#{n.first_name} #{n.last_name}", user_path(n)
+      %br/
+      = pluralize n.distance_from([resource.latitude, resource.longitude]).round(1), "mile"
+      %br/
+      %br/
+
+
+
+
+
+
+
+
+
+
+
+

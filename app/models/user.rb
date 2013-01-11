@@ -5,6 +5,9 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  reverse_geocoded_by :latitude, :longitude
+  after_validation :reverse_geocode  # auto-fetch address
+
   belongs_to :country, :counter_cache => true
 
   validates_presence_of :email, :username, :first_name, :last_name, :country_id, :latitude, :longitude
