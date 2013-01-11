@@ -251,17 +251,37 @@ Country.create([{ :name => 'AFGHANISTAN', :printable_name => 'Afghanistan', :iso
 User.delete_all
 
 country = Country.first
-100.times do |i|
+r = Random.new
+10.times do |i|
   User.create(
             :username => "user #{i}",
-            :first_name => "first name #{i}",
-            :last_name => 'last name #{i}',
+            :first_name => "first_name_#{i}",
+            :last_name => "last_name_#{i}",
             :email => "sample@from_seed#{i}.pl",
-            :password => "foobar", 
+            :password => "foobar",
             :password_confirmation => 'foobar',
             :country_id => country.id,
-            :latitude => "1.#{i}123", 
-            :longitude => "2.#{i}229"
+            :latitude => "50.#{i}122",
+            :longitude => "25.#{i}212"
+           )
+  puts "added user"
+end
+c = Country.count
+200.times do |i|
+  n = i + 10
+  country = Country.find(:first, :offset =>rand(c))
+  lat = 45 + country.id % 5 + rand(5)
+  lng = 19 + country.id % 5 + rand(5)
+  User.create(
+            :username => "user #{n}",
+            :first_name => "first_name_#{n}",
+            :last_name => "last_name_#{n}",
+            :email => "sample@from_seed#{n}.pl",
+            :password => "foobar",
+            :password_confirmation => 'foobar',
+            :country_id => country.id,
+            :latitude => "#{lat}.#{i}232",
+            :longitude => "#{lng}.#{i}923"
            )
   puts "added user"
 end
