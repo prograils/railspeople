@@ -15,3 +15,8 @@
 //= require bootstrap
 // require turbolinks
 //= require_tree .
+
+$('#search-link').click(function(){  
+  $(this).parents('form').submit();  
+  return false;
+});
