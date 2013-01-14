@@ -3,7 +3,7 @@ class UsersController < InheritedResources::Base
     lat = resource.latitude
     lng = resource.longitude
 
-    @near = User.near([lat, lng], 50).limit(6) # 50 miles
+    @near = User.near([lat, lng], 50).limit(5) # 50 miles
     @near = @near.where('id != ?', @user.id)
     @json = resource.to_gmaps4rails
     

@@ -3,8 +3,8 @@ require 'spec_helper'
 describe SearchController do
 
   before(:all) do
-    @user_1 = FactoryGirl.create(:user, :username => "johnc", :first_name => "John", :last_name => "Coltrane")
-    @user_2 = FactoryGirl.create(:user, :username => "milesd", :first_name => "Miles", :last_name => "Davis")
+    @user_1 = FactoryGirl.create(:user, :username => "johnc", :first_name => "Parker", :last_name => "Coltrane")
+    @user_2 = FactoryGirl.create(:user, :username => "parker", :first_name => "Miles", :last_name => "Davis")
     @user_3 = FactoryGirl.create(:user, :username => "johniea", :first_name => "Johnie", :last_name => "Armstrong")
     @user_4 = FactoryGirl.create(:user, :username => "johnp", :first_name => "John", :last_name => "Parker")
     @user_5 = FactoryGirl.create(:user, :username => "chrisp", :first_name => "Chris", :last_name => "Parker")
@@ -22,7 +22,7 @@ describe SearchController do
 
     describe do "search by username"
       it "should return correct record with query params" do
-        get 'index', :q => 'milesd'
+        get 'index', :q => 'chrisp'
         assigns[:results].count.should == 1  
       end
 
@@ -53,7 +53,10 @@ describe SearchController do
     end
 
     describe 'search by username, first_name or last_name' do
-      pending "todo"
+      it "should return four records" do
+        get 'index', :q => 'parker'
+        assigns[:results].count.should == 4
+      end
     end
   end
 end
