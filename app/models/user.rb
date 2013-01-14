@@ -36,4 +36,9 @@ class User < ActiveRecord::Base
   def to_s
     "#{self.first_name} #{self.last_name}"
   end
+  
+  def self.column_like(column, value)
+    table = self.arel_table
+    where(table[column].matches("%#{value}%"))
+  end
 end

@@ -5,14 +5,18 @@
   =text_field_tag :q, params[:q]
   =link_to "Search", "#", :id => 'search-link'
 
--if @results.present?
-  %p=gmaps4rails(@json)
--else
-  No users found.
+
+- if params[:q].present?
+  - if @results.present?
+    %p=gmaps4rails(@json)
+  - else
+    No users found.
 
 %p.search-results
   -@results.each do |user|
-    =link_to user.to_s, user_path(user)
-    %br/
-    =image_tag("famfamfam_flags/#{user.country.iso.downcase}.png")
-    =user.country.printable_name
+    %p
+      =link_to user.to_s, user_path(user)
+      %br/
+      =image_tag("famfamfam_flags/#{user.country.iso.downcase}.png")
+      =user.country.printable_name
+  =will_paginate @results
