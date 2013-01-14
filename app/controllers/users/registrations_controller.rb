@@ -23,7 +23,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
       :facebook,
       :google_plus,
       :github,
-      :stackoverflow
+      :stackoverflow,
+      :tag_names
     )
   end
   private :resource_params

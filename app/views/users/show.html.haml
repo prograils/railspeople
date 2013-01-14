@@ -6,6 +6,11 @@
 %br/
 %br/
 .span6
+  - if @user.tags.present?
+    %p
+      Skills:
+      - @user.tags.each do |tag|
+        =link_to tag.name, tag_path(:tag => tag.name)
   - if @user.bio.present?
     %p
       Bio:

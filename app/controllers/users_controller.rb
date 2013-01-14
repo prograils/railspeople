@@ -9,4 +9,11 @@ class UsersController < InheritedResources::Base
     
     show!
   end
+  
+  def tags
+    @tag = Tag.find_by name: params[:tag]
+    scope = @tag.users
+    @json = scope.to_gmaps4rails
+    @users = scope.paginate(:page => params[:page])
+  end
 end
