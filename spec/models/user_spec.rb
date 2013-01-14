@@ -35,7 +35,7 @@ describe User do
       it "should not be valid if stackoverflow url is invalid" do
         @user = FactoryGirl.build(:user)
         @user.stackoverflow = "http://www"
-        @user.should have(1).error_on(:stackoverflow)
+        @user.should have(2).error_on(:stackoverflow)
         @user.stackoverflow = "http://www.6768"
         @user.should have(2).error_on(:stackoverflow)
         @user.stackoverflow = "httpd://www.onet.pl"
@@ -57,7 +57,7 @@ describe User do
 
   it "should add new user with some coordinates values" do
     @user = FactoryGirl.create(:user, :latitude => "1.2", :longitude => "1.2")
-    @user = FactoryGirl.create(:user, :latitude => "21.2", :longitude => "41.2")
+    @user = FactoryGirl.create(:user, :username => "walter22", :latitude => "21.2", :longitude => "41.2")
 
     User.count.should == 2
   end

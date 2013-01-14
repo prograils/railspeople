@@ -19,6 +19,7 @@ class User < ActiveRecord::Base
 
   ## VALIDATIONS
   validates_presence_of :email, :username, :first_name, :last_name, :country_id, :latitude, :longitude
+  validates_uniqueness_of :username
   validates :twitter, :url => {:allow_blank => true, :verify => [:resolve_redirects]}
   validates :facebook, :url => {:allow_blank => true, :verify => [:resolve_redirects]}
   validates :google_plus, :url => {:allow_blank => true, :verify => [:resolve_redirects]}
