@@ -7,9 +7,8 @@
 
 .selected-country-printable-name {
   font-size: 30px;
-  margin-left: 5px;
+  margin-left: 5px
 }
-
 .auth input#user_remember_me
 {
   float: left;
@@ -47,6 +46,11 @@
     margin-left: 205px;
     margin-top: -10px;
   }
+  .page-header
+  {
+  font-size: 16px;
+  font-weight: bold;
+  }
 }
 
 .auth br
@@ -70,11 +74,9 @@ section {
     overflow: auto;
 }
 
-input, textarea, .uneditable-input {
-    width: 45%;
-}
 textarea{
   height: 150px;
+  width: 45%;
 }
 .navigation {
     background-color: #FFFFFF;
@@ -108,4 +110,20 @@ textarea{
 
 .navigation > li > a:hover {
     background-color: #EEE;
+}
+
+.btn-customized {
+  margin-top: -10px;
+}
+
+.bio {
+  background-color: #E0FFB8;
+  padding: 10px 10px 10px 10px;
+  border-color: #94DA3A;
+  border-style: solid;
+  border-width: 1px 0;
+}
+
+.btn-tags {
+  margin-top: 12px;
 }

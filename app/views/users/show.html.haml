@@ -7,9 +7,14 @@
 %br/
 .span6
   - if @user.bio.present?
-    %p
-      Bio:
+    %p.bio
       = @user.bio
+      - if @user.tags.present?
+        %br/
+        - @user.tags.each do |tag|
+          =link_to tag.name, tag_path(:tag => tag.name), :class => 'btn btn-info btn-small btn-tags'
+  %h3
+    Finding Jarek
   - if @user.blogs.any?
     %p
       Blog:

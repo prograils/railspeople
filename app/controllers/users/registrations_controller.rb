@@ -43,6 +43,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       :google_plus,
       :github,
       :stackoverflow,
+      :tag_names,
       :blogs_attributes =>[:id, :user_id, :title, :url, :_destroy]
     )
   end

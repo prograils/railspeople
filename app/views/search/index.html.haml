@@ -1,18 +1,20 @@
 %h1 Search
-%p This tool searches by username
-
+%p This tool searches by username, first name and last name
 =form_tag '', :method=>:get do
   =text_field_tag :q, params[:q]
-  =link_to "Search", "#", :id => 'search-link'
+  =link_to "Search", "#", :id => 'search-link', :class => "btn btn-customized"
 
--if @results.present?
-  %p=gmaps4rails(@json)
--else
-  No users found.
+- if params[:q].present?
+  - if @results.present?
+    %h4= pluralize @results.count, "result"
+    %p=gmaps4rails(@json)
+    %p.search-results
+      -@results.each do |user|
+        %p
+          =link_to user.to_s, user_path(user)
+          %br/
+          =image_tag("famfamfam_flags/#{user.country.iso.downcase}.png")
+          =user.country.printable_name
+  - else
+    No users found.
 
-%p.search-results
-  -@results.each do |user|
-    =link_to user.to_s, user_path(user)
-    %br/
-    =image_tag("famfamfam_flags/#{user.country.iso.downcase}.png")
-    =user.country.printable_name

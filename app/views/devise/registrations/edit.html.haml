@@ -10,6 +10,8 @@
       %li
         %a{:href => "#biography"} My biography
       %li
+        %a{:href => "#skills"} My abilities/skills
+      %li
         %a{:href => "#blogs"} Manage blogs
       %li
         %a{:href => "#socials"} Social links
@@ -21,7 +23,7 @@
       .span8
         %section#user.well
           %div.page-header
-            = "Change Your username"
+            = "Change my username"
           %div
             = f.label :username
             = f.text_field :username
@@ -41,7 +43,7 @@
         =# password
         %section#password.well
           %div.page-header
-            = "Change Your password"
+            = "Change my password"
           %div
             = f.label :password
             = f.password_field :password, :autocomplete => 'off'
@@ -58,10 +60,22 @@
             = f.submit "Save", :class => 'btn btn-primary btn-warning'
             = link_to "Back", :back
 
+
+        =# biography
+        %section#skills.well
+          %div.page-header
+            = "Skills"
+          %div
+            = f.label :tag_names, "Tags"
+            = f.text_field :tag_names
+          .act_buttons
+            = f.submit "Save", :class => 'btn btn-primary btn-warning'
+            = link_to "Back", :back
+
         =# biography
         %section#biography.well
           %div.page-header
-            = "Bio"
+            = "Biography"
           %div
             = f.label :bio
             = f.text_area :bio
@@ -72,7 +86,7 @@
         =# blogs
         %section#blogs.well
           %div.page-header
-            = "Manage Your blogs"
+            = "Manage my blogs"
           = simple_nested_form_for resource do |f|
             = f.fields_for :blogs
             %br/
@@ -84,7 +98,7 @@
         =# socials
         %section#socials.well
           %div.page-header
-            = "Add Your profiles"
+            = "Add social profiles"
           %div
             = f.label :twitter
             = f.text_field :twitter
@@ -110,5 +124,3 @@
             = "Cancel my account"
           %p
             Unhappy? #{link_to "Cancel my account", registration_path(resource_name), :confirm => "Are you sure?", :method => :delete}.
-
-
