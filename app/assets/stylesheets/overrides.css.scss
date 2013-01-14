@@ -1,11 +1,111 @@
-#map img { 
+#map img {
   max-width: none;
 }
-#map label { 
-  width: auto; display:inline; 
+#map label {
+  width: auto; display:inline;
 }
 
 .selected-country-printable-name {
   font-size: 30px;
   margin-left: 5px;
+}
+
+.auth input#user_remember_me
+{
+  float: left;
+  margin-right: 10px;
+}
+#edit_user{
+  label{
+    float: left;
+    width: 200px;
+    margin-right: 5px;
+  }
+  i {
+    display: inline-block;
+    float: none;
+    font-size: 12px;
+    margin-top: -20px;
+    width: 200px;
+  }
+  .blog{
+    position: relative;
+    .remove-button{
+      position: absolute;
+      top: 70px;
+      right: 0px
+    }
+  }
+  .act_buttons
+  {
+  float:right;
+  }
+  span.error
+  {
+    color: red;
+    display: block;
+    margin-left: 205px;
+    margin-top: -10px;
+  }
+}
+
+.auth br
+{
+  display:none;
+}
+
+.auth a
+{
+  clear: both;
+  display: block;
+}
+
+.list#well
+{
+  padding: 8px 0;
+}
+
+section {
+    padding-top: 25px;
+    overflow: auto;
+}
+
+input, textarea, .uneditable-input {
+    width: 45%;
+}
+textarea{
+  height: 150px;
+}
+.navigation {
+    background-color: #FFFFFF;
+    border-radius: 6px 6px 6px 6px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    margin: 0px 20px;
+    margin-left: 40px;
+    padding: 0;
+    width: 228px;
+}
+.navigation > li > a {
+    border: 1px solid #E5E5E5;
+    display: block;
+    margin: 0 0 -1px;
+    padding: 8px 15px;
+}
+.navigation > li:first-child > a {
+    border-radius: 6px 6px 0 0;
+}
+.navigation > li:last-child > a {
+    border-radius: 0 0 6px 6px;
+}
+.navigation > .active > a {
+    border: 0 none;
+    box-shadow: 1px 0 0 rgba(0, 0, 0, 0.1) inset, -1px 0 0 rgba(0, 0, 0, 0.1) inset;
+    padding: 9px 15px;
+    position: relative;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.20);
+    z-index: 2;
+}
+
+.navigation > li > a:hover {
+    background-color: #EEE;
 }

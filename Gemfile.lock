@@ -19,6 +19,13 @@ GIT
       less (~> 2.2.0)
 
 GIT
+  remote: git://github.com/mlitwiniuk/nested_form.git
+  revision: c73182369a11e944870a3af76e377b54181b8b03
+  branch: rails4_compatibility
+  specs:
+    nested_form (0.3.1)
+
+GIT
   remote: git://github.com/rails/activerecord-deprecated_finders.git
   revision: 2c4ebb2e79095efdd189c08861e3e7f694c52215
   specs:
@@ -211,6 +218,7 @@ GEM
       libwebsocket (~> 0.1.3)
       multi_json (~> 1.0)
       rubyzip
+    simple_form (1.4.1)
     sprockets (2.8.2)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -267,9 +275,11 @@ DEPENDENCIES
   launchy
   less-rails!
   mysql2
+  nested_form!
   rails!
   rspec-rails
   sass-rails!
+  simple_form
   sprockets-rails!
   therubyracer
   thin

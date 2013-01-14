@@ -17,7 +17,8 @@ gem 'gmaps4rails'
 gem "cancan"
 gem 'bootstrap-sass', '~> 2.2.2.0'
 gem 'bootswatch-rails'
-
+gem 'simple_form'
+gem 'nested_form', github: 'mlitwiniuk/nested_form', :branch => 'rails4_compatibility'
 gem 'mysql2'
 
 # Gems used only for assets and not required

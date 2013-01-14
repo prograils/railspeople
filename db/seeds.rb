@@ -252,7 +252,7 @@ User.delete_all
 
 country = Country.first
 r = Random.new
-1.times do |i|
+5.times do |i|
   User.create(
             :username => "user #{i}",
             :first_name => "first_name_#{i}",
@@ -267,8 +267,8 @@ r = Random.new
   puts "added user"
 end
 c = Country.count
-2.times do |i|
-  n = i + 10
+20.times do |i|
+  n = i + 5
   country = Country.find(:first, :offset =>rand(c))
   lat = 45 + country.id % 5 + rand(5)
   lng = 19 + country.id % 5 + rand(5)

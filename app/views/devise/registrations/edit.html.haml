@@ -1,52 +1,114 @@
 %h2
   Edit #{resource_name.to_s.humanize}
-= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f|
-  = devise_error_messages!
-  %div
-    = f.label :username
-    = f.text_field :username
-  %div
-    = f.label :first_name
-    = f.text_field :first_name
-  %div
-    = f.label :last_name
-    = f.text_field :last_name
-  %div
-    = f.label :email
-    = f.email_field :email
-  %div
-    = f.label :password
-    %i (leave blank if you don't want to change it)
-    %br/
-    = f.password_field :password
-  %div
-    = f.label :password_confirmation
-    = f.password_field :password_confirmation
-  %div
-    = f.label :current_password
-    %i (we need your current password to confirm your changes)
-    %br/
-    = f.password_field :current_password
-  %div
-    = f.label :bio
-    = f.text_area :bio
-  %div
-    = f.label :twitter
-    = f.text_field :twitter
-  %div
-    = f.label :facebook
-    = f.text_field :facebook
-  %div
-    = f.label :google_plus
-    = f.text_field :google_plus
-  %div
-    = f.label :github
-    = f.text_field :github
-  %div
-    = f.label :stackoverflow
-    = f.text_field :stackoverflow
-  %div= f.submit "Update"
-%h3 Cancel my account
-%p
-  Unhappy? #{link_to "Cancel my account", registration_path(resource_name), :confirm => "Are you sure?", :method => :delete}.
-= link_to "Back", :back
+.row
+  .span3
+    %ul.nav.nav-list.navigation.affix
+      %li
+        %a{:href => "#user"} Change my username
+      %li
+        %a{:href => "#password"} Change my password
+      %li
+        %a{:href => "#biography"} My biography
+      %li
+        %a{:href => "#blogs"} Manage blogs
+      %li
+        %a{:href => "#socials"} Social links
+      %li
+        %a{:href => "#cancel"} Cancel my account
+  .span9
+    = form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f|
+      = devise_error_messages!
+      .span8
+        %section#user.well
+          %div.page-header
+            = "Change Your username"
+          %div
+            = f.label :username
+            = f.text_field :username
+          %div
+            = f.label :first_name
+            = f.text_field :first_name
+          %div
+            = f.label :last_name
+            = f.text_field :last_name
+          %div
+            = f.label :email
+            = f.email_field :email
+          .act_buttons
+            = f.submit "Save", :class => 'btn btn-primary btn-warning'
+            = link_to "Back", :back
+
+        =# password
+        %section#password.well
+          %div.page-header
+            = "Change Your password"
+          %div
+            = f.label :password
+            = f.password_field :password, :autocomplete => 'off'
+            %i (leave blank if you don't want to change it)
+            %br/
+          %div
+            = f.label :password_confirmation
+            = f.password_field :password_confirmation
+          %div
+            = f.label :current_password
+            = f.password_field :current_password
+            %i (we need your current password to confirm your changes)
+          .act_buttons
+            = f.submit "Save", :class => 'btn btn-primary btn-warning'
+            = link_to "Back", :back
+
+        =# biography
+        %section#biography.well
+          %div.page-header
+            = "Bio"
+          %div
+            = f.label :bio
+            = f.text_area :bio
+          .act_buttons
+            = f.submit "Save", :class => 'btn btn-primary btn-warning'
+            = link_to "Back", :back
+
+        =# blogs
+        %section#blogs.well
+          %div.page-header
+            = "Manage Your blogs"
+          = simple_nested_form_for resource do |f|
+            = f.fields_for :blogs
+            %br/
+            = f.link_to_add t("add_next"), :blogs, :class => 'btn btn-small btn-primary'
+          .act_buttons
+            = f.submit "Save", :class => 'btn btn-primary btn-warning'
+            = link_to "Back", :back
+
+        =# socials
+        %section#socials.well
+          %div.page-header
+            = "Add Your profiles"
+          %div
+            = f.label :twitter
+            = f.text_field :twitter
+          %div
+            = f.label :facebook
+            = f.text_field :facebook
+          %div
+            = f.label :google_plus
+            = f.text_field :google_plus
+          %div
+            = f.label :github
+            = f.text_field :github
+          %div
+            = f.label :stackoverflow
+            = f.text_field :stackoverflow
+          .act_buttons
+            = f.submit "Save", :class => 'btn btn-primary btn-warning'
+            = link_to "Back", :back
+
+        =# cancel
+        %section#cancel.well
+          %div.page-header
+            = "Cancel my account"
+          %p
+            Unhappy? #{link_to "Cancel my account", registration_path(resource_name), :confirm => "Are you sure?", :method => :delete}.
+
+

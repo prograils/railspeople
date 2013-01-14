@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
- 
-  # WILL_PAGINATE 
+
+  # WILL_PAGINATE
   self.per_page = 20
 
   ## DEVISE
@@ -17,6 +17,9 @@ class User < ActiveRecord::Base
   belongs_to :country, :counter_cache => true
   has_many :blogs, :dependent => :destroy
 
+  ## ANAF
+  accepts_nested_attributes_for :blogs, :allow_destroy => true
+
   ## VALIDATIONS
   validates_presence_of :email, :username, :first_name, :last_name, :country_id, :latitude, :longitude
   validates :twitter, :url => {:allow_blank => true, :verify => [:resolve_redirects]}
@@ -31,7 +34,7 @@ class User < ActiveRecord::Base
   def gmaps4rails_address
     "#{self.country}"
   end
-  
+
   def to_s
     "#{self.first_name} #{self.last_name}"
   end

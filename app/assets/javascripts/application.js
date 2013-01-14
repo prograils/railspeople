@@ -14,9 +14,14 @@
 //= require jquery_ujs
 //= require bootstrap
 // require turbolinks
+//= require jquery_nested_form
 //= require_tree .
-
-$('#search-link').click(function(){  
-  $(this).parents('form').submit();  
+$('#search-link').click(function(){
+  $(this).parents('form').submit();
   return false;
+});
+
+$(document).on('nested:fieldRemoved', function (event) {
+  var field = event.field;
+  field.find('input[required]').prop('required', null); // remove required attributes which prevent from submit
 });
