@@ -1,6 +1,9 @@
 Railspeople::Application.routes.draw do
   devise_for :users, :controllers => {:registrations => "users/registrations", :passwords => "users/passwords"}
-  resources :users, :only => :show
+  resources :users, :only => :show do
+    get 'tags', :on => :member 
+  end
+  get 'tags/:tag', to: 'users#tags', as: :tag
   resources :countries, :only => [:new, :create]
 
   get "countries_selection" => "countries#countries_selection"

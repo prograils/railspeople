@@ -1,0 +1,16 @@
+%h1=@tag.name
+%h3
+  =@users.count
+  Ruby on Rails 
+  =@users.count == 1 ? "person" : "people"
+  mention this skill
+
+=gmaps4rails(@json)
+%br/
+=will_paginate @users
+- @users.each do |user|
+  .row.span4
+    = link_to user.email, user_path(user)
+    %br
+    = image_tag("famfamfam_flags/#{user.country.iso.downcase}.png")
+    = user.country.printable_name

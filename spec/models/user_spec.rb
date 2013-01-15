@@ -57,7 +57,7 @@ describe User do
 
   it "should add new user with some coordinates values" do
     @user = FactoryGirl.create(:user, :latitude => "1.2", :longitude => "1.2")
-    @user = FactoryGirl.create(:user, :latitude => "21.2", :longitude => "41.2")
+    @user = FactoryGirl.create(:user, :username => "walter22", :latitude => "21.2", :longitude => "41.2")
 
     User.count.should == 2
   end
