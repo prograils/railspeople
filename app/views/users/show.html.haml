@@ -15,10 +15,10 @@
           =link_to tag.name, tag_path(:tag => tag.name), :class => 'btn btn-info btn-small btn-tags'
   %h3
     Finding
-      - if @user.looking_for_freelance_work?
-        .work Looking for freelance work
-      - elsif @user.looking_for_full_time_work?
-        .work Looking for full-time work
+    - if @user.looking_for_freelance_work?
+      .work Looking for freelance work
+    - elsif @user.looking_for_full_time_work?
+      .work Looking for full-time work
   
   %h3 Finding #{@user.first_name}
   - if email_is_visible?
