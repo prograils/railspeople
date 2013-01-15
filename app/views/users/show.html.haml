@@ -7,7 +7,7 @@
 %br/
 .span6
   - if @user.bio.present?
-    %p.bio
+    .bio
       = @user.bio
       - if @user.tags.present?
         %br/
@@ -15,29 +15,32 @@
           =link_to tag.name, tag_path(:tag => tag.name), :class => 'btn btn-info btn-small btn-tags'
   %h3
     Finding
+      - if @user.looking_for_freelance_work?
+        .work Looking for freelance work
+      - elsif @user.looking_for_full_time_work?
+        .work Looking for full-time work
+  
+  %h3 Finding #{@user.first_name}
+  - if email_is_visible?
+    %strong Email:
+    %p= @user.email
   - if @user.blogs.any?
-    %p
-      Blog:
+    %p Blog:
   - if @user.twitter.present?
-    %p
-      Twitter:
-      = @user.twitter
+    %p Twitter:
+    %p= @user.twitter
   - if @user.facebook.present?
-    %p
-      Facebook:
-      = @user.facebook
+    %p Facebook:
+    %p= @user.facebook
   - if @user.google_plus.present?
-    %p
-      Google+:
-      = @user.google_plus
+    %p Google+:
+    %p= @user.google_plus
   - if @user.github.present?
-    %p
-      Github:
-      = @user.github
+    %p Github:
+    %p= @user.github
   - if @user.stackoverflow.present?
-    %p
-      Stackoverflow:
-      = @user.stackoverflow
+    %p Stackoverflow:
+    %p= @user.stackoverflow
 .offset6
   %p
     People near #{@user.first_name}:
