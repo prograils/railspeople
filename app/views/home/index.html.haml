@@ -12,9 +12,9 @@
   framework near you
 
 / = gmaps4rails(@json)
-= gmaps({"map_options" => {"auto_adjust" => false, "zoom" => 2 }, "markers" => {"data" => @json }})
 
 - if params[:selected]
+  = gmaps({"map_options" => {"auto_adjust" => false, "zoom" => 5, "center_latitude" => @selected_country.lat, "center_longitude" => @selected_country.lng }, "markers" => {"data" => @json }})
   %br/
   = will_paginate @people
   - @people.each do |person|
@@ -24,6 +24,7 @@
       = image_tag("famfamfam_flags/#{person.country.iso.downcase}.png")
       = person.country.printable_name
 - else
+  = gmaps({"map_options" => {"auto_adjust" => false, "zoom" => 2 }, "markers" => {"data" => @json }})
   %br/
   - @countries.each do |country|
     .row.span4
