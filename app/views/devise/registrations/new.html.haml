@@ -99,13 +99,36 @@
     = f.text_field :stackoverflow
 
   %h4 4. Your privacy settings
-  %p TODO
-
+  %p
+    %p Search visibility
+    =f.radio_button :search_visibility, true
+    Allow search engines to index my profile page (recommended)
+    %br/
+    =f.radio_button :search_visibility, false
+    Don't allow search engines to index my profile page
+  %p 
+    %p Email privacy
+    =f.radio_button :email_privacy, 2 
+    Anyone can see my email address
+    %br/
+    =f.radio_button :email_privacy, 1
+    Only logged-in users can see my email address
+    %br/
+    =f.radio_button :email_privacy, 0
+    Noone can ever see my email address
+  %p
+    %p IM privacy
+    =f.radio_button :im_privacy, false
+    Anyone can see my IM details
+    %br/
+    =f.radio_button :im_privacy, true
+    Only logged-in users can see my IM details
   %h4 5. Your skills and interests
   %div
     = f.label :tag_names, "Tags"
     = f.text_field :tag_names
-  %p TODO
-
+  %div
+    = f.label :looking_for_work, "Looking for work?"
+    = f.select :looking_for_work, {"Not looking for work at the moment" => 0, "Looking for freelance work" => 1, "Looking for fuil-time work" => 2}
   %div= f.submit "Sign me up"
 = render :partial => "devise/shared/links"

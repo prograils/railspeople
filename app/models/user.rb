@@ -1,4 +1,15 @@
 class User < ActiveRecord::Base
+  WORK_TYPES = {
+    :not_looking  => 0,
+    :freelance => 1,
+    :full_time => 2
+  }
+
+  EMAIL_PRIVACY = {
+    :anyone => 2,
+    :logged_in => 1,
+    :no_one => 0
+  }
 
   # WILL_PAGINATE
   self.per_page = 20
@@ -24,15 +35,17 @@ class User < ActiveRecord::Base
 
   ## VALIDATIONS
   validates_presence_of :email, :username, :first_name, :last_name, :country_id, :latitude, :longitude
+  validates_presence_of :looking_for_work, :email_privacy
   validates_uniqueness_of :username
   validates :twitter, :url => {:allow_blank => true, :verify => [:resolve_redirects]}
   validates :facebook, :url => {:allow_blank => true, :verify => [:resolve_redirects]}
   validates :google_plus, :url => {:allow_blank => true, :verify => [:resolve_redirects]}
   validates :github, :url => {:allow_blank => true, :verify => [:resolve_redirects]}
   validates :stackoverflow, :url => {:allow_blank => true, :verify => [:resolve_redirects]}
-  
-  ## AFTER/BEFORE
+  validates :looking_for_work, :inclusion=>{:in=>(User::WORK_TYPES.values)}
+  validates :email_privacy, :inclusion=>{:in=>(User::EMAIL_PRIVACY.values)}
 
+  ## AFTER/BEFORE
   attr_writer :tag_names
   after_save :assign_tags
   ## BEFORE & AFTER
@@ -54,6 +67,18 @@ class User < ActiveRecord::Base
   
   def tag_names
    @tag_names || tags.map(&:name).join(' ')
+  end
+
+  def not_looking_for_work?
+    self.looking_for_work == 0
+  end
+
+  def looking_for_freelance_work?
+    self.looking_for_work == 1
+  end
+
+  def looking_for_full_time_work?
+    self.looking_for_work == 2
   end
 
   private
