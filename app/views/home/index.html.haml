@@ -12,7 +12,7 @@
   framework near you
 
 / = gmaps4rails(@json)
-= gmaps({"map_options" => {"zoom" => 2 }, "markers" => {"data" => @json }})
+= gmaps({"map_options" => {"auto_adjust" => false, "zoom" => 2 }, "markers" => {"data" => @json }})
 
 - if params[:selected]
   %br/

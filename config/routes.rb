@@ -2,6 +2,8 @@ Railspeople::Application.routes.draw do
   devise_for :users, :controllers => {:registrations => "users/registrations", :passwords => "users/passwords"}
   resources :users, :only => :show
   resources :countries, :only => [:new, :create]
+
+  get "countries_selection" => "countries#countries_selection"
   get "search/index"
   get "about/index"
   get "home/index"
