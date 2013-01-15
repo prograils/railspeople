@@ -30,4 +30,4 @@
     .row.span4
       = image_tag("famfamfam_flags/#{country.iso.downcase}.png")
       = link_to country.printable_name, home_index_path(:selected => country.printable_name)
-      = pluralize country.users_count, 'person'
+      = pluralize country.users.count, 'person'
