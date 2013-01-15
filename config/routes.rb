@@ -5,6 +5,8 @@ Railspeople::Application.routes.draw do
   end
   get 'tags/:tag', to: 'users#tags', as: :tag
   resources :countries, :only => [:new, :create]
+
+  get "countries_selection" => "countries#countries_selection"
   get "search/index"
   get "about/index"
   get "home/index"
