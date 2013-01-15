@@ -67,7 +67,7 @@
             function updateFormLocation(latLng) {
                 $('#user_latitude').val(latLng.lat());
                 $('#user_longitude').val(latLng.lng());
-                $('#location_attributes_gmaps_zoom').val(map.getZoom());
+                $('#user_zoom').val(map.getZoom());
             }
             // Add a marker with an open infowindow
               function placeMarker(latLng) {
@@ -109,6 +109,8 @@
     = f.text_field :latitude, :style => "display: none;"
   %div
     = f.text_field :longitude, :style => "display: none;"
+  %div
+    = f.text_field :zoom, :style => "display: none;"
   %br
   %h4 3. And a bit about you...
   %div
