@@ -3,6 +3,10 @@
 = @user.country.printable_name
 %p= gmaps({"map_options" => {"auto_adjust" => false, "zoom" => @user.zoom, "center_latitude" => @user.latitude, "center_longitude" => @user.longitude}, "markers" => {"data" => @json }})
 
+
+- if user_signed_in?
+  Zalogowany
+
 %br/
 %br/
 .span6

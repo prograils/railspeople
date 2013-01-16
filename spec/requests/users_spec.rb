@@ -47,4 +47,59 @@ describe "Users" do
       page.should have_content("Signed in successfully.")
     end
   end
+
+
+  describe "GET /user/:id" do
+
+    before(:each) do
+      @user = FactoryGirl.create(:user)
+      @user_with_email_for_no_one = FactoryGirl.create(:user, :email_privacy => 0)
+      @user_with_email_for_logged_in = FactoryGirl.create(:user, :email_privacy => 1)
+      @user_with_email_for_anyone = FactoryGirl.create(:user, :email_privacy => 2)
+    end
+
+    after (:each) { Warden.test_reset! }
+
+    context "user is not logged in" do
+      it "should never show email" do
+        visit user_path(@user_with_email_for_no_one)
+        page.should_not have_content "Email"
+        page.should_not have_content @user_with_email_for_no_one.email
+      end
+      
+      it "should show email only for logged in" do
+        visit user_path(@user_with_email_for_logged_in)
+        page.should_not have_content "Email"
+        page.should_not have_content @user.email
+      end
+      
+      it "should show email for anyone" do
+       visit user_path(@user_with_email_for_anyone)
+       page.should have_content "Email"
+       page.should have_content @user_with_email_for_anyone.email
+      end
+    end
+
+    context "user is logged in" do
+      before(:each) { login_as(@user, :scope => :user) }
+
+      it "should never show email" do
+        visit user_path(@user_with_email_for_no_one)
+        page.should_not have_content "Email"
+        page.should_not have_content @user_with_email_for_no_one.email
+      end  
+
+      it "should show email only for logged in" do
+        visit user_path(@user_with_email_for_logged_in)
+        page.should have_content "Email"
+        page.should have_content @user_with_email_for_logged_in.email
+      end
+      
+      it "should show email for anyone" do
+        visit user_path(@user_with_email_for_anyone)
+        page.should have_content "Email"
+        page.should have_content @user_with_email_for_anyone.email
+      end
+    end 
+  end  
 end
