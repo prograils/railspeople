@@ -15,11 +15,16 @@
           =link_to tag.name, tag_path(:tag => tag.name), :class => 'btn btn-info btn-small btn-tags'
       .clear
       - if @user.looking_for_freelance_work?
-        .work Looking for freelance work
+        .work 
+        %i.icon-star-empty
+        %span Looking for freelance work 
       - elsif @user.looking_for_full_time_work?
-        .work Looking for full-time work
+        .work 
+        %i.icon-star
+        %span Looking for full-time work
   %br/
   - if email_is_visible?(@user)
+    %i.icon-envelope
     %strong Email:
     %p= @user.email
   - if im_details_visible?(@user)
@@ -42,18 +47,16 @@
       %p Stackoverflow:
       %p= @user.stackoverflow
 .offset6
-  %p
-    People near #{@user.first_name}:
-    %br/
-    - @near.each do |n|
-      %p
-        =link_to n.to_s, user_path(n)
-        %br/
-        = image_tag("famfamfam_flags/#{n.country.iso.downcase}.png")
-        = n.country.printable_name
-        %br/
-        = pluralize n.distance_from([resource.latitude, resource.longitude]).round(1), "mile"
-        away
+  %h3 People near #{@user.first_name}:
+  - @near.each do |n|
+    %p
+      =link_to n.to_s, user_path(n)
+      %br/
+      = image_tag("famfamfam_flags/#{n.country.iso.downcase}.png")
+      = n.country.printable_name
+      %br/
+      = pluralize n.distance_from([resource.latitude, resource.longitude]).round(1), "mile"
+      away
 
 
 
