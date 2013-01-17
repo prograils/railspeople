@@ -32,6 +32,8 @@
               %li= link_to "Search", search_index_path
               -if user_signed_in?
                 %li
+                  = link_to "You are logged in as #{current_user.username}", user_path(current_user)
+                %li
                   = link_to 'Logout', destroy_user_session_path, :method => 'delete'
                 %li
                   =link_to "Edit Account", edit_user_registration_path

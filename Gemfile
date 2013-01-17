@@ -6,6 +6,7 @@ gem 'arel',      github: 'rails/arel'
 gem 'activerecord-deprecated_finders', github: 'rails/activerecord-deprecated_finders'
 
 #gem 'ransack'
+gem "paperclip", "~> 3.0"
 gem 'geocoder'
 gem 'will_paginate', '~> 3.0.0'
 gem 'country_select'

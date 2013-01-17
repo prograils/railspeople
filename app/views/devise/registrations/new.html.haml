@@ -113,6 +113,11 @@
     = f.text_field :zoom, :style => "display: none;"
   %br
   %h4 3. And a bit about you...
+
+  %div
+    = f.label :avatar
+    = f.file_field :avatar 
+
   %div
     = f.label :bio
     = f.text_area :bio

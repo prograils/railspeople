@@ -49,6 +49,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       :search_visibility,
       :im_privacy,
       :email_privacy,
+      :avatar,
       :blogs_attributes =>[:id, :user_id, :title, :url, :_destroy]
     )
   end

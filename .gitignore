@@ -18,3 +18,5 @@
 /config/database.yml
 .DS_Store
 
+# Ignore Paperclip images
+/public/system/*

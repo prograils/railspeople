@@ -1,4 +1,6 @@
-%h1= @user.to_s
+= image_tag @user.avatar.url(:medium), :class => 'img-circle' if @user.avatar?
+%span.profile-username= @user.to_s
+%br/
 = image_tag("famfamfam_flags/#{@user.country.iso.downcase}.png")
 = @user.country.printable_name
 %p= gmaps({"map_options" => {"auto_adjust" => false, "zoom" => @user.zoom, "center_latitude" => @user.latitude, "center_longitude" => @user.longitude}, "markers" => {"data" => @json }})
