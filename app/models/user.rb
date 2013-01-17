@@ -81,6 +81,10 @@ class User < ActiveRecord::Base
     self.looking_for_work == 2
   end
 
+  def to_param
+    "#{id}-#{username}".parameterize
+  end
+
   private
   
   def assign_tags
