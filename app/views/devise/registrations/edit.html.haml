@@ -36,6 +36,9 @@
           %div
             = f.label :email
             = f.email_field :email
+          %div
+            =f.label :avatar
+            =f.file_field :avatar
           .act_buttons
             = f.submit "Save", :class => 'btn btn-primary btn-warning'
             = link_to "Back", :back

@@ -9,7 +9,9 @@ require 'rspec/autorun'
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
 RSpec.configure do |config|
-  include Capybara::DSL
+  config.include Capybara::DSL
+  config.include Warden::Test::Helpers
+  Warden.test_mode!
   #Devise
   config.include Devise::TestHelpers, :type => :controller
   config.include Devise::TestHelpers, :type => :view

@@ -22,6 +22,9 @@ class User < ActiveRecord::Base
   acts_as_gmappable :process_geocoding => false
   reverse_geocoded_by :latitude, :longitude
 
+  # PAPERCLIP\
+  has_attached_file :avatar, :styles => { :medium => "84x84#", :thumb => "40x40#" }
+
   ## SCOPES
 
   ## ASSOCIATIONS
@@ -52,6 +55,10 @@ class User < ActiveRecord::Base
   after_validation :reverse_geocode  # auto-fetch address
   after_save :assign_tags
 
+  def gmaps4rails_infowindow
+    self.avatar? ? "<img src=\"#{self.avatar.url(:medium)}\"> #{self.to_s}" : "#{self.to_s}"
+  end
+
   def gmaps4rails_address
     "#{self.country}"
   end
@@ -79,6 +86,10 @@ class User < ActiveRecord::Base
 
   def looking_for_full_time_work?
     self.looking_for_work == 2
+  end
+
+  def to_param
+    "#{id}-#{username}".parameterize
   end
 
   private

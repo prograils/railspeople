@@ -1,59 +1,62 @@
-%h1= @user.to_s
+= image_tag @user.avatar.url(:medium), :class => 'img-circle' if @user.avatar?
+%span.profile-username= @user.to_s
+%br/
 = image_tag("famfamfam_flags/#{@user.country.iso.downcase}.png")
 = @user.country.printable_name
 %p= gmaps({"map_options" => {"auto_adjust" => false, "zoom" => @user.zoom, "center_latitude" => @user.latitude, "center_longitude" => @user.longitude}, "markers" => {"data" => @json }})
-
 %br/
 %br/
 .span6
   - if @user.bio.present?
     .bio
-      = @user.bio
+      %p= @user.bio
       - if @user.tags.present?
-        %br/
         - @user.tags.each do |tag|
           =link_to tag.name, tag_path(:tag => tag.name), :class => 'btn btn-info btn-small btn-tags'
-  %h3
-    Finding
-    - if @user.looking_for_freelance_work?
-      .work Looking for freelance work
-    - elsif @user.looking_for_full_time_work?
-      .work Looking for full-time work
-  
-  %h3 Finding #{@user.first_name}
-  - if email_is_visible?
+      .clear
+      - if @user.looking_for_freelance_work?
+        .work 
+        %i.icon-star-empty
+        %span Looking for freelance work 
+      - elsif @user.looking_for_full_time_work?
+        .work 
+        %i.icon-star
+        %span Looking for full-time work
+  %br/
+  - if email_is_visible?(@user)
+    %i.icon-envelope
     %strong Email:
     %p= @user.email
-  - if @user.blogs.any?
-    %p Blog:
-  - if @user.twitter.present?
-    %p Twitter:
-    %p= @user.twitter
-  - if @user.facebook.present?
-    %p Facebook:
-    %p= @user.facebook
-  - if @user.google_plus.present?
-    %p Google+:
-    %p= @user.google_plus
-  - if @user.github.present?
-    %p Github:
-    %p= @user.github
-  - if @user.stackoverflow.present?
-    %p Stackoverflow:
-    %p= @user.stackoverflow
+  - if im_details_visible?(@user)
+    %h3 Finding #{@user.first_name}
+    - if @user.blogs.any?
+      %p Blog:
+    - if @user.twitter.present?
+      %p Twitter:
+      %p= @user.twitter
+    - if @user.facebook.present?
+      %p Facebook:
+      %p= @user.facebook
+    - if @user.google_plus.present?
+      %p Google+:
+      %p= @user.google_plus
+    - if @user.github.present?
+      %p Github:
+      %p= @user.github
+    - if @user.stackoverflow.present?
+      %p Stackoverflow:
+      %p= @user.stackoverflow
 .offset6
-  %p
-    People near #{@user.first_name}:
-    %br/
-    - @near.each do |n|
-      %p
-        =link_to n.to_s, user_path(n)
-        %br/
-        = image_tag("famfamfam_flags/#{n.country.iso.downcase}.png")
-        = n.country.printable_name
-        %br/
-        = pluralize n.distance_from([resource.latitude, resource.longitude]).round(1), "mile"
-        away
+  %h3 People near #{@user.first_name}:
+  - @near.each do |n|
+    %p
+      =link_to n.to_s, user_path(n)
+      %br/
+      = image_tag("famfamfam_flags/#{n.country.iso.downcase}.png")
+      = n.country.printable_name
+      %br/
+      = pluralize n.distance_from([resource.latitude, resource.longitude]).round(1), "mile"
+      away
 
 
 

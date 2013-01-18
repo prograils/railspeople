@@ -63,9 +63,9 @@ describe User do
   end
 
   it 'should to_gmaps4rails return expected json' do
-    @user = FactoryGirl.create(:user, :latitude => '1.2345', :longitude => '6.7890')
+    @user = FactoryGirl.create(:user, :first_name => "ted", :last_name => "tylor",:latitude => '1.2345', :longitude => '6.7890')
     @json = User.all.to_gmaps4rails
-    expected = %([{"lat":1.2345,"lng":6.7890}])
+    expected = %([{"description":"ted tylor","lat":1.2345,"lng":6.7890}])
     @json.should be_json_eql(expected)
   end
 

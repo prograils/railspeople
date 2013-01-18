@@ -14,7 +14,7 @@
 / = gmaps4rails(@json)
 
 - if params[:selected]
-  = gmaps({"map_options" => {"auto_adjust" => false, "zoom" => 5, "center_latitude" => @selected_country.lat, "center_longitude" => @selected_country.lng }, "markers" => {"data" => @json }})
+  = gmaps({"map_options" => {"auto_adjust" => false, "zoom" => 5, "center_latitude" => @selected_country.lat, "center_longitude" => @selected_country.lng }, "markers" => {"data" => @json, :options => { :do_clustering => true, :clusterer_maxZoom => 8 }}})
   %br/
   = will_paginate @people
   - @people.each do |person|
@@ -24,10 +24,10 @@
       = image_tag("famfamfam_flags/#{person.country.iso.downcase}.png")
       = person.country.printable_name
 - else
-  = gmaps({"map_options" => {"auto_adjust" => false, "zoom" => 2 }, "markers" => {"data" => @json }})
+  = gmaps({"map_options" => {"auto_adjust" => false, "zoom" => 2 }, "markers" => {"data" => @json, :options => { :do_clustering => true, :clusterer_maxZoom => 8 }}})
   %br/
   - @countries.each do |country|
     .row.span4
       = image_tag("famfamfam_flags/#{country.iso.downcase}.png")
       = link_to country.printable_name, home_index_path(:selected => country.printable_name)
-      = pluralize country.users.count, 'person'
+      = pluralize country.users_count, 'person'

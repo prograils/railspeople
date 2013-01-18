@@ -113,6 +113,11 @@
     = f.text_field :zoom, :style => "display: none;"
   %br
   %h4 3. And a bit about you...
+
+  %div
+    = f.label :avatar
+    = f.file_field :avatar 
+
   %div
     = f.label :bio
     = f.text_area :bio
@@ -153,10 +158,10 @@
   %p
     %p IM privacy
     =f.radio_button :im_privacy, false
-    Anyone can see my IM details
+    Only logged-in users can see my IM details
     %br/
     =f.radio_button :im_privacy, true
-    Only logged-in users can see my IM details
+    Anyone can see my IM details
   %h4 5. Your skills and interests
   %div
     = f.label :tag_names, "Tags"
