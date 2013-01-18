@@ -261,7 +261,8 @@ if Rails.env.development?
               :password_confirmation => 'foobar',
               :country_id => country.id,
               :latitude => "50.#{i}122",
-              :longitude => "25.#{i}212"
+              :longitude => "25.#{i}212",
+              :zoom => 6
              )
   end
   c = Country.count
@@ -279,7 +280,8 @@ if Rails.env.development?
               :password_confirmation => 'foobar',
               :country_id => country.id,
               :latitude => "#{lat}.#{i}232",
-              :longitude => "#{lng}.#{i}923"
+              :longitude => "#{lng}.#{i}923",
+              :zoom => 7
              )
   end
 end
