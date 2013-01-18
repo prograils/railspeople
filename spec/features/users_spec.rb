@@ -49,15 +49,58 @@ describe "Users" do
   end
 
   describe "GET /users/edit" do
-    it "allows users to see edit page" do
+    before do
       user = FactoryGirl.create(:user, :email => "alindeman@example.com",
                          :password => "ilovegrapes", :password_confirmation => 'ilovegrapes')
       sign_in(user)
       page.should have_content("Signed in successfully.")
-
       visit "/users/edit"
+    end
+    it "allows users to see edit page" do
       page.should have_content("Edit User")
-
+    end
+    it "allows to change username without current password" do
+      fill_in "Username", :with => "Test"
+      fill_in "First name", :with => "Mark"
+      fill_in "Last name", :with => "Twain"
+      fill_in "Email", :with => "mark@twain.eu"
+      click_button "username_sub"
+      page.should have_content("You updated your account successfully")
+    end
+    it "allows to change password" do
+      fill_in "user_password", :with => "admin1"
+      fill_in "user_password_confirmation", :with => "admin1"
+      fill_in "user_current_password", :with => "ilovegrapes"
+      click_button "password_sub"
+      page.should have_content("You updated your account successfully")
+    end
+    it "doesn't allow to change password without current password" do
+      fill_in "user_password", :with => "admin1"
+      fill_in "user_password_confirmation", :with => "admin1"
+      click_button "password_sub"
+      page.should_not have_content("You updated your account successfully")
+    end
+    it "allows to change skills without current password" do
+      fill_in "Tags", :with => "programmer"
+      click_button "skills_sub"
+      page.should have_content("You updated your account successfully")
+    end
+    it "allows to change biography without current password" do
+      fill_in "Bio", :with => "I was born in ..."
+      click_button "biography_sub"
+      page.should have_content("You updated your account successfully")
+    end
+    #TODO
+    it "allows to change blogs without current password" do
+    end
+    it "allows to change social profiles without current password" do
+      fill_in "Twitter", :with => "http://rubyonrails.org/"
+      fill_in "Facebook", :with => "http://rubyonrails.org/"
+      fill_in "Google plus", :with => "http://rubyonrails.org/"
+      fill_in "Github", :with => "http://rubyonrails.org/"
+      fill_in "Stackoverflow", :with => "http://rubyonrails.org/"
+      click_button "social_sub"
+      page.should have_content("You updated your account successfully")
     end
   end
 
