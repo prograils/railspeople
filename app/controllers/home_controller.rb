@@ -8,6 +8,6 @@ class HomeController < InheritedResources::Base
     else
       @json = User.all.to_gmaps4rails
     end
-    @countries = Country.order_by_users.all
+    @countries = Country.where(["users_count > ?", 0]).order_by_users
   end
 end
