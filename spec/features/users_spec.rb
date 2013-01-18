@@ -47,4 +47,17 @@ describe "Users" do
       page.should have_content("Signed in successfully.")
     end
   end
+
+  describe "GET /users/edit" do
+    it "allows users to see edit page" do
+      user = FactoryGirl.create(:user, :email => "alindeman@example.com",
+                         :password => "ilovegrapes", :password_confirmation => 'ilovegrapes')
+      sign_in(user)
+      page.should have_content("Signed in successfully.")
+
+      visit "/users/edit"
+      page.should have_content("Edit User")
+
+    end
+  end
 end

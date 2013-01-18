@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130115093116) do
+ActiveRecord::Schema.define(version: 20130115135146) do
 
   create_table "blogs", force: true do |t|
     t.integer  "user_id",                 null: false
@@ -77,6 +77,7 @@ ActiveRecord::Schema.define(version: 20130115093116) do
     t.boolean  "search_visibility",      default: true
     t.integer  "email_privacy",          default: 1
     t.boolean  "im_privacy",             default: false
+    t.integer  "zoom"
   end
 
   add_index "users", ["country_id"], name: "index_users_on_country_id"

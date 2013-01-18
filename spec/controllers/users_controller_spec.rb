@@ -9,15 +9,15 @@ describe UsersController do
   end
 
   describe "GET 'show'" do
-    
+
     context 'user signed in' do
       it "returns http success for non logged in user" do
         visit user_path(@user)
-        page.should have_content @user.first_name 
+        page.should have_content @user.first_name
       end
     end
-   
-    context 'user not signed in' do 
+
+    context 'user not signed in' do
       it "returns http success if user is logged in" do
         sign_in @user
         visit user_path(@user)
