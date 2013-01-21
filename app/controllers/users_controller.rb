@@ -1,13 +1,17 @@
 class UsersController < InheritedResources::Base
-  def show
-    lat = resource.latitude
-    lng = resource.longitude
+  before_action :find_near, :only => [:show, :near_coordinates]
 
-    @near = User.near([lat, lng], 50).limit(5) # 50 miles
-    @near = @near.where('id != ?', @user.id)
+  def show
     @json = resource.to_gmaps4rails
     
     show!
+  end
+
+  def near_coordinates
+    @near_coords = @near.map { |n| [n.latitude, n.longitude] }
+    if request.xhr?
+      render :json => @near_coords
+    end
   end
   
   def tags
@@ -15,5 +19,12 @@ class UsersController < InheritedResources::Base
     scope = @tag.users
     @json = scope.to_gmaps4rails
     @users = scope.paginate(:page => params[:page])
+  end
+
+  def find_near
+    lat = resource.latitude
+    lng = resource.longitude
+    @near = User.near([lat, lng], 50).limit(5) # 50 miles
+    @near = @near.where('id != ?', @user.id)
   end
 end

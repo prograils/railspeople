@@ -6,6 +6,7 @@ Railspeople::Application.routes.draw do
   get 'tags/:tag', to: 'users#tags', as: :tag
   resources :countries, :only => [:new, :create]
 
+  get 'near_coordinates' => "users#near_coordinates"
   get "countries_selection" => "countries#countries_selection"
   get "search/index"
   get "about/index"

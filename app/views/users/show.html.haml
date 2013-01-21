@@ -3,7 +3,16 @@
 %br/
 = image_tag("famfamfam_flags/#{@user.country.iso.downcase}.png")
 = @user.country.printable_name
-%p= gmaps({"map_options" => {"auto_adjust" => false, "zoom" => @user.zoom, "center_latitude" => @user.latitude, "center_longitude" => @user.longitude}, "markers" => {"data" => @json }})
+/ %p= gmaps({"map_options" => {"auto_adjust" => false, "zoom" => @user.zoom, "center_latitude" => @user.latitude, "center_longitude" => @user.longitude}, "markers" => {"data" => @json }})
+#user_id{"data-url" => @user.id}
+#user_lng{"data-url" => @user.longitude}
+#user_lat{"data-url" => @user.latitude}
+#user_zoom{"data-url" => @user.zoom}
+#near_users{"data-url" => @near_cords}
+
+#new_user_map
+  #user_map
+
 %br/
 %br/
 .span6
@@ -46,7 +55,7 @@
     - if @user.stackoverflow.present?
       %p Stackoverflow:
       %p= @user.stackoverflow
-.offset6
+#near_people.offset6.hidden
   %h3 People near #{@user.first_name}:
   - @near.each do |n|
     %p
@@ -57,14 +66,3 @@
       %br/
       = pluralize n.distance_from([resource.latitude, resource.longitude]).round(1), "mile"
       away
-
-
-
-
-
-
-
-
-
-
-
