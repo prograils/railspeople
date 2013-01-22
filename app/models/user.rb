@@ -56,7 +56,8 @@ class User < ActiveRecord::Base
   after_save :assign_tags
 
   def gmaps4rails_infowindow
-    self.avatar? ? "<img src=\"#{self.avatar.url(:medium)}\"> #{self.to_s}" : "#{self.to_s}"
+    self.avatar? ? "<img src=\"#{self.avatar.url(:medium)}\"> <a href= /users/#{self.id}-#{self.username}> #{self.to_s}</a>"
+    : "<a href= /users/#{self.id}-#{self.username}> #{self.to_s}</a>"
   end
 
   def gmaps4rails_address
