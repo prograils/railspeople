@@ -40,6 +40,7 @@ jQuery ->
       newMap = init()
       $('#user_map').addClass('gmaps4rails_map');
       $('#user_map').addClass('map_container');
+      $('#user_map').addClass('google-maps');
       userMarker = new google.maps.LatLng($("#user_lat").data('url'), $("#user_lng").data('url'))
       placeMarker(userMarker, newMap)
       google.maps.event.addListener newMap, "click", (event) ->
