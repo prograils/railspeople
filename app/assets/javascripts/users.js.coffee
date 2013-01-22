@@ -37,7 +37,7 @@ jQuery ->
 
   #registration/new
   # Update form attributes with given coordinates
-  updateFormLocation = (latLng) ->
+  updateFormLocation = (latLng, map) ->
     $("#user_latitude").val latLng.lat()
     $("#user_longitude").val latLng.lng()
     $("#user_zoom").val map.getZoom()
@@ -115,6 +115,6 @@ jQuery ->
             google.maps.event.addListener map, "click", (event) ->
               clearOverlays()
               placeMarker event.latLng, map
-              updateFormLocation event.latLng
+              updateFormLocation event.latLng, map
 
 
