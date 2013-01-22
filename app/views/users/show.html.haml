@@ -39,23 +39,34 @@
   - if im_details_visible?(@user)
     %h3 Finding #{@user.first_name}
     - if @user.blogs.any?
-      %p Blog:
-    - if @user.twitter.present?
-      %p Twitter:
-      %p= @user.twitter
-    - if @user.facebook.present?
-      %p Facebook:
-      %p= @user.facebook
-    - if @user.google_plus.present?
-      %p Google+:
-      %p= @user.google_plus
-    - if @user.github.present?
-      %p Github:
-      %p= @user.github
-    - if @user.stackoverflow.present?
-      %p Stackoverflow:
-      %p= @user.stackoverflow
-#near_information.offser6
+      %p 
+        Blog:
+        - @user.blogs.each do |blog|
+          = link_to "#{blog.url}", blog.url
+    .span8
+      .span4
+        - if @user.twitter.present?
+          %p 
+            = image_tag 'twitter.png', :size => "40x40"
+            = link_to 'Twitter', @user.twitter
+        - if @user.facebook.present?
+          %p 
+            = image_tag 'facebook.png', :size => "40x40"
+            = link_to 'Facebook', @user.facebook
+        - if @user.google_plus.present?
+          %p
+            = image_tag 'google_plus.png', :size => "40x40"
+            = link_to 'Google+', @user.google_plus
+      .span4
+        - if @user.github.present?
+          %p
+            = image_tag 'github.png', :size => "40x40"
+            = link_to 'GitHub', @user.github
+        - if @user.stackoverflow.present?
+          %p
+            = image_tag 'stackoverflow.png', :size => "40x40"
+            = link_to 'Stack Overflow', @user.stackoverflow
+#near_information.offset6
   %h4 Click on the map to see closest Rails users
 #near_people.offset6.hidden
   %h3 People near #{@user.first_name}:
