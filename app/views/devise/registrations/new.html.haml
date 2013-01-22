@@ -28,82 +28,9 @@
     = f.select :country_id, Country.order('name ASC').map { |c| [c.printable_name, c.id] }, :prompt => true
 
   #new_user_map
-    #map
+    #registration_map
 
   #country_info
-
-  - content_for :scripts do
-    :javascript
-      //gain acces to country coordinates after select
-      window.map;
-      $('#user_country_id').change(function(){
-        $.ajax({
-          url: "/countries_selection",
-          type: "GET",
-          dataType: "json",
-          data: "id=" + $('#user_country_id').val(),
-          complete: function(){},
-          success: function(data, textStatus, xhr) {
-            $('#map').addClass('gmaps4rails_map');
-            $('#map').addClass('map_container');
-            //$("#country_info").html(data.country.lat, data.country.lng);
-            var map_options = {
-              zoom: 5,
-              center: new google.maps.LatLng(data.country.lat, data.country.lng),
-              mapTypeId: google.maps.MapTypeId.ROADMAP
-            };
-            map = new google.maps.Map(document.getElementById("map"), map_options);
-
-            var markersArray = [];
-            // On click, clear markers, place a new one, update coordinates in the form
-            // map.callback = function() {
-            //   google.maps.event.addListener(map, 'click', function(event) {
-            //     clearOverlays();
-            //     placeMarker(event.latLng);
-            //     updateFormLocation(event.latLng);
-            //   });
-            // };
-            // Update form attributes with given coordinates
-            function updateFormLocation(latLng) {
-                $('#user_latitude').val(latLng.lat());
-                $('#user_longitude').val(latLng.lng());
-                $('#user_zoom').val(map.getZoom());
-            }
-            // Add a marker with an open infowindow
-              function placeMarker(latLng) {
-                var marker = new google.maps.Marker({
-                    position: latLng,
-                    map: map,
-                    draggable: true
-                });
-                markersArray.push(marker);
-                // Set and open infowindow
-                var infowindow = new google.maps.InfoWindow({
-                    content: '<div class="popup"><h2>Awesome!</h2><p>Drag me and adjust the zoom level.</p>'
-                });
-                infowindow.open(map,marker);
-                // Listen to drag & drop
-                google.maps.event.addListener(marker, 'dragend', function() {
-                    updateFormLocation(this.getPosition());
-                });
-            }
-            // Removes the overlays from the map
-            function clearOverlays() {
-              if (markersArray) {
-                for (var i = 0; i < markersArray.length; i++ ) {
-                  markersArray[i].setMap(null);
-                }
-              }
-              markersArray.length = 0;
-            }
-          google.maps.event.addListener(map, 'click', function(event) {
-            clearOverlays();
-            placeMarker(event.latLng);
-            updateFormLocation(event.latLng);
-          });
-          }
-        });
-      });
 
   %div
     = f.text_field :latitude, :style => "display: none;"
