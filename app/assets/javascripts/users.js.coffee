@@ -84,6 +84,7 @@ jQuery ->
       google.maps.event.addListener newMap, "click", (event) ->
         $('#near_people').removeClass('hidden')
         $('#near_people').addClass('visible')
+        $('#near_information').addClass('hidden')
         placeNearMarkers(newMap)
         google.maps.event.clearListeners(newMap, "click")
 

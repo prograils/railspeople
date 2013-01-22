@@ -1,6 +1,6 @@
 = image_tag @user.avatar.url(:medium), :class => 'img-circle' if @user.avatar?
 %span.profile-username= @user.to_s
-%br/
+%br
 = image_tag("famfamfam_flags/#{@user.country.iso.downcase}.png")
 = @user.country.printable_name
 / %p= gmaps({"map_options" => {"auto_adjust" => false, "zoom" => @user.zoom, "center_latitude" => @user.latitude, "center_longitude" => @user.longitude}, "markers" => {"data" => @json }})
@@ -13,8 +13,8 @@
 #new_user_map
   #user_map
 
-%br/
-%br/
+%br
+%br
 .span6
   - if @user.bio.present?
     .bio
@@ -31,7 +31,7 @@
         .work 
         %i.icon-star
         %span Looking for full-time work
-  %br/
+  %br
   - if email_is_visible?(@user)
     %i.icon-envelope
     %strong Email:
@@ -55,14 +55,16 @@
     - if @user.stackoverflow.present?
       %p Stackoverflow:
       %p= @user.stackoverflow
+#near_information.offser6
+  %h4 Click on the map to see closest Rails users
 #near_people.offset6.hidden
   %h3 People near #{@user.first_name}:
   - @near.each do |n|
     %p
       =link_to n.to_s, user_path(n)
-      %br/
+      %br
       = image_tag("famfamfam_flags/#{n.country.iso.downcase}.png")
       = n.country.printable_name
-      %br/
+      %br
       = pluralize n.distance_from([resource.latitude, resource.longitude]).round(1), "mile"
       away
