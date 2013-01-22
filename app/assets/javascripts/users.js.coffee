@@ -33,7 +33,12 @@ jQuery ->
             position: latLng
             map: map
             draggable: false
-          ) 
+          )
+          # infoWindow = new google.maps.InfoWindow()
+          # google.maps.event.addListener marker, "click", ->
+          #   markerContent = "bla"
+          #   infoWindow.setContent markerContent
+          #   infoWindow.open map, marker
 
   #registration/new
   # Update form attributes with given coordinates
@@ -80,6 +85,7 @@ jQuery ->
         $('#near_people').removeClass('hidden')
         $('#near_people').addClass('visible')
         placeNearMarkers(newMap)
+        google.maps.event.clearListeners(newMap, "click")
 
     if document.getElementById("registration_map")
       #gain acces to country coordinates after select
@@ -116,5 +122,4 @@ jQuery ->
               clearOverlays()
               placeMarker event.latLng, map
               updateFormLocation event.latLng, map
-
 
