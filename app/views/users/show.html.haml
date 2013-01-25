@@ -78,6 +78,7 @@
           %p
             = image_tag 'linkedin.png', :size => "40x40"
             = link_to 'LinkedIn', @user.linkedin
+            = @user.linkedin.inspect
         - if @user.bitbucket.present?
           %p
             = image_tag 'bitbucket.png', :size => "40x40"
@@ -94,9 +95,7 @@
           %p
             = image_tag 'jabber.png', :size => "40x40"
             = @user.jabber
-#near_information.offset6
-  %h4 Click on the map to see closest Rails users
-#near_people.offset6.hidden
+#near_people.offset6
   %h3 People near #{@user.first_name}:
   - @near.each do |n|
     %p

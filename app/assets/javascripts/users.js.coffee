@@ -136,7 +136,5 @@ jQuery ->
         $("#user_latitude").val event.latLng.lat()
         $("#user_longitude").val event.latLng.lng()
         $("#user_zoom").val editMap.getZoom()
-        console.log $("#user_latitude").val()
-        console.log $("#user_longitude").val()
-
+        
 
