@@ -63,6 +63,21 @@
             = f.submit "Save", :class => 'btn btn-primary btn-warning', :id => 'password_sub'
             = link_to "Back", :back
 
+        #user_id{"data-url" => resource.id}
+        #user_lng{"data-url" => resource.longitude}
+        #user_lat{"data-url" => resource.latitude}
+        #user_zoom{"data-url" => resource.zoom}
+
+        =#edit map
+        #new_user_map
+          #edit_map
+        %div
+          = f.text_field :latitude, :style => "display: none;"
+        %div
+          = f.text_field :longitude, :style => "display: none;"
+        %div
+          = f.text_field :zoom, :style => "display: none;"
+        %br
 
         =# biography
         %section#skills.well

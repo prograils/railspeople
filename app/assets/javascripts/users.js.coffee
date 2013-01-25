@@ -5,19 +5,19 @@
 window.map
 jQuery ->
   #user/show
-  init = ->
+  init = (id, lat, lng, zoom) ->
     map_options =
-      zoom: $("#user_zoom").data('url')
-      center: new google.maps.LatLng($("#user_lat").data('url'), $("#user_lng").data('url'))
+      zoom: zoom
+      center: new google.maps.LatLng(lat, lng)
       mapTypeId: google.maps.MapTypeId.ROADMAP
 
-    newMap = new google.maps.Map(document.getElementById("user_map"), map_options)
+    newMap = new google.maps.Map(document.getElementById(id), map_options)
 
-  placeNormalMarker = (latLng, map) ->
+  placeNormalMarker = (latLng, map, drag) ->
     marker = new google.maps.Marker(
       position: latLng
       map: map
-      draggable: false
+      draggable: drag
     )
 
   placeNearMarkers = (map) ->
@@ -75,18 +75,18 @@ jQuery ->
   $(document).ready ->
     window.markersArray = []
     if document.getElementById("user_map")
-      newMap = init()
+      newMap = init("user_map", $("#user_lat").data('url'), $("#user_lng").data('url'), $("#user_zoom").data('url'))
       $('#user_map').addClass('gmaps4rails_map');
       $('#user_map').addClass('map_container');
       $('#user_map').addClass('google-maps');
       userMarker = new google.maps.LatLng($("#user_lat").data('url'), $("#user_lng").data('url'))
-      placeNormalMarker(userMarker, newMap)
-      google.maps.event.addListener newMap, "click", (event) ->
-        $('#near_people').removeClass('hidden')
-        $('#near_people').addClass('visible')
-        $('#near_information').addClass('hidden')
-        placeNearMarkers(newMap)
-        google.maps.event.clearListeners(newMap, "click")
+      placeNormalMarker(userMarker, newMap, false)
+      placeNearMarkers(newMap)
+      # google.maps.event.addListener newMap, "click", (event) ->
+      #   $('#near_people').removeClass('hidden')
+      #   $('#near_people').addClass('visible')
+      #   $('#near_information').addClass('hidden')
+      #   google.maps.event.clearListeners(newMap, "click")
 
     if document.getElementById("registration_map")
       #gain acces to country coordinates after select
@@ -113,14 +113,30 @@ jQuery ->
             $("#registration_map").addClass "gmaps4rails_map"
             $("#registration_map").addClass "map_container"
             $('#registration_map').addClass('google-maps');
-            map_options =
-              zoom: 5
-              center: new google.maps.LatLng(data.country.lat, data.country.lng)
-              mapTypeId: google.maps.MapTypeId.ROADMAP
-
-            map = new google.maps.Map(document.getElementById("registration_map"), map_options)
+            map = init("registration_map", data.country.lat, data.country.lng, 5)
             google.maps.event.addListener map, "click", (event) ->
               clearOverlays()
               placeMarker event.latLng, map
               updateFormLocation event.latLng, map
+    if document.getElementById("edit_map")
+      window.markersArray = []
+      window.map
+      $("#edit_map").addClass "gmaps4rails_map"
+      $("#edit_map").addClass "map_container"
+      $('#edit_map').addClass('google-maps');
+      editMap = init("edit_map", $("#user_lat").data('url'), $("#user_lng").data('url'), $("#user_zoom").data('url'))
+      latLng = new google.maps.LatLng($("#user_lat").data('url'), $("#user_lng").data('url'))
+      marker = new google.maps.Marker(
+        position: latLng
+        map: editMap
+        draggable: true
+      )
+      markersArray.push marker
+      google.maps.event.addListener marker, "dragend", (event) ->
+        $("#user_latitude").val event.latLng.lat()
+        $("#user_longitude").val event.latLng.lng()
+        $("#user_zoom").val editMap.getZoom()
+        console.log $("#user_latitude").val()
+        console.log $("#user_longitude").val()
+
 
