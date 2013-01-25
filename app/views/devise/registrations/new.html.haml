@@ -1,25 +1,30 @@
 %h2 Sign up
 = form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f|
   = devise_error_messages!
-  %h4 1. Tell us who you are
-  %div
-    = f.label :username
-    = f.text_field :username
-  %div
-    = f.label :first_name
-    = f.text_field :first_name
-  %div
-    = f.label :last_name
-    = f.text_field :last_name
-  %div
-    = f.label :email
-    = f.email_field :email
-  %div
-    = f.label :password
-    = f.password_field :password
-  %div
-    = f.label :password_confirmation
-    = f.password_field :password_confirmation
+  .row-fluid
+    %h4 1. Tell us who you are
+    .span10
+      .span4
+        %div
+          = f.label :username
+          = f.text_field :username
+        %div
+          = f.label :first_name
+          = f.text_field :first_name
+        %div
+          = f.label :last_name
+          = f.text_field :last_name
+      .span4
+        %div
+          = f.label :email
+          = f.email_field :email
+        %div
+          = f.label :password
+          = f.password_field :password
+        %div
+          = f.label :password_confirmation
+          = f.password_field :password_confirmation
+
 
   %h4 2. Tell us where you live
 
@@ -48,21 +53,47 @@
   %div
     = f.label :bio
     = f.text_area :bio
-  %div
-    = f.label :twitter
-    = f.text_field :twitter
-  %div
-    = f.label :facebook
-    = f.text_field :facebook
-  %div
-    = f.label :google_plus
-    = f.text_field :google_plus
-  %div
-    = f.label :github
-    = f.text_field :github
-  %div
-    = f.label :stackoverflow
-    = f.text_field :stackoverflow
+  .row-fluid
+    .span8
+      .span4
+        %div
+          = f.label :twitter
+          = f.text_field :twitter
+        %div
+          = f.label :facebook
+          = f.text_field :facebook
+        %div
+          = f.label :google_plus
+          = f.text_field :google_plus
+        %div
+          = f.label :github
+          = f.text_field :github
+        %div
+          = f.label :stackoverflow
+          = f.text_field :stackoverflow
+        %div
+          = f.label :flickr
+          = f.text_field :flickr
+      .span4
+        %div
+          = f.label :delicious
+          = f.text_field :delicious
+        %div
+          = f.label :linkedin
+          = f.text_field :linkedin
+        %div
+          = f.label :bitbucket
+          = f.text_field :bitbucket
+        %div
+          = f.label :gtalk
+          = f.text_field :gtalk
+        %div
+          = f.label :skype
+          = f.text_field :skype
+        %div
+          = f.label :jabber
+          = f.text_field :jabber
+
 
   %h4 4. Your privacy settings
   %p

@@ -40,7 +40,7 @@
             =f.label :avatar
             =f.file_field :avatar
           .act_buttons
-            = f.submit "Save", :class => 'btn btn-primary btn-warning'
+            = f.submit "Save", :class => 'btn btn-primary btn-warning', :id => 'username_sub'
             = link_to "Back", :back
 
         =# password
@@ -60,7 +60,7 @@
             = f.password_field :current_password
             %i (we need your current password to confirm your changes)
           .act_buttons
-            = f.submit "Save", :class => 'btn btn-primary btn-warning'
+            = f.submit "Save", :class => 'btn btn-primary btn-warning', :id => 'password_sub'
             = link_to "Back", :back
 
 
@@ -72,7 +72,7 @@
             = f.label :tag_names, "Tags"
             = f.text_field :tag_names
           .act_buttons
-            = f.submit "Save", :class => 'btn btn-primary btn-warning'
+            = f.submit "Save", :class => 'btn btn-primary btn-warning', :id => 'skills_sub'
             = link_to "Back", :back
 
         =# biography
@@ -83,7 +83,7 @@
             = f.label :bio
             = f.text_area :bio
           .act_buttons
-            = f.submit "Save", :class => 'btn btn-primary btn-warning'
+            = f.submit "Save", :class => 'btn btn-primary btn-warning', :id => 'biography_sub'
             = link_to "Back", :back
 
         =# blogs
@@ -95,7 +95,7 @@
             %br/
             = f.link_to_add t("add_next"), :blogs, :class => 'btn btn-small btn-primary'
           .act_buttons
-            = f.submit "Save", :class => 'btn btn-primary btn-warning'
+            = f.submit "Save", :class => 'btn btn-primary btn-warning', :id => 'blogs_sub'
             = link_to "Back", :back
 
         =# socials
@@ -117,8 +117,30 @@
           %div
             = f.label :stackoverflow
             = f.text_field :stackoverflow
+          %div
+            = f.label :flickr
+            = f.text_field :flickr
+          %div
+            = f.label :delicious
+            = f.text_field :delicious
+          %div
+            = f.label :linkedin
+            = f.text_field :linkedin
+          %div
+            = f.label :bitbucket
+            = f.text_field :bitbucket
+          %div
+            = f.label :gtalk
+            = f.text_field :gtalk
+          %div
+            = f.label :skype
+            = f.text_field :skype
+          %div
+            = f.label :jabber
+            = f.text_field :jabber
+
           .act_buttons
-            = f.submit "Save", :class => 'btn btn-primary btn-warning'
+            = f.submit "Save", :class => 'btn btn-primary btn-warning', :id => 'social_sub'
             = link_to "Back", :back
 
         =# cancel

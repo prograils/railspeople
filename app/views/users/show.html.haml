@@ -57,7 +57,6 @@
           %p
             = image_tag 'google_plus.png', :size => "40x40"
             = link_to 'Google+', @user.google_plus
-      .span4
         - if @user.github.present?
           %p
             = image_tag 'github.png', :size => "40x40"
@@ -66,6 +65,35 @@
           %p
             = image_tag 'stackoverflow.png', :size => "40x40"
             = link_to 'Stack Overflow', @user.stackoverflow
+        - if @user.flickr.present?
+          %p
+            = image_tag 'flickr.png', :size => "40x40"
+            = link_to 'Flickr', @user.flickr
+      .span4
+        - if @user.delicious.present?
+          %p
+            = image_tag 'delicious.png', :size => "40x40"
+            = link_to 'Delicious', @user.delicious
+        - if @user.linkedin.present?
+          %p
+            = image_tag 'linkedin.png', :size => "40x40"
+            = link_to 'LinkedIn', @user.linkedin
+        - if @user.bitbucket.present?
+          %p
+            = image_tag 'bitbucket.png', :size => "40x40"
+            = link_to 'Bitbucket', @user.bitbucket
+        - if @user.gtalk.present?
+          %p
+            = image_tag 'gtalk.png', :size => "40x40"
+            = @user.gtalk
+        - if @user.skype.present?
+          %p
+            = image_tag 'skype.png', :size => "40x40"
+            = @user.skype
+        - if @user.jabber.present?
+          %p
+            = image_tag 'jabber.png', :size => "40x40"
+            = @user.jabber
 #near_information.offset6
   %h4 Click on the map to see closest Rails users
 #near_people.offset6.hidden

@@ -45,6 +45,10 @@ class User < ActiveRecord::Base
   validates :google_plus, :url => {:allow_blank => true, :verify => [:resolve_redirects]}
   validates :github, :url => {:allow_blank => true, :verify => [:resolve_redirects]}
   validates :stackoverflow, :url => {:allow_blank => true, :verify => [:resolve_redirects]}
+  validates :flickr, :url => {:allow_blank => true, :verify => [:resolve_redirects]}
+  validates :delicious, :url => {:allow_blank => true, :verify => [:resolve_redirects]}
+  validates :linkedin, :url => {:allow_blank => true, :verify => [:resolve_redirects]}
+  validates :bitbucket, :url => {:allow_blank => true, :verify => [:resolve_redirects]}
   validates :looking_for_work, :inclusion=>{:in=>(User::WORK_TYPES.values)}
   validates :email_privacy, :inclusion=>{:in=>(User::EMAIL_PRIVACY.values)}
 
