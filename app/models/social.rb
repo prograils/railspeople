@@ -15,12 +15,10 @@ class Social < ActiveRecord::Base
     # self.title = $1
     # self.save!
     splitted = self.url.split(".")
-    logger.debug splitted.inspect
     if splitted[0].include? "www"
       self.title = splitted[1]
     else
       splitted = splitted[0].split("//")
-      logger.debug splitted.inspect
       if splitted[0].include? "http"
         self.title = splitted[1]
       end
