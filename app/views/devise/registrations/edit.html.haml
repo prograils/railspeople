@@ -4,19 +4,21 @@
   .span3
     %ul.nav.nav-list.navigation.affix
       %li
-        %a{:href => "#user"} Change my username
+        = link_to "Change my username", "#user"
       %li
-        %a{:href => "#password"} Change my password
+        = link_to "Change my password", "#password"
       %li
-        %a{:href => "#biography"} My biography
+        = link_to "Change my location", "#password"
       %li
-        %a{:href => "#skills"} My abilities/skills
+        = link_to "My biography", "#biography"
       %li
-        %a{:href => "#blogs"} Manage blogs
+        = link_to "My abilities/skills", "#skills"
       %li
-        %a{:href => "#socials"} Social links
+        = link_to "Manage blogs", "#socials"
       %li
-        %a{:href => "#cancel"} Cancel my account
+        = link_to "Social links", "#socials"
+      %li
+        = link_to "Cancel my account", "#cancel"
   .span9
     = form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f|
       = devise_error_messages!
@@ -69,8 +71,11 @@
         #user_zoom{"data-url" => resource.zoom}
 
         =#edit map
-        #new_user_map
-          #edit_map
+        %section#map.well
+          %div.page-header
+            = "Change my location"
+          #new_user_map
+            #edit_map
         %div
           = f.text_field :latitude, :style => "display: none;"
         %div
@@ -117,42 +122,42 @@
         %section#socials.well
           %div.page-header
             = "Add social profiles"
-          %div
-            = f.label :twitter
-            = f.text_field :twitter
-          %div
-            = f.label :facebook
-            = f.text_field :facebook
-          %div
-            = f.label :google_plus
-            = f.text_field :google_plus
-          %div
-            = f.label :github
-            = f.text_field :github
-          %div
-            = f.label :stackoverflow
-            = f.text_field :stackoverflow
-          %div
-            = f.label :flickr
-            = f.text_field :flickr
-          %div
-            = f.label :delicious
-            = f.text_field :delicious
-          %div
-            = f.label :linkedin
-            = f.text_field :linkedin
-          %div
-            = f.label :bitbucket
-            = f.text_field :bitbucket
-          %div
-            = f.label :gtalk
-            = f.text_field :gtalk
-          %div
-            = f.label :skype
-            = f.text_field :skype
-          %div
-            = f.label :jabber
-            = f.text_field :jabber
+          / %div
+          /   = f.label :twitter
+          /   = f.text_field :twitter
+          / %div
+          /   = f.label :facebook
+          /   = f.text_field :facebook
+          / %div
+          /   = f.label :google_plus
+          /   = f.text_field :google_plus
+          / %div
+          /   = f.label :github
+          /   = f.text_field :github
+          / %div
+          /   = f.label :stackoverflow
+          /   = f.text_field :stackoverflow
+          / %div
+          /   = f.label :flickr
+          /   = f.text_field :flickr
+          / %div
+          /   = f.label :delicious
+          /   = f.text_field :delicious
+          / %div
+          /   = f.label :linkedin
+          /   = f.text_field :linkedin
+          / %div
+          /   = f.label :bitbucket
+          /   = f.text_field :bitbucket
+          / %div
+          /   = f.label :gtalk
+          /   = f.text_field :gtalk
+          / %div
+          /   = f.label :skype
+          /   = f.text_field :skype
+          / %div
+          /   = f.label :jabber
+          /   = f.text_field :jabber
 
           .act_buttons
             = f.submit "Save", :class => 'btn btn-primary btn-warning', :id => 'social_sub'

@@ -45,44 +45,6 @@
           = link_to "#{blog.url}", blog.url
     .span8
       .span4
-        - if @user.twitter.present?
-          %p 
-            = image_tag 'twitter.png', :size => "40x40"
-            = link_to 'Twitter', @user.twitter
-        - if @user.facebook.present?
-          %p 
-            = image_tag 'facebook.png', :size => "40x40"
-            = link_to 'Facebook', @user.facebook
-        - if @user.google_plus.present?
-          %p
-            = image_tag 'google_plus.png', :size => "40x40"
-            = link_to 'Google+', @user.google_plus
-        - if @user.github.present?
-          %p
-            = image_tag 'github.png', :size => "40x40"
-            = link_to 'GitHub', @user.github
-        - if @user.stackoverflow.present?
-          %p
-            = image_tag 'stackoverflow.png', :size => "40x40"
-            = link_to 'Stack Overflow', @user.stackoverflow
-        - if @user.flickr.present?
-          %p
-            = image_tag 'flickr.png', :size => "40x40"
-            = link_to 'Flickr', @user.flickr
-      .span4
-        - if @user.delicious.present?
-          %p
-            = image_tag 'delicious.png', :size => "40x40"
-            = link_to 'Delicious', @user.delicious
-        - if @user.linkedin.present?
-          %p
-            = image_tag 'linkedin.png', :size => "40x40"
-            = link_to 'LinkedIn', @user.linkedin
-            = @user.linkedin.inspect
-        - if @user.bitbucket.present?
-          %p
-            = image_tag 'bitbucket.png', :size => "40x40"
-            = link_to 'Bitbucket', @user.bitbucket
         - if @user.gtalk.present?
           %p
             = image_tag 'gtalk.png', :size => "40x40"
@@ -95,6 +57,15 @@
           %p
             = image_tag 'jabber.png', :size => "40x40"
             = @user.jabber
+      .span4
+        - if @user.socials.any?
+          - @user.socials.each do |social|
+            - if FileTest.exist?(image_path("#{social.title}.png"))
+              = image_tag("#{social.title}.png", :size => "40x40")
+            - else
+              = image_tag("question.png", :size => "40x40")
+            = link_to "#{social.title}", social.url
+
 #near_people.offset6
   %h3 People near #{@user.first_name}:
   - @near.each do |n|

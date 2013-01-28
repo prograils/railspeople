@@ -1,9 +1,9 @@
 %h2 Sign up
-= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f|
+= nested_form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f|
   = devise_error_messages!
+  %h4 1. Tell us who you are
   .row-fluid
-    %h4 1. Tell us who you are
-    .span10
+    .well.span10
       .span4
         %div
           = f.label :username
@@ -28,12 +28,13 @@
 
   %h4 2. Tell us where you live
 
-  %div
-    = f.label :country_id
-    = f.select :country_id, Country.order('name ASC').map { |c| [c.printable_name, c.id] }, :prompt => true
+  .row-fluid
+    .well.span10
+      = f.label :country_id
+      = f.select :country_id, Country.order('name ASC').map { |c| [c.printable_name, c.id] }, :prompt => true
 
-  #new_user_map
-    #registration_map
+      #new_user_map
+        #registration_map
 
   #country_info
 
@@ -44,88 +45,75 @@
   %div
     = f.text_field :zoom, :style => "display: none;"
   %br
-  %h4 3. And a bit about you...
 
-  %div
-    = f.label :avatar
-    = f.file_field :avatar 
-
-  %div
-    = f.label :bio
-    = f.text_area :bio
   .row-fluid
-    .span8
-      .span4
+    .well.span10
+      .span6
+        %h4 3. And a bit about you...
         %div
-          = f.label :twitter
-          = f.text_field :twitter
+          = f.label :avatar
+          = f.file_field :avatar 
+
         %div
-          = f.label :facebook
-          = f.text_field :facebook
-        %div
-          = f.label :google_plus
-          = f.text_field :google_plus
-        %div
-          = f.label :github
-          = f.text_field :github
-        %div
-          = f.label :stackoverflow
-          = f.text_field :stackoverflow
-        %div
-          = f.label :flickr
-          = f.text_field :flickr
-      .span4
-        %div
-          = f.label :delicious
-          = f.text_field :delicious
-        %div
-          = f.label :linkedin
-          = f.text_field :linkedin
-        %div
-          = f.label :bitbucket
-          = f.text_field :bitbucket
+          = f.label :bio
+          = f.text_area :bio, :class => "input-xxlarge"
+      .span5
+        %h4 4. Social services
         %div
           = f.label :gtalk
-          = f.text_field :gtalk
+          = f.text_field :gtalk, :placeholder => "Nick"
         %div
           = f.label :skype
-          = f.text_field :skype
+          = f.text_field :skype, :placeholder => "Nick"
         %div
           = f.label :jabber
-          = f.text_field :jabber
+          = f.text_field :jabber, :placeholder => "Nick"
 
+        Services adress
+        = f.fields_for :socials do |s|
+          = s.text_field :url, :placeholder => "example: http://stackoverflow.com/", :class => "input-xxlarge"
+          = s.link_to_remove "Remove", :class => 'btn btn-small btn-danger'
+          %br
+          %br
+        = f.link_to_add "Add service", :socials, :class => 'btn btn-small btn-primary'
 
-  %h4 4. Your privacy settings
-  %p
-    %p Search visibility
-    =f.radio_button :search_visibility, true
-    Allow search engines to index my profile page (recommended)
-    %br/
-    =f.radio_button :search_visibility, false
-    Don't allow search engines to index my profile page
-  %p 
-    %p Email privacy
-    =f.radio_button :email_privacy, 2 
-    Anyone can see my email address
-    %br/
-    =f.radio_button :email_privacy, 1
-    Only logged-in users can see my email address
-    %br/
-    =f.radio_button :email_privacy, 0
-    Noone can ever see my email address
-  %p
-    %p IM privacy
-    =f.radio_button :im_privacy, false
-    Only logged-in users can see my IM details
-    %br/
-    =f.radio_button :im_privacy, true
-    Anyone can see my IM details
-  %h4 5. Your skills and interests
+  .row-fluid
+    .well.span10
+      .span5
+        %h4 5. Your privacy settings
+        %p
+          %p Search visibility
+          = f.radio_button :search_visibility, true
+          Allow search engines to index my profile page (recommended)
+          %br/
+          = f.radio_button :search_visibility, false
+          Don't allow search engines to index my profile page
+        %p 
+          %p Email privacy
+          = f.radio_button :email_privacy, 2 
+          Anyone can see my email address
+          %br/
+          = f.radio_button :email_privacy, 1
+          Only logged-in users can see my email address
+          %br/
+          = f.radio_button :email_privacy, 0
+          Noone can ever see my email address
+        %p
+          %p IM privacy
+          = f.radio_button :im_privacy, false
+          Only logged-in users can see my IM details
+          %br/
+          = f.radio_button :im_privacy, true
+          Anyone can see my IM details
+      .span5
+
+        %h4 6. Your skills and interests
+        %div
+          = f.label :tag_names, "Tags"
+          = f.text_field :tag_names, :placeholder => "rails computers programming", :class => "input-xxlarge"
+        %div
+          = f.label :looking_for_work, "Looking for work?"
+          = f.select :looking_for_work, {"Not looking for work at the moment" => 0, "Looking for freelance work" => 1, "Looking for fuil-time work" => 2}
   %div
-    = f.label :tag_names, "Tags"
-    = f.text_field :tag_names
-  %div
-    = f.label :looking_for_work, "Looking for work?"
-    = f.select :looking_for_work, {"Not looking for work at the moment" => 0, "Looking for freelance work" => 1, "Looking for fuil-time work" => 2}
-  %div= f.submit "Sign me up"
+    = f.submit "Sign me up"
 = render :partial => "devise/shared/links"

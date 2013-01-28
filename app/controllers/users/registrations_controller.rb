@@ -5,6 +5,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
     super
   end
 
+  def create
+    super
+    resource.socials.each { |s| s.user_id = current_user }
+  end
+
   def update
     # required for settings form to submit when password is left blank
     if (resource_params && resource_params[:password].blank?)
@@ -39,15 +44,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
       :zoom,
       :country_id,
       :bio,
-      :twitter,
-      :facebook,
-      :google_plus,
-      :github,
-      :stackoverflow,
-      :flickr,
-      :delicious,
-      :linkedin,
-      :bitbucket,
       :gtalk,
       :skype,
       :jabber,
@@ -57,7 +53,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
       :im_privacy,
       :email_privacy,
       :avatar,
-      :blogs_attributes =>[:id, :user_id, :title, :url, :_destroy]
+      :blogs_attributes =>[:id, :user_id, :title, :url, :_destroy],
+      :socials_attributes => [:id, :user_id, :title, :url, :_destroy]
     )
   end
   private :resource_params
