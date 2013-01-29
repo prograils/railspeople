@@ -75,5 +75,21 @@ describe User do
     @user.address.should include("60-575")
     @user.address.should include("Poland")
   end
+
+  describe "user should" do
+    before do
+      @user = FactoryGirl.create(:user)
+    end
+    it "accept nested socials" do
+      expect {
+        @user.update_attributes('socials_attributes' => {'0' => {'url'=>'http://rubyonrails.org/'}})
+      }.to change { Social.count }.by(1)
+    end
+    it "accept nested blogs" do
+      expect {
+        @user.update_attributes(:blogs_attributes => {'0' => {'url'=>'http://rubyonrails.org/', 'title' =>'rails', "_destroy"=>"false"}})
+      }.to change { Blog.count }.by(1)
+    end
+  end
 end
 

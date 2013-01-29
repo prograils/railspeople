@@ -93,12 +93,12 @@ describe "Users" do
     #TODO
     it "allows to change blogs without current password" do
     end
+    it "allows to change socials without current password" do
+    end
     it "allows to change social profiles without current password" do
-      fill_in "Twitter", :with => "http://rubyonrails.org/"
-      fill_in "Facebook", :with => "http://rubyonrails.org/"
-      fill_in "Google plus", :with => "http://rubyonrails.org/"
-      fill_in "Github", :with => "http://rubyonrails.org/"
-      fill_in "Stackoverflow", :with => "http://rubyonrails.org/"
+      fill_in "Gtalk", :with => "Bar"
+      fill_in "Skype", :with => "Bar"
+      fill_in "Jabber", :with => "Bar"
       click_button "social_sub"
       page.should have_content("You updated your account successfully")
     end
@@ -155,6 +155,14 @@ describe "Users" do
         page.should have_content "Email"
         page.should have_content @user_with_email_for_anyone.email
       end
+    end
+  end
+
+  describe "user show map" do
+    before do
+      @user = FactoryGirl.create(:user)
+      visit user_path(@user)
+      page.execute_script("init()")
     end
   end
 end
