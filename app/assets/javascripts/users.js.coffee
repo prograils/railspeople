@@ -136,7 +136,6 @@ jQuery ->
         $("#user_latitude").val event.latLng.lat()
         $("#user_longitude").val event.latLng.lng()
       google.maps.event.addListener editMap, "zoom_changed", (event) ->
-        $("#user_zoom").val editMap.getZoom()
-        console.log $("#user_zoom").val()
+        $("#new_zoom").val editMap.getZoom()
         
 

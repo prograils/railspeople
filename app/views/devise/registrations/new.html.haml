@@ -2,32 +2,31 @@
 = nested_form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f|
   = devise_error_messages!
   .row-fluid
-    .well.span10
-      %h4 1. Tell us who you are
-      .span4
-        %div
-          = f.label :username
-          = f.text_field :username
-        %div
-          = f.label :first_name
-          = f.text_field :first_name
-        %div
-          = f.label :last_name
-          = f.text_field :last_name
-      .span4
-        %div
-          = f.label :email
-          = f.email_field :email
-        %div
-          = f.label :password
-          = f.password_field :password
-        %div
-          = f.label :password_confirmation
-          = f.password_field :password_confirmation
+    .span3
+    .span9
+      .well.span8
+        %h4 1. Tell us who you are
+        .span4
+          %div
+            = f.label :username
+            = f.text_field :username
+          %div
+            = f.label :first_name
+            = f.text_field :first_name
+          %div
+            = f.label :last_name
+            = f.text_field :last_name
+        .span4
+          %div
+            = f.label :email
+            = f.email_field :email
+          %div
+            = f.label :password
+            = f.password_field :password
+          %div
+            = f.label :password_confirmation
+            = f.password_field :password_confirmation
 
-
-
-  .row-fluid
     .well.span10
       %h4 2. Tell us where you live
       = f.label :country_id
@@ -36,17 +35,16 @@
       #new_user_map
         #registration_map
 
-  #country_info
+      #country_info
 
-  %div
-    = f.text_field :latitude, :style => "display: none;"
-  %div
-    = f.text_field :longitude, :style => "display: none;"
-  %div
-    = f.text_field :zoom, :style => "display: none;"
-  %br
+      %div
+        = f.text_field :latitude, :style => "display: none;"
+      %div
+        = f.text_field :longitude, :style => "display: none;"
+      %div
+        = f.text_field :zoom, :style => "display: none;"
+      %br
 
-  .row-fluid
     .well.span10
       .span6
         %h4 3. And a bit about you...
@@ -77,7 +75,6 @@
           %br
         = f.link_to_add "Add service", :socials, :class => 'btn btn-small btn-primary'
 
-  .row-fluid
     .well.span10
       .span5
         %h4 5. Your privacy settings
