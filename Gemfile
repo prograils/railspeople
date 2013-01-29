@@ -21,6 +21,7 @@ gem 'bootswatch-rails'
 gem 'simple_form'
 gem 'nested_form', github: 'mlitwiniuk/nested_form', :branch => 'rails4_compatibility'
 gem 'mysql2'
+gem 'curb'
 
 # Gems used only for assets and not required
 # in production environments by default.
