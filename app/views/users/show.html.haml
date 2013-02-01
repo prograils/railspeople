@@ -19,18 +19,18 @@
   - if @user.bio.present?
     .bio
       %p= @user.bio
-      - if @user.tags.present?
-        - @user.tags.each do |tag|
-          =link_to tag.name, tag_path(:tag => tag.name), :class => 'btn btn-info btn-small btn-tags'
-      .clear
-      - if @user.looking_for_freelance_work?
-        .work 
-        %i.icon-star-empty
-        %span Looking for freelance work 
-      - elsif @user.looking_for_full_time_work?
-        .work 
-        %i.icon-star
-        %span Looking for full-time work
+  - if @user.tags.present?
+    - @user.tags.each do |tag|
+      =link_to tag.name, tag_path(:tag => tag.name), :class => 'btn btn-info btn-small btn-tags'
+    .clear
+  - if @user.looking_for_freelance_work?
+    .work 
+    %i.icon-star-empty
+    %span Looking for freelance work 
+  - elsif @user.looking_for_full_time_work?
+    .work
+    %i.icon-star
+    %span Looking for full-time work
   %br
   - if email_is_visible?(@user)
     %i.icon-envelope

@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+
+  ## TYPES
   WORK_TYPES = {
     :not_looking  => 0,
     :freelance => 1,
@@ -11,18 +13,18 @@ class User < ActiveRecord::Base
     :no_one => 0
   }
 
-  # WILL_PAGINATE
+  ## WILL_PAGINATE
   self.per_page = 20
 
   ## DEVISE
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  # GMAP
+  ## GMAP
   acts_as_gmappable :process_geocoding => false
   reverse_geocoded_by :latitude, :longitude
 
-  # PAPERCLIP\
+  ## PAPERCLIP
   has_attached_file :avatar, :styles => { :medium => "84x84#", :thumb => "40x40#" }
 
   ## SCOPES
@@ -39,15 +41,15 @@ class User < ActiveRecord::Base
   accepts_nested_attributes_for :blogs, :allow_destroy => true
 
   ## VALIDATIONS
-  validates_presence_of :email, :username, :first_name, :last_name, :country_id, :latitude, :longitude
+  validates_presence_of :email, :username, :first_name, :last_name, :country_id
   validates_presence_of :looking_for_work, :email_privacy
   validates_uniqueness_of :username
   validates :looking_for_work, :inclusion=>{:in=>(User::WORK_TYPES.values)}
   validates :email_privacy, :inclusion=>{:in=>(User::EMAIL_PRIVACY.values)}
 
-  ## AFTER/BEFORE
+  ## ATTR WRITERS
   attr_writer :tag_names
-  after_save :assign_tags
+
   ## BEFORE & AFTER
   after_validation :reverse_geocode  # auto-fetch address
   after_save :assign_tags
@@ -64,12 +66,12 @@ class User < ActiveRecord::Base
   def to_s
     "#{self.first_name} #{self.last_name}"
   end
-  
+
   def self.column_like(column, value)
     table = self.arel_table
     where(table[column].matches("%#{value}%"))
   end
-  
+
   def tag_names
    @tag_names || tags.map(&:name).join(' ')
   end
@@ -91,7 +93,7 @@ class User < ActiveRecord::Base
   end
 
   private
-  
+
   def assign_tags
     if @tag_names
       self.tags = @tag_names.split(/\s+/).map do |name|
