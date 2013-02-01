@@ -106,7 +106,7 @@
             = "Skills"
           %div
             = f.label :tag_names, "Tags"
-            = f.text_field :tag_names
+            = f.text_field :tag_names, :placeholder => "rails computers programming", :class => "input-xxlarge"
           .act_buttons
             = f.submit "Save", :class => 'btn btn-primary btn-warning', :id => 'skills_sub'
             = link_to "Back", :back
@@ -139,13 +139,13 @@
             = "Add social profiles"
           %div
             = f.label :gtalk
-            = f.text_field :gtalk
+            = f.text_field :gtalk, :placeholder => "Nick"
           %div
             = f.label :skype
-            = f.text_field :skype
+            = f.text_field :skype, :placeholder => "Nick"
           %div
             = f.label :jabber
-            = f.text_field :jabber
+            = f.text_field :jabber, :placeholder => "Nick"
           %br
           Services adress
           %br

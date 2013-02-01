@@ -1,6 +1,6 @@
 .blog
   .first-line
-    = f.input :url, :input_html => {:placeholder => f.object.class.human_attribute_name(:url)}, :wrapper => :simple
+    = f.input :url, :placeholder => "Url", :class => "input-xxlarge"
   .remove-button
     = f.link_to_remove "[-] Remove", :data => {:confirm => "Are you sure?"}, :class => 'btn btn-small btn-danger'
   %hr
