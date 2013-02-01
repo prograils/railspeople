@@ -18,6 +18,8 @@
       %li
         = link_to "Social links", "#socials"
       %li
+        = link_to "Privacy settings", "#privacy"
+      %li
         = link_to "Cancel my account", "#cancel"
   .span9
     = form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f|
@@ -140,6 +142,39 @@
 
           .act_buttons
             = f.submit "Save", :class => 'btn btn-primary btn-warning', :id => 'social_sub'
+            = link_to "Back", :back
+
+        =# privacy settings
+        %section#privacy.well
+          %div.page-header
+            = "Manage My privacy settings"
+          %p
+            %p Search visibility
+            = f.radio_button :search_visibility, true
+            Allow search engines to index my profile page (recommended)
+            %br/
+            = f.radio_button :search_visibility, false
+            Don't allow search engines to index my profile page
+          %p
+            %p Email privacy
+            = f.radio_button :email_privacy, 2
+            Anyone can see my email address
+            %br/
+            = f.radio_button :email_privacy, 1
+            Only logged-in users can see my email address
+            %br/
+            = f.radio_button :email_privacy, 0
+            Noone can ever see my email address
+          %p
+            %p IM privacy
+            = f.radio_button :im_privacy, false
+            Only logged-in users can see my IM details
+            %br/
+            = f.radio_button :im_privacy, true
+            Anyone can see my IM details
+
+          .act_buttons
+            = f.submit "Save", :class => 'btn btn-primary btn-warning', :id => 'username_sub'
             = link_to "Back", :back
 
         =# cancel

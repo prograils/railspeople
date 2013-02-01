@@ -2,6 +2,12 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
+sections = $("form#new_user").find('#socials h4, #skills h4, #work h4, #privacy h4, #avatar h4')
+sections.click ->
+  $(this).parent().find('.content').toggle();
+
+sections.click()
+
 window.map
 jQuery ->
   #user/show
@@ -46,7 +52,7 @@ jQuery ->
     $("#user_latitude").val latLng.lat()
     $("#user_longitude").val latLng.lng()
     $("#user_zoom").val map.getZoom()
-  
+
   # Add a marker with an open infowindow
   placeMarker = (latLng, map) ->
     marker = new google.maps.Marker(
@@ -58,7 +64,7 @@ jQuery ->
     # Set and open infowindow
     infowindow = new google.maps.InfoWindow(content: "<div class=\"popup\"><h2>Awesome!</h2><p>Drag me and adjust the zoom level.</p>")
     infowindow.open map, marker
-        
+
     # Listen to drag & drop
     google.maps.event.addListener marker, "dragend", ->
       updateFormLocation @getPosition()
@@ -100,7 +106,7 @@ jQuery ->
           complete: ->
 
           success: (data, textStatus, xhr) ->
-            
+
             # On click, clear markers, place a new one, update coordinates in the form
             # map.callback = function() {
             #   google.maps.event.addListener(map, 'click', function(event) {
@@ -137,5 +143,5 @@ jQuery ->
         $("#user_longitude").val event.latLng.lng()
       google.maps.event.addListener editMap, "zoom_changed", (event) ->
         $("#new_zoom").val editMap.getZoom()
-        
+
 
