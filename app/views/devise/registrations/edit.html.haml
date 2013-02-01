@@ -8,7 +8,9 @@
       %li
         = link_to "Change my password", "#password"
       %li
-        = link_to "Change my location", "#password"
+        = link_to "Avatar", "#avatar"
+      %li
+        = link_to "Change my location", "#map"
       %li
         = link_to "My biography", "#biography"
       %li
@@ -17,6 +19,8 @@
         = link_to "Manage blogs", "#blogs"
       %li
         = link_to "Social links", "#socials"
+      %li
+        = link_to "Privacy settings", "#privacy"
       %li
         = link_to "Cancel my account", "#cancel"
   .span9
@@ -76,15 +80,27 @@
             = "Change my location"
           #new_user_map
             #edit_map
-        %div
-          = f.text_field :latitude, :style => "display: none;"
-        %div
-          = f.text_field :longitude, :style => "display: none;"
-        %div
-          = f.text_field :zoom, :style => "display: none;", :id => "new_zoom"
-        %br
+          %div
+            = f.text_field :latitude, :style => "display: none;"
+          %div
+            = f.text_field :longitude, :style => "display: none;"
+          %div
+            = f.text_field :zoom, :style => "display: none;", :id => "new_zoom"
+          %br
 
-        =# biography
+        =# avatar
+        %section#avatar.well
+          %div.page-header
+            = "Avatar"
+          %div
+            = f.label :avatar
+            = f.file_field :avatar
+          %br
+          .act_buttons
+            = f.submit "Save", :class => 'btn btn-primary btn-warning', :id => 'avatar_sub'
+            = link_to "Back", :back
+
+        =# skills
         %section#skills.well
           %div.page-header
             = "Skills"
@@ -112,7 +128,6 @@
             = "Manage my blogs"
           = simple_nested_form_for resource do |f|
             = f.fields_for :blogs
-            %br/
             = f.link_to_add t("add_next"), :blogs, :class => 'btn btn-small btn-primary'
           .act_buttons
             = f.submit "Save", :class => 'btn btn-primary btn-warning', :id => 'blogs_sub'
@@ -137,9 +152,41 @@
           = simple_nested_form_for resource do |f|
             = f.fields_for :socials
             = f.link_to_add "Add service", :socials, :class => 'btn btn-small btn-primary'
-
           .act_buttons
             = f.submit "Save", :class => 'btn btn-primary btn-warning', :id => 'social_sub'
+            = link_to "Back", :back
+
+        =# privacy settings
+        %section#privacy.well
+          %div.page-header
+            = "Manage My privacy settings"
+          %p
+            %p Search visibility
+            = f.radio_button :search_visibility, true
+            Allow search engines to index my profile page (recommended)
+            %br/
+            = f.radio_button :search_visibility, false
+            Don't allow search engines to index my profile page
+          %p
+            %p Email privacy
+            = f.radio_button :email_privacy, 2
+            Anyone can see my email address
+            %br/
+            = f.radio_button :email_privacy, 1
+            Only logged-in users can see my email address
+            %br/
+            = f.radio_button :email_privacy, 0
+            Noone can ever see my email address
+          %p
+            %p IM privacy
+            = f.radio_button :im_privacy, false
+            Only logged-in users can see my IM details
+            %br/
+            = f.radio_button :im_privacy, true
+            Anyone can see my IM details
+
+          .act_buttons
+            = f.submit "Save", :class => 'btn btn-primary btn-warning', :id => 'username_sub'
             = link_to "Back", :back
 
         =# cancel

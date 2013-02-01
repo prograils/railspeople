@@ -15,6 +15,12 @@
   margin-right: 10px;
 }
 #edit_user{
+  input.string.url{
+    width: 95%;
+  }
+  section.well{
+      padding-top: 2px;
+    }
   label{
     float: left;
     width: 200px;
@@ -30,9 +36,7 @@
   .blog{
     position: relative;
     .remove-button{
-      position: absolute;
-      top: 0px;
-      right: 0px
+      position: relative;
     }
   }
   .act_buttons
@@ -136,6 +140,10 @@ textarea{
 
 .profile-username {
   font-size: 30px;
+}
+
+hr{
+  margin: 10px 0px;
 }
 
 

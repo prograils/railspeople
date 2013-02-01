@@ -1,12 +1,12 @@
 %h2 Sign up
 = nested_form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f|
   = devise_error_messages!
-  .row-fluid
+  .row-fluid#general
     .span3
-    .span9
-      .well.span8
-        %h4 1. Tell us who you are
-        .span4
+    .span6.well
+      %h4 1. Tell us who you are
+      .content
+        .span6
           %div
             = f.label :username
             = f.text_field :username
@@ -16,7 +16,7 @@
           %div
             = f.label :last_name
             = f.text_field :last_name
-        .span4
+        .span5
           %div
             = f.label :email
             = f.email_field :email
@@ -26,37 +26,49 @@
           %div
             = f.label :password_confirmation
             = f.password_field :password_confirmation
+    .span3
 
-    .well.span10
+  .row-fluid#location
+    .span3
+    .span6.well
       %h4 2. Tell us where you live
-      = f.label :country_id
-      = f.select :country_id, Country.order('name ASC').map { |c| [c.printable_name, c.id] }, :prompt => true
+      .content
+        %div
+          = f.label :country_id
+          = f.select :country_id, Country.order('name ASC').map { |c| [c.printable_name, c.id] }, :prompt => true
 
-      #new_user_map
-        #registration_map
+        #new_user_map
+          #registration_map
 
-      #country_info
+        #country_info
 
-      %div
-        = f.text_field :latitude, :style => "display: none;"
-      %div
-        = f.text_field :longitude, :style => "display: none;"
-      %div
-        = f.text_field :zoom, :style => "display: none;"
-      %br
+        %div
+          = f.text_field :latitude, :style => "display: none;"
+        %div
+          = f.text_field :longitude, :style => "display: none;"
+        %div
+          = f.text_field :zoom, :style => "display: none;"
+        %br
+    .span3
 
-    .well.span10
-      .span6
-        %h4 3. And a bit about you...
+  .row-fluid#avatar
+    .span3
+    .span6.well
+      %h4 3. And a bit about you...
+      .content
         %div
           = f.label :avatar
-          = f.file_field :avatar 
-
+          = f.file_field :avatar
         %div
           = f.label :bio
           = f.text_area :bio, :class => "input-xxlarge"
-      .span5
-        %h4 4. Social services
+    .span3
+
+  .row-fluid#socials
+    .span3
+    .span6.well
+      %h4 4. Social services
+      .content
         %div
           = f.label :gtalk
           = f.text_field :gtalk, :placeholder => "Nick"
@@ -74,10 +86,32 @@
           %br
           %br
         = f.link_to_add "Add service", :socials, :class => 'btn btn-small btn-primary'
+    .span3
 
-    .well.span10
-      .span5
-        %h4 5. Your privacy settings
+  .row-fluid#skills
+    .span3
+    .span6.well
+      %h4 5. Your skills and interests
+      .content
+        %div
+          = f.label :tag_names, "Tags"
+          = f.text_field :tag_names, :placeholder => "rails computers programming", :class => "input-xxlarge"
+    .span3
+
+  .row-fluid#work
+    .span3
+    .span6.well
+      %h4 6. Looking for work?
+      .content
+        %div
+          = f.select :looking_for_work, {"Not looking for work at the moment" => 0, "Looking for freelance work" => 1, "Looking for fuil-time work" => 2}
+    .span3
+
+  .row-fluid#privacy
+    .span3
+    .span6.well
+      %h4 5. Your privacy settings
+      .content
         %p
           %p Search visibility
           = f.radio_button :search_visibility, true
@@ -85,9 +119,9 @@
           %br/
           = f.radio_button :search_visibility, false
           Don't allow search engines to index my profile page
-        %p 
+        %p
           %p Email privacy
-          = f.radio_button :email_privacy, 2 
+          = f.radio_button :email_privacy, 2
           Anyone can see my email address
           %br/
           = f.radio_button :email_privacy, 1
@@ -102,15 +136,11 @@
           %br/
           = f.radio_button :im_privacy, true
           Anyone can see my IM details
-      .span5
+    .span3
 
-        %h4 6. Your skills and interests
-        %div
-          = f.label :tag_names, "Tags"
-          = f.text_field :tag_names, :placeholder => "rails computers programming", :class => "input-xxlarge"
-        %div
-          = f.label :looking_for_work, "Looking for work?"
-          = f.select :looking_for_work, {"Not looking for work at the moment" => 0, "Looking for freelance work" => 1, "Looking for fuil-time work" => 2}
-  %div
-    = f.submit "Sign me up"
+  .row-fluid
+    .span3
+    .span6
+      = f.submit "Sign me up"
+    .span3
 = render :partial => "devise/shared/links"
