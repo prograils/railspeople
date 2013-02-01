@@ -20,6 +20,8 @@
       %li
         = link_to "Social links", "#socials"
       %li
+        = link_to "Work", "#work"
+      %li
         = link_to "Privacy settings", "#privacy"
       %li
         = link_to "Cancel my account", "#cancel"
@@ -154,6 +156,17 @@
             = f.link_to_add "Add service", :socials, :class => 'btn btn-small btn-primary'
           .act_buttons
             = f.submit "Save", :class => 'btn btn-primary btn-warning', :id => 'social_sub'
+            = link_to "Back", :back
+
+        =# work
+        %section#work.well
+          %div.page-header
+            = "Manage My work settings"
+          Looking for work?
+          %div
+            = f.select :looking_for_work, {"I'm not looking for work at the moment" => 0, "I'm looking for freelance work" => 1, "I'm looking for full-time work" => 2}
+          .act_buttons
+            = f.submit "Save", :class => 'btn btn-primary btn-warning', :id => 'work_sub'
             = link_to "Back", :back
 
         =# privacy settings
