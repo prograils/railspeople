@@ -7,6 +7,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def create
     super
+    if resource.latitude.nil? || resource.longitude.nil?
+      @country = Country.find(resource.country_id)
+      resource.update_attributes(:latitude => @country.lat, :longitude => @country.lng, :zoom => 6)
+    end
     resource.socials.each { |s| s.user_id = current_user }
   end
 
