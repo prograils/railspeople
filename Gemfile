@@ -32,7 +32,11 @@ group :assets do
   gem 'less-rails', github: 'metaskills/less-rails'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  gem 'therubyracer', platforms: :ruby
+  #gem 'therubyracer', platforms: :ruby
+  #gem "therubyracer", :require => 'v8'
+  #gem 'libv8', '3.11.8.3', platform: :ruby
+  gem 'libv8', '3.11.8.4', :platform => :ruby
+  gem 'therubyracer', '0.11.0', :platforms => :ruby
 
   gem 'uglifier', '>= 1.0.3'
 end
