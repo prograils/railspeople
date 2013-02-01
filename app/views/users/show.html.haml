@@ -40,9 +40,11 @@
     %h3 Finding #{@user.first_name}
     - if @user.blogs.any?
       %p 
-        Blog:
+        Blogs:
+        %ul
         - @user.blogs.each do |blog|
-          = link_to "#{blog.url}", blog.url
+          %li
+            = link_to "#{blog.title}", blog.url
     .span8
       .span4
         - if @user.gtalk.present?

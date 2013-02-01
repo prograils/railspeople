@@ -21,11 +21,9 @@ describe "Users" do
       select @country.printable_name, :from => 'user[country_id]'
 
       fill_in "Bio", :with => 'some description text ...'
-      fill_in "Twitter", :with => "http://rubyonrails.org/"
-      fill_in "Facebook", :with => "http://rubyonrails.org/"
-      fill_in "Google plus", :with => "http://rubyonrails.org/"
-      fill_in "Github", :with => 'http://rubyonrails.org/'
-      fill_in "Stackoverflow", :with => "http://rubyonrails.org/"
+      fill_in "Gtalk", :with => "nick"
+      fill_in "Skype", :with => "nick"
+      fill_in "Jabber", :with => "nick"
 
       click_button "Sign me up"
       page.should have_content("Welcome! You have signed up successfully.")
@@ -50,7 +48,7 @@ describe "Users" do
 
   describe "GET /users/edit" do
     before do
-      user = FactoryGirl.create(:user, :email => "alindeman@example.com",
+      user = FactoryGirl.create(:user, :email => "alinde@example.com",
                          :password => "ilovegrapes", :password_confirmation => 'ilovegrapes')
       sign_in(user)
       page.should have_content("Signed in successfully.")
@@ -90,16 +88,28 @@ describe "Users" do
       click_button "biography_sub"
       page.should have_content("You updated your account successfully")
     end
-    #TODO
-    it "allows to change blogs without current password" do
-    end
-    it "allows to change socials without current password" do
-    end
     it "allows to change social profiles without current password" do
       fill_in "Gtalk", :with => "Bar"
       fill_in "Skype", :with => "Bar"
       fill_in "Jabber", :with => "Bar"
       click_button "social_sub"
+      page.should have_content("You updated your account successfully")
+    end
+    #NESTED ATTRIBUTES
+    it "allows to change blogs without current password" do #, :js => true do
+      click_on("Add next")
+      within "fields" do
+        fill_in "Url", :with => "http://rubyonrails.org/"
+      end
+      click_button "Save"
+      page.should have_content("You updated your account successfully")
+    end
+    it "allows to change socials without current password" do #, :js => true do
+      click_on("Add service")
+      within "fields" do
+        fill_in "Url", :with => "http://rubyonrails.org/"
+      end
+      click_button "Save"
       page.should have_content("You updated your account successfully")
     end
   end
