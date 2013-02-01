@@ -8,8 +8,6 @@
       %li
         = link_to "Change my password", "#password"
       %li
-        = link_to "Avatar", "#avatar"
-      %li
         = link_to "Change my location", "#map"
       %li
         = link_to "My biography", "#biography"
@@ -89,18 +87,6 @@
           %div
             = f.text_field :zoom, :style => "display: none;", :id => "new_zoom"
           %br
-
-        =# avatar
-        %section#avatar.well
-          %div.page-header
-            = "Avatar"
-          %div
-            = f.label :avatar
-            = f.file_field :avatar
-          %br
-          .act_buttons
-            = f.submit "Save", :class => 'btn btn-primary btn-warning', :id => 'avatar_sub'
-            = link_to "Back", :back
 
         =# skills
         %section#skills.well
