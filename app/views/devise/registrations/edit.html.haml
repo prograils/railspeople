@@ -8,6 +8,8 @@
       %li
         = link_to "Change my password", "#password"
       %li
+        = link_to "Avatar", "#avatar"
+      %li
         = link_to "Change my location", "#map"
       %li
         = link_to "My biography", "#biography"
@@ -78,15 +80,27 @@
             = "Change my location"
           #new_user_map
             #edit_map
-        %div
-          = f.text_field :latitude, :style => "display: none;"
-        %div
-          = f.text_field :longitude, :style => "display: none;"
-        %div
-          = f.text_field :zoom, :style => "display: none;", :id => "new_zoom"
-        %br
+          %div
+            = f.text_field :latitude, :style => "display: none;"
+          %div
+            = f.text_field :longitude, :style => "display: none;"
+          %div
+            = f.text_field :zoom, :style => "display: none;", :id => "new_zoom"
+          %br
 
-        =# biography
+        =# avatar
+        %section#avatar.well
+          %div.page-header
+            = "Avatar"
+          %div
+            = f.label :avatar
+            = f.file_field :avatar
+          %br
+          .act_buttons
+            = f.submit "Save", :class => 'btn btn-primary btn-warning', :id => 'avatar_sub'
+            = link_to "Back", :back
+
+        =# skills
         %section#skills.well
           %div.page-header
             = "Skills"
@@ -114,7 +128,6 @@
             = "Manage my blogs"
           = simple_nested_form_for resource do |f|
             = f.fields_for :blogs
-            %br/
             = f.link_to_add t("add_next"), :blogs, :class => 'btn btn-small btn-primary'
           .act_buttons
             = f.submit "Save", :class => 'btn btn-primary btn-warning', :id => 'blogs_sub'
@@ -139,7 +152,6 @@
           = simple_nested_form_for resource do |f|
             = f.fields_for :socials
             = f.link_to_add "Add service", :socials, :class => 'btn btn-small btn-primary'
-
           .act_buttons
             = f.submit "Save", :class => 'btn btn-primary btn-warning', :id => 'social_sub'
             = link_to "Back", :back
