@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130117143635) do
+ActiveRecord::Schema.define(version: 20130128121533) do
 
   create_table "blogs", force: true do |t|
     t.integer  "user_id",                 null: false
@@ -32,6 +32,14 @@ ActiveRecord::Schema.define(version: 20130117143635) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "users_count",    default: 0
+  end
+
+  create_table "socials", force: true do |t|
+    t.integer  "user_id",                 null: false
+    t.string   "title",      default: ""
+    t.string   "url",        default: ""
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "taggings", force: true do |t|
@@ -66,11 +74,6 @@ ActiveRecord::Schema.define(version: 20130117143635) do
     t.string   "first_name"
     t.string   "last_name"
     t.text     "bio"
-    t.string   "twitter"
-    t.string   "facebook"
-    t.string   "google_plus"
-    t.string   "github"
-    t.string   "stackoverflow"
     t.integer  "country_id"
     t.string   "address"
     t.integer  "looking_for_work",       default: 0
@@ -82,6 +85,9 @@ ActiveRecord::Schema.define(version: 20130117143635) do
     t.string   "avatar_content_type"
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
+    t.string   "gtalk"
+    t.string   "skype"
+    t.string   "jabber"
   end
 
   add_index "users", ["country_id"], name: "index_users_on_country_id"
