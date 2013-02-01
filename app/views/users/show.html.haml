@@ -35,7 +35,7 @@
   - if email_is_visible?(@user)
     %i.icon-envelope
     %strong Email:
-    %p= @user.email
+    %p= mail_to(@user.email)
   - if im_details_visible?(@user)
     %h3 Finding #{@user.first_name}
     - if @user.blogs.any?
