@@ -3,34 +3,37 @@
   = devise_error_messages!
   .row-fluid
     .span3
-    .span9
-      .well.span8
-        %h4 1. Tell us who you are
-        .span4
-          %div
-            = f.label :username
-            = f.text_field :username
-          %div
-            = f.label :first_name
-            = f.text_field :first_name
-          %div
-            = f.label :last_name
-            = f.text_field :last_name
-        .span4
-          %div
-            = f.label :email
-            = f.email_field :email
-          %div
-            = f.label :password
-            = f.password_field :password
-          %div
-            = f.label :password_confirmation
-            = f.password_field :password_confirmation
+    .span6.well
+      %h4 1. Tell us who you are
+      .span6
+        %div
+          = f.label :username
+          = f.text_field :username
+        %div
+          = f.label :first_name
+          = f.text_field :first_name
+        %div
+          = f.label :last_name
+          = f.text_field :last_name
+      .span5
+        %div
+          = f.label :email
+          = f.email_field :email
+        %div
+          = f.label :password
+          = f.password_field :password
+        %div
+          = f.label :password_confirmation
+          = f.password_field :password_confirmation
+    .span3
 
-    .well.span10
+  .row-fluid
+    .span3
+    .span6.well
       %h4 2. Tell us where you live
-      = f.label :country_id
-      = f.select :country_id, Country.order('name ASC').map { |c| [c.printable_name, c.id] }, :prompt => true
+      %div
+        = f.label :country_id
+        = f.select :country_id, Country.order('name ASC').map { |c| [c.printable_name, c.id] }, :prompt => true
 
       #new_user_map
         #registration_map
@@ -44,13 +47,16 @@
       %div
         = f.text_field :zoom, :style => "display: none;"
       %br
+    .span3
 
-    .well.span10
+  .row-fluid
+    .span3
+    .span6.well
       .span6
         %h4 3. And a bit about you...
         %div
           = f.label :avatar
-          = f.file_field :avatar 
+          = f.file_field :avatar
 
         %div
           = f.label :bio
@@ -74,9 +80,12 @@
           %br
           %br
         = f.link_to_add "Add service", :socials, :class => 'btn btn-small btn-primary'
+    .span3
 
-    .well.span10
-      .span5
+  .row-fluid
+    .span3
+    .span6.well
+      .span6
         %h4 5. Your privacy settings
         %p
           %p Search visibility
@@ -85,9 +94,9 @@
           %br/
           = f.radio_button :search_visibility, false
           Don't allow search engines to index my profile page
-        %p 
+        %p
           %p Email privacy
-          = f.radio_button :email_privacy, 2 
+          = f.radio_button :email_privacy, 2
           Anyone can see my email address
           %br/
           = f.radio_button :email_privacy, 1
