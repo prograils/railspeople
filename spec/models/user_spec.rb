@@ -63,11 +63,12 @@ describe User do
     User.count.should == 2
   end
 
-  #TO DO -> TU JEST PROBLEM
+  #TO DO -> TU JEST PROBLEM // fi
   it 'should to_gmaps4rails return expected json' do
     @user = FactoryGirl.create(:user, :first_name => "ted", :last_name => "tylor",:latitude => '1.2345', :longitude => '6.7890')
     @json = User.all.to_gmaps4rails
-    expected = %([{"description":"ted tylor","lat":1.2345,"lng":6.7890}])
+    expected = %([{"description":"<a href= /users/#{@user.id}-#{@user.username}> #{@user.to_s}</a>","lat":1.2345,"lng":6.7890}])
+
     @json.should be_json_eql(expected)
   end
 
