@@ -42,7 +42,6 @@ class User < ActiveRecord::Base
 
   ## VALIDATIONS
   validates_presence_of :email, :username, :first_name, :last_name, :country_id
-  validate :location
   validates_presence_of :looking_for_work, :email_privacy
   validates_uniqueness_of :username
   validates :looking_for_work, :inclusion=>{:in=>(User::WORK_TYPES.values)}
@@ -54,12 +53,6 @@ class User < ActiveRecord::Base
   ## BEFORE & AFTER
   after_validation :reverse_geocode  # auto-fetch address
   after_save :assign_tags
-
-  def location
-    if (:latitude.nil? || :longitude.nil?)
-      errors.add(:country_id, "Choose country!")
-    end
-  end
 
   def gmaps4rails_infowindow
     self.avatar? ? "<img class=\"img-circle\" src=\"#{self.avatar.url(:medium)}\"> <a href= /users/#{self.id}-#{self.username}> #{self.to_s}</a>"
