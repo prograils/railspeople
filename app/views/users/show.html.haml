@@ -59,7 +59,7 @@
           %p
             = image_tag 'jabber.png', :size => "40x40"
             = @user.jabber
-      .span4
+      .span8
         - if @user.socials.any?
           - @user.socials.each do |social|
             - if find_asset("#{social.title}.png")
@@ -67,6 +67,7 @@
             - else
               = image_tag("question.png", :size => "40x40")
             = link_to "#{social.title}", social.url
+            %br
 
 #near_people.offset6
   %h3 People near #{@user.first_name}:

@@ -2,6 +2,6 @@
 
 FactoryGirl.define do
   factory :social do
-    url "http://www.wp.pl"
+    url "http://www.stackoverflow.com"
   end
 end
