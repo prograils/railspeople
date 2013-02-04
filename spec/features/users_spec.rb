@@ -61,9 +61,13 @@ describe "Users" do
       fill_in "Username", :with => "Test"
       fill_in "First name", :with => "Mark"
       fill_in "Last name", :with => "Twain"
-      fill_in "Email", :with => "mark@twain.eu"
       click_button "username_sub"
       page.should have_content("You updated your account successfully")
+    end
+    it "do not allows to change email without current password" do
+      fill_in "Email", :with => "different@test.pl"
+      click_button "username_sub"
+      page.should_not have_content("You updated your account successfully")
     end
     it "allows to change password" do
       fill_in "user_password", :with => "admin1"
@@ -97,7 +101,8 @@ describe "Users" do
     end
     #NESTED ATTRIBUTES
     it "allows to change blogs without current password" do #, :js => true do
-      click_on("Add next")
+      # click_link(I18n.t('add_next'))
+      click_on("add_new_blog")
       within "fields" do
         fill_in "Url", :with => "http://rubyonrails.org/"
       end
@@ -105,7 +110,7 @@ describe "Users" do
       page.should have_content("You updated your account successfully")
     end
     it "allows to change socials without current password" do #, :js => true do
-      click_on("Add service")
+      click_on(I18n.t('add_service'))
       within "fields" do
         fill_in "Url", :with => "http://rubyonrails.org/"
       end
