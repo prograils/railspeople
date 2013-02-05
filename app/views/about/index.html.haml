@@ -1,2 +1,12 @@
-%h1 About Rails People 
-%p Find me in app/views/about/index.html.haml
+.breadcrumb
+  %h1 About Rails People 
+  %p 
+    = "Rails People lists #{@users} developers from around the world, in #{@countries} different countries."
+    = "The aim of the site is to help Rails developers find people near them with simmilar interests and create some user groups."
+  %p
+    The site was built and open-sourced by <a href="">Rafał Trojanowski</a>, <a href="">Justyna Wojtczak</a> and 
+    <a href="">Jarosław Jeleniewicz</a>. The code is available on <a href="http://github.com/prograils/railspeople">github</a>.
+  %br
+
+  %p
+    Country data and location come from <a href="http://www.ohadpr.com/2010/04/countries-approximate-lat-lon-and-iso-3166-1-alpha-2/index.html">ohadpr</a>, the maps were powered by <a href="http://developers.google.com/maps/">Google Maps</a>. Country flags and icons are by <a href="http://famfamfam.com/lab/icons/">Mark James</a>.
