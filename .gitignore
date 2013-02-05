@@ -20,3 +20,5 @@
 
 # Ignore Paperclip images
 /public/system/*
+
+.rvmrc
