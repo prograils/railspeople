@@ -7,14 +7,17 @@
 - if params[:q].present?
   - if @results.present?
     %h4= pluralize @results.count, "result"
-    %p=gmaps4rails(@json)
+    %p
+      = gmaps({"map_options" => { "auto_adjust" => false, "zoom" => 6, "center_latitude" => @results[0].latitude, "center_longitude" => @results[0].longitude }, "markers" => { "data" => @json, :options => { :do_clustering => true, :clusterer_maxZoom => 8 }}})
     %p.search-results
-      -@results.each do |user|
-        %p
-          =link_to user.to_s, user_path(user)
-          %br/
-          =image_tag("famfamfam_flags/#{user.country.iso.downcase}.png")
-          =user.country.printable_name
+      - @results.in_groups(3, false).each do |result_group|
+        .span3
+          - result_group.each do |user|
+            %p
+              = link_to user.to_s, user_path(user)
+              %br
+              = image_tag("famfamfam_flags/#{user.country.iso.downcase}.png")
+              = user.country.printable_name
   - else
     No users found.
 
