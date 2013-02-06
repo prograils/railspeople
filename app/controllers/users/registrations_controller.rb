@@ -7,20 +7,21 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def create
     super
-    if resource.latitude.nil? || resource.longitude.nil?
-      @country = Country.find(resource.country_id)
-      resource.update_attributes(:latitude => @country.lat, :longitude => @country.lng, :zoom => 6)
+    unless resource.country_id.nil?
+      if resource.latitude.nil? || resource.longitude.nil?
+        @country = Country.find(resource.country_id)
+        resource.update_attributes(:latitude => @country.lat, :longitude => @country.lng, :zoom => 6)
+      end
     end
     resource.socials.each { |s| s.user_id = current_user }
   end
 
   def update
     @user = User.find(current_user.id)
-
-    successfully_updated = if needs_password?(@user, params)
+    successfully_updated = if needs_password?(@user, resource_params)
       @user.update_with_password(resource_params)
     else
-      params[:user].delete(:current_password)
+      resource_params.delete(:current_password)
       @user.update_without_password(resource_params)
     end
 
@@ -57,14 +58,14 @@ class Users::RegistrationsController < Devise::RegistrationsController
       :im_privacy,
       :email_privacy,
       :avatar,
-      :blogs_attributes =>[:id, :user_id, :title, :url, :_destroy],
+      :blogs_attributes => [:id, :user_id, :title, :url, :_destroy],
       :socials_attributes => [:id, :user_id, :title, :url, :_destroy]
     )
   end
 
   def needs_password?(user, params)
-    user.email != params[:user][:email] ||
-      !params[:user][:password].empty?
+    user.email != params[:email] ||
+      !params[:password].empty?
   end
 
   private :resource_params, :needs_password?

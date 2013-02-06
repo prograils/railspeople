@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'devise', 	 github: 'versioncontrol/devise'
+gem 'devise',    github: 'versioncontrol/devise'
 gem 'rails',     github: 'rails/rails'
 gem 'arel',      github: 'rails/arel'
 gem 'activerecord-deprecated_finders', github: 'rails/activerecord-deprecated_finders'
@@ -19,7 +19,7 @@ gem "cancan"
 gem 'bootstrap-sass', '~> 2.2.2.0'
 gem 'bootswatch-rails'
 gem 'simple_form'
-gem 'nested_form', github: 'mlitwiniuk/nested_form', :branch => 'rails4_compatibility'
+gem 'nested_form'#, github: 'mlitwiniuk/nested_form', :branch => 'rails4_compatibility'
 gem 'mysql2'
 gem 'curb'
 
@@ -35,8 +35,8 @@ group :assets do
   #gem 'therubyracer', platforms: :ruby
   #gem "therubyracer", :require => 'v8'
   #gem 'libv8', '3.11.8.3', platform: :ruby
-  gem 'libv8', '3.11.8.4', :platform => :ruby
-  gem 'therubyracer', '0.11.0', :platforms => :ruby
+  # gem 'libv8', '3.11.8.4', :platform => :ruby
+  gem 'therubyracer', :platforms => :ruby, :require => 'v8'
 
   gem 'uglifier', '>= 1.0.3'
 end
