@@ -62,12 +62,12 @@
       .span8
         - if @user.socials.any?
           - @user.socials.each do |social|
-            - if find_asset("#{social.title}.png")
-              = image_tag("#{social.title}.png", :size => "40x40")
-            - else
-              = image_tag("question.png", :size => "40x40")
-            = link_to "#{social.title}", social.url
-            %br
+            %p
+              - if find_asset("#{social.title}.png")
+                = image_tag("#{social.title}.png", :size => "40x40")
+              - else
+                = image_tag("question.png", :size => "40x40")
+              = link_to "#{social.title}", social.url
 
 #near_people.offset6
   %h3 People near #{@user.first_name}:
