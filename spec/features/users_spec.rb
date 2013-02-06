@@ -48,15 +48,15 @@ describe "Users" do
 
   describe "GET /users/edit" do
     before do
-      user = FactoryGirl.create(:user, :email => "alinde@example.com",
-                         :password => "ilovegrapes", :password_confirmation => 'ilovegrapes')
-      sign_in(user)
-      page.should have_content("Signed in successfully.")
-      visit "/users/edit"
+      user = FactoryGirl.create(:user, password: 'ilovegrapes', password_confirmation: 'ilovegrapes')
+      login_as(user, :scope => :user) 
+      visit '/users/edit'
     end
+    
     it "allows users to see edit page" do
       page.should have_content("Edit User")
     end
+    
     it "allows to change username without current password" do
       fill_in "Username", :with => "Test"
       fill_in "First name", :with => "Mark"
@@ -64,11 +64,13 @@ describe "Users" do
       click_button "username_sub"
       page.should have_content("You updated your account successfully")
     end
+    
     it "do not allows to change email without current password" do
       fill_in "Email", :with => "different@test.pl"
       click_button "username_sub"
       page.should_not have_content("You updated your account successfully")
     end
+    
     it "allows to change password" do
       fill_in "user_password", :with => "admin1"
       fill_in "user_password_confirmation", :with => "admin1"
@@ -76,22 +78,26 @@ describe "Users" do
       click_button "password_sub"
       page.should have_content("You updated your account successfully")
     end
+   
     it "doesn't allow to change password without current password" do
       fill_in "user_password", :with => "admin1"
       fill_in "user_password_confirmation", :with => "admin1"
       click_button "password_sub"
       page.should_not have_content("You updated your account successfully")
     end
+    
     it "allows to change skills without current password" do
       fill_in "Tags", :with => "programmer"
       click_button "skills_sub"
       page.should have_content("You updated your account successfully")
     end
+    
     it "allows to change biography without current password" do
       fill_in "Bio", :with => "I was born in ..."
       click_button "biography_sub"
       page.should have_content("You updated your account successfully")
     end
+    
     it "allows to change social profiles without current password" do
       fill_in "Gtalk", :with => "Bar"
       fill_in "Skype", :with => "Bar"
@@ -99,23 +105,21 @@ describe "Users" do
       click_button "social_sub"
       page.should have_content("You updated your account successfully")
     end
-    #NESTED ATTRIBUTES
-    it "allows to change blogs without current password" do #, :js => true do
-      # click_link(I18n.t('add_next'))
-      click_on("add_new_blog")
-      within "fields" do
-        fill_in "Url", :with => "http://rubyonrails.org/"
-      end
-      click_button "Save"
-      page.should have_content("You updated your account successfully")
-    end
-    it "allows to change socials without current password" do #, :js => true do
-      click_on(I18n.t('add_service'))
-      within "fields" do
-        fill_in "Url", :with => "http://rubyonrails.org/"
-      end
-      click_button "Save"
-      page.should have_content("You updated your account successfully")
+  end
+  
+  context "nested attribiutes", :js => true do
+    it "allows to change blogs without current password" do
+      user = FactoryGirl.create(:user, :email => "alinde@example3.com", :password => "ilovegrapes", :password_confirmation => 'ilovegrapes')
+      login_as(user, :scope => :user) 
+      visit "/users/edit"
+      #page.should have_content "Change my username"
+      click_on("Add Next")
+
+      #within "fields" do
+      #  fill_in "Url", :with => "http://rubyonrails.org/"
+      #end
+      #click_button "Save"
+      #page.should have_content("You updated your account successfully")
     end
   end
 
