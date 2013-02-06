@@ -7,8 +7,8 @@ class Blog < ActiveRecord::Base
   belongs_to :user
 
   ## VALIDATIONS
-   validates_presence_of :url, :user_id
-   # validates :url, :url => {:allow_blank => false, :verify => [:resolve_redirects]}
+   validates_presence_of :url, :user_id, :title
+   validates :url, :url => {:allow_blank => false, :verify => [:resolve_redirects]}
 
   ## BEFORE & AFTER
   before_save :check_url

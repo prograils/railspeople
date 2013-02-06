@@ -9,7 +9,7 @@ class Social < ActiveRecord::Base
 
   ## VALIDATIONS
   validates_presence_of :url
-  # validates :url, :url => {:allow_blank => false, :verify => [:resolve_redirects]}
+  validates :url, :url => {:allow_blank => false, :verify => [:resolve_redirects]}
 
   def fill_new_title
     # Net::HTTP.get(URI("#{self.url}")) =~ /<title>(.*?)<\/title>/
