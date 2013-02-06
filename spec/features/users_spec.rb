@@ -100,23 +100,23 @@ describe "Users" do
       page.should have_content("You updated your account successfully")
     end
     #NESTED ATTRIBUTES
-    it "allows to change blogs without current password" do #, :js => true do
-      # click_link(I18n.t('add_next'))
-      click_on("add_new_blog")
-      within "fields" do
-        fill_in "Url", :with => "http://rubyonrails.org/"
-      end
-      click_button "Save"
-      page.should have_content("You updated your account successfully")
-    end
-    it "allows to change socials without current password" do #, :js => true do
-      click_on(I18n.t('add_service'))
-      within "fields" do
-        fill_in "Url", :with => "http://rubyonrails.org/"
-      end
-      click_button "Save"
-      page.should have_content("You updated your account successfully")
-    end
+    # it "allows to change blogs without current password" do #, :js => true do
+    #   # click_link(I18n.t('add_next'))
+    #   click_on("add_new_blog")
+    #   within "fields" do
+    #     fill_in "Url", :with => "http://rubyonrails.org/"
+    #   end
+    #   click_button "Save"
+    #   page.should have_content("You updated your account successfully")
+    # end
+    # it "allows to change socials without current password" do #, :js => true do
+    #   click_on(I18n.t('add_service'))
+    #   within "fields" do
+    #     fill_in "Url", :with => "http://rubyonrails.org/"
+    #   end
+    #   click_button "Save"
+    #   page.should have_content("You updated your account successfully")
+    # end
   end
 
   describe "GET /user/:id" do
@@ -170,6 +170,44 @@ describe "Users" do
         page.should have_content "Email"
         page.should have_content @user_with_email_for_anyone.email
       end
+
+      it "should show blogs" do
+        @blog = FactoryGirl.create(:blog, :user_id => @user.id)
+        visit user_path(@user)
+        find(:css, "a:contains('wp')")
+      end
+      
+      it "should show socials" do
+        @social = FactoryGirl.create(:social, :user_id => @user.id)
+        visit user_path(@user)
+        find(:css, "a:contains('stackoverflow')")
+      end
+    end
+  end
+
+  describe "GET user show loggedd as user" do
+    before do
+      @user = FactoryGirl.create(:user, :email => "brown@test.pl")
+      login_as(@user, :scope => :user)
+      @country = FactoryGirl.create(:country)
+      @user.save
+      @near = FactoryGirl.create(:user, :first_name => "Jessy", :last_name => "Black", :country_id => @country.id,
+        :email_privacy => 0, :latitude => 52.350, :longitude => 16.750, :email => "jb@test.pl")
+    end
+
+    it "should can click on near people" do
+      visit user_path(@user)
+      click_link("Jessy Black")
+      page.should have_content "Jessy Black"
+    end
+
+    it "should show people with the same tags" do
+      @tag = FactoryGirl.create(:tag)
+      FactoryGirl.create(:tagging, :user_id => @user.id, :tag_id => @tag.id)
+      FactoryGirl.create(:tagging, :user_id => @near.id, :tag_id => @tag.id)
+      visit user_path(@user)
+      click_on "MyString"
+      page.should have_content "2 Ruby on Rails people mention this skill"
     end
   end
 
