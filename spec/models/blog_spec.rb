@@ -22,4 +22,19 @@ describe Blog do
       FactoryGirl.build(:blog, :url => "http://www").should_not be_valid
     end
   end
+
+  describe "blog title" do
+    before do
+      @blog = FactoryGirl.build(:blog)
+      @blog.save
+    end
+    it "should be added after save" do
+      @blog.title.should eq("Wirtualna Polska - www.wp.pl")
+    end
+    it "should update after url change" do
+      @blog.url = "http://twitter.com"
+      @blog.save
+      @blog.title.should eq("Twitter")
+    end
+  end
 end

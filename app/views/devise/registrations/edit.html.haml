@@ -24,7 +24,7 @@
       %li
         = link_to "Cancel my account", "#cancel"
   .span9
-    = form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f|
+    = nested_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f|
       = devise_error_messages!
       .span8
         %section#user.well
@@ -114,9 +114,15 @@
         %section#blogs.well
           %div.page-header
             = "Manage my blogs"
-          = simple_nested_form_for resource do |f|
-            = f.fields_for :blogs
-            = f.link_to_add t("add_next"), :blogs, :class => 'btn btn-small btn-primary'
+          / = simple_nested_form_for resource do |f|
+          /   = f.fields_for :blogs
+          /   = f.link_to_add t("add_next"), :blogs, :class => 'btn btn-small btn-primary'
+          = f.fields_for :blogs do |b|
+            = b.text_field :url, :placeholder => "Url", :class => "input-xxlarge"
+            = b.link_to_remove "Remove", :class => 'btn btn-small btn-danger'
+            %br
+            %br
+          = f.link_to_add "Add next", :blogs, :class => 'btn btn-small btn-primary'
           .act_buttons
             = f.submit "Save", :class => 'btn btn-primary btn-warning', :id => 'blogs_sub'
             = link_to "Back", :back
@@ -137,9 +143,16 @@
           %br
           Services adress
           %br
-          = simple_nested_form_for resource do |f|
-            = f.fields_for :socials
-            = f.link_to_add "Add service", :socials, :class => 'btn btn-small btn-primary'
+          / = simple_nested_form_for resource do |f|
+          /   = f.fields_for :socials
+          /   = f.link_to_add "Add service", :socials, :class => 'btn btn-small btn-primary'
+          = f.fields_for :socials do |s|
+            = s.text_field :url, :placeholder => "Url", :class => "input-xxlarge"
+            = s.link_to_remove "Remove", :class => 'btn btn-small btn-danger'
+            %br
+            %br
+          = f.link_to_add "Add service", :socials, :class => 'btn btn-small btn-primary'
+
           .act_buttons
             = f.submit "Save", :class => 'btn btn-primary btn-warning', :id => 'social_sub'
             = link_to "Back", :back

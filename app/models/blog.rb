@@ -7,11 +7,12 @@ class Blog < ActiveRecord::Base
   belongs_to :user
 
   ## VALIDATIONS
-   validates_presence_of :url, :user_id
+   validates_presence_of :url, :user_id, :title
    validates :url, :url => {:allow_blank => false, :verify => [:resolve_redirects]}
 
   ## BEFORE & AFTER
   before_save :check_url
+  after_update :fill_new_title
 
   def server_response=(resp)
     @server_response = resp
@@ -53,6 +54,13 @@ class Blog < ActiveRecord::Base
       end
     end
     return isOk
+  end
+
+  def fill_new_title
+    if self.changed?
+      generate_title
+      self.update_column('title', self.title)
+    end
   end
 
   private

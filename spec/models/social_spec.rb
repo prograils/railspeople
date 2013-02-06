@@ -25,9 +25,16 @@ describe Social do
   end
 
   describe "social title" do
-    it "should be added after create" do
+    before do
       @social = FactoryGirl.create(:social, :user_id => 1)
+    end
+    it "should be added after create" do
       @social.title.should eq("stackoverflow")
+    end
+    it "should be updated after url change" do
+      @social.url = "http://rubyonrails.org/"
+      @social.save
+      @social.title.should eq("rubyonrails")
     end
   end
 end
