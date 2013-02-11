@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
-gem 'devise',    github: 'versioncontrol/devise'
+gem 'devise', :git => "https://github.com/plataformatec/devise.git", :branch => "rails4"
+#gem 'devise',    github: 'versioncontrol/devise'
 gem 'rails',     github: 'rails/rails'
 gem 'arel',      github: 'rails/arel'
 gem 'activerecord-deprecated_finders', github: 'rails/activerecord-deprecated_finders'
@@ -50,7 +51,7 @@ group :development, :test do
   gem 'database_cleaner'
 end
 
-gem 'jquery-rails'
+gem 'jquery-rails', "~> 2.1.4"
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
