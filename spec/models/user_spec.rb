@@ -25,35 +25,11 @@ describe User do
       FactoryGirl.build(:user, :last_name => nil).should_not be_valid
     end
     it "should not be valid if password is nil" do
-      FactoryGirl.build(:user, :latitude => nil).should_not be_valid
+      FactoryGirl.build(:user, :latitude => nil).should be_valid
     end
     it "should not be valid if password is nil" do
-      FactoryGirl.build(:user, :longitude => nil).should_not be_valid
+      FactoryGirl.build(:user, :longitude => nil).should be_valid
     end
-
-    #TO DO -> CHANGE
-    # describe "validatable url attributes" do
-    #   it "should not be valid if stackoverflow url is invalid" do
-    #     @user = FactoryGirl.build(:user)
-    #     @user.stackoverflow = "http://www"
-    #     @user.should have(1).error_on(:stackoverflow)
-    #     @user.stackoverflow = "http://www.6768"
-    #     @user.should have(2).error_on(:stackoverflow)
-    #     @user.stackoverflow = "httpd://www.onet.pl"
-    #     @user.should have(2).error_on(:stackoverflow)
-    #   end
-    #   it "should be valid if stackoverflow url is valid" do
-    #     @user = FactoryGirl.build(:user)
-    #     @user.stackoverflow = "www.onet.pl"
-    #     @user.should have(0).error_on(:stackoverflow)
-    #     @user.stackoverflow = "http://onet.pl"
-    #     @user.should have(0).error_on(:stackoverflow)
-    #     @user.stackoverflow = "http://www.onet.pl"
-    #     @user.should have(0).error_on(:stackoverflow)
-    #     @user.stackoverflow = "https://poczta.onet.pl/"
-    #     @user.should have(0).error_on(:stackoverflow)
-    #   end
-    # end
   end
 
   it "should add new user with some coordinates values" do
