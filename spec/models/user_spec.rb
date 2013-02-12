@@ -2,11 +2,7 @@ require 'spec_helper'
 
 describe User do
 
-  before(:all) do
-    User.delete_all
-  end
-
-  after(:all) do
+  before(:each) do
     User.delete_all
   end
 
