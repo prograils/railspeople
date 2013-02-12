@@ -49,7 +49,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'capybara', :git => 'git://github.com/jnicklas/capybara.git'
   gem 'launchy'
-  gem 'database_cleaner'
+  gem 'database_cleaner', :github => 'bmabey/database_cleaner'
 end
 
 gem 'jquery-rails', "~> 2.1.4"

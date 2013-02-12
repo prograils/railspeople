@@ -2,10 +2,6 @@ require 'spec_helper'
 
 describe User do
 
-  before(:each) do
-    User.delete_all
-  end
-
   it "should have valid factory" do
     FactoryGirl.build(:user).should be_valid
   end
@@ -67,10 +63,10 @@ describe User do
   end
 
   it "should add new user with some coordinates values" do
+    lambda{
     @user = FactoryGirl.create(:user, :latitude => "1.2", :longitude => "1.2")
     @user = FactoryGirl.create(:user, :username => "walter22", :latitude => "21.2", :longitude => "41.2")
-
-    User.count.should == 2
+    }.should change(User, :count).by(2)
   end
 
   it 'should to_gmaps4rails return expected json' do
