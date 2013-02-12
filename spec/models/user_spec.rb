@@ -1,6 +1,11 @@
 require 'spec_helper'
 
 describe User do
+
+  before(:all) do
+    User.delete_all
+  end
+
   after(:all) do
     User.delete_all
   end
@@ -74,7 +79,7 @@ describe User do
 
   it 'should to_gmaps4rails return expected json' do
     @user = FactoryGirl.create(:user, :first_name => "ted", :last_name => "tylor",:latitude => '1.2345', :longitude => '6.7890')
-    @json = User.all.to_gmaps4rails
+    @json = User.last.to_gmaps4rails
     expected = %([{"description":"<a href= /users/#{@user.id}-#{@user.username}> #{@user.to_s}</a>","lat":1.2345,"lng":6.7890}])
 
     @json.should be_json_eql(expected)
