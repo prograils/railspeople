@@ -2,8 +2,12 @@ require 'spec_helper'
 
 describe Tag do
   
-  before(:all)  { @user = FactoryGirl.create(:user) }
-  
+  before(:all) do
+    @user = FactoryGirl.create(:user)
+    Tag.delete_all
+    Tagging.delete_all
+  end
+
   it "should save only unique tags from tag_names" do
     @user.tag_names = "raz dwa trzy trzy"
     @user.save

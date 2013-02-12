@@ -38,6 +38,7 @@ group :assets do
   #gem 'libv8', '3.11.8.3', platform: :ruby
   gem 'libv8', '~> 3.11.8', :platform => :ruby
   gem 'therubyracer', :platforms => :ruby, :require => 'v8'
+  gem 'libv8', '~> 3.11.8', :platform => :ruby
 
   gem 'uglifier', '>= 1.0.3'
 end
