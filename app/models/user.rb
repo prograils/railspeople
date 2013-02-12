@@ -97,7 +97,7 @@ class User < ActiveRecord::Base
   def assign_tags
     if @tag_names
       self.tags = @tag_names.split(/\s+/).uniq.map do |name|
-        Tag.find_or_create_by_name(name)
+        Tag.where(:name => name).first_or_create
       end
     end
   end

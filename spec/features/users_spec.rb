@@ -1,10 +1,9 @@
 require 'spec_helper'
 
 describe "Users" do
-  before(:all) do
+  before(:each) do
     @country = FactoryGirl.create(:country)
   end
-  after(:all) { Country.delete_all }
 
   describe 'GET /users/sign_up' do
     it "should successfully add new user" do
@@ -49,14 +48,14 @@ describe "Users" do
   describe "GET /users/edit" do
     before do
       user = FactoryGirl.create(:user, password: 'ilovegrapes', password_confirmation: 'ilovegrapes')
-      login_as(user, :scope => :user) 
+      login_as(user, :scope => :user)
       visit '/users/edit'
     end
-    
+
     it "allows users to see edit page" do
       page.should have_content("Edit User")
     end
-    
+
     it "allows to change username without current password" do
       fill_in "Username", :with => "Test"
       fill_in "First name", :with => "Mark"
@@ -64,13 +63,13 @@ describe "Users" do
       click_button "username_sub"
       page.should have_content("You updated your account successfully")
     end
-    
+
     it "do not allows to change email without current password" do
       fill_in "Email", :with => "different@test.pl"
       click_button "username_sub"
       page.should_not have_content("You updated your account successfully")
     end
-    
+
     it "allows to change password" do
       fill_in "user_password", :with => "admin1"
       fill_in "user_password_confirmation", :with => "admin1"
@@ -78,26 +77,26 @@ describe "Users" do
       click_button "password_sub"
       page.should have_content("You updated your account successfully")
     end
-   
+
     it "doesn't allow to change password without current password" do
       fill_in "user_password", :with => "admin1"
       fill_in "user_password_confirmation", :with => "admin1"
       click_button "password_sub"
       page.should_not have_content("You updated your account successfully")
     end
-    
+
     it "allows to change skills without current password" do
       fill_in "Tags", :with => "programmer"
       click_button "skills_sub"
       page.should have_content("You updated your account successfully")
     end
-    
+
     it "allows to change biography without current password" do
       fill_in "Bio", :with => "I was born in ..."
       click_button "biography_sub"
       page.should have_content("You updated your account successfully")
     end
-    
+
     it "allows to change social profiles without current password" do
       fill_in "Gtalk", :with => "Bar"
       fill_in "Skype", :with => "Bar"
@@ -111,24 +110,24 @@ describe "Users" do
       page.should have_content("Bye! Your account was successfully cancelled. We hope to see you again soon.")
     end
   end
-  
+
   #NESTED ATTRIBUTES
   context "nested attribiutes", :js => true do
     it "allows to change blogs without current password" do
       user = FactoryGirl.create(:user, :email => "alinde@example3.com", :password => "ilovegrapes", :password_confirmation => 'ilovegrapes')
-      login_as(user, :scope => :user) 
+      login_as(user, :scope => :user)
       visit "/users/edit"
       #page.should have_content "Change my username"
       click_on("Add next")
       find("input[id^='user_blogs_attributes'][id$='url']").set("http://www.pandora.com")
       click_button "blogs_sub"
-      
+
       page.should have_content("You updated your account successfully")
     end
-    
+
     it "allows to change two socials without current password" do
       user = FactoryGirl.create(:user, :email => "alinde@example4.com", :password => "ilovegrapes", :password_confirmation => 'ilovegrapes')
-      login_as(user, :scope => :user) 
+      login_as(user, :scope => :user)
       visit "/users/edit"
       click_on("Add service")
       find("input[id^='user_socials_attributes'][id$='url']").set("http://www.pandora.com")
@@ -136,7 +135,7 @@ describe "Users" do
       #find("input[id^='user_socials_attributes'][id$='url']").set("http://www.pandora.com")
       all("input[id^='user_socials_attributes'][id$='url']")[1].set("http://www.pandora.com")
       click_button "blogs_sub"
-      
+
       page.should have_content("You updated your account successfully")
     end
   end
@@ -198,7 +197,7 @@ describe "Users" do
         visit user_path(@user)
         find(:css, "a:contains('wp')")
       end
-      
+
       it "should show socials" do
         @social = FactoryGirl.create(:social, :user_id => @user.id)
         visit user_path(@user)
@@ -208,7 +207,7 @@ describe "Users" do
   end
 
   describe "GET user show loggedd as user" do
-    before do
+    before(:each) do
       @user = FactoryGirl.create(:user, :email => "brown@test.pl")
       login_as(@user, :scope => :user)
       @country = FactoryGirl.create(:country)

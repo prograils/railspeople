@@ -2,16 +2,12 @@ require 'spec_helper'
 
 describe SearchController do
 
-  before(:all) do
+  before(:each) do
     @user_1 = FactoryGirl.create(:user, :username => "johnc", :first_name => "Parker", :last_name => "Coltrane")
     @user_2 = FactoryGirl.create(:user, :username => "parker", :first_name => "Miles", :last_name => "Davis")
     @user_3 = FactoryGirl.create(:user, :username => "johniea", :first_name => "Johnie", :last_name => "Armstrong")
     @user_4 = FactoryGirl.create(:user, :username => "johnp", :first_name => "John", :last_name => "Parker")
     @user_5 = FactoryGirl.create(:user, :username => "chrisp", :first_name => "Chris", :last_name => "Parker")
-  end
-
-  after(:all) do
-    User.delete_all
   end
 
   describe "GET 'index'" do
