@@ -1,4 +1,6 @@
 require 'net/http'
+require 'net/https'
+require 'uri'
 
 class UrlValidator < ActiveModel::EachValidator
 
@@ -58,10 +60,25 @@ class RedirectFollower
   def resolve
     raise TooManyRedirects if redirect_limit < 0
 
-    begin
-      self.response = Net::HTTP.get_response(URI.parse(url))
-    rescue
-      raise Error
+    if url =~ /http:/ix
+      begin
+        self.response = Net::HTTP.get_response(URI.parse(url))
+      rescue
+        raise Error
+      end
+    #rozwiazanie z http://www.rubyinside.com/nethttp-cheat-sheet-2940.html
+    elsif url =~ /https:/ix
+      begin
+        uri = URI.parse(url)
+        http = Net::HTTP.new(uri.host, uri.port)
+        http.use_ssl = true
+        #do przedyskutowania czy nie sprawdzac certyfikatow
+        http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+        request = Net::HTTP::Get.new(uri.request_uri)
+        self.response = http.request(request)
+      rescue
+        raise Error
+      end
     end
 
     logger.info "redirect limit: #{redirect_limit}"

@@ -82,6 +82,16 @@ describe User do
         @user.update_attributes(:blogs_attributes => {'0' => {'url'=>'http://rubyonrails.org/', "_destroy"=>"false"}})
       }.to change { Blog.count }.by(1)
     end
+    it "accept more nested blogs with https" do
+      expect {
+        @user.update_attributes(:blogs_attributes => {'0' => {'url'=>'https://delicious.com/', "_destroy"=>"false"}, '1' => {'url'=>'https://twitter.com/', "_destroy"=>"false"}})
+      }.to change { Blog.count }.by(2)
+    end
+    it "accept more nested socials with https" do
+      expect {
+        @user.update_attributes('socials_attributes' => {'0' => {'url'=>'https://twitter.com/'}, '1' => {'url'=>'https://delicious.com/'}})
+      }.to change { Social.count }.by(2)
+    end
   end
 end
 
