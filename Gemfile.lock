@@ -277,6 +277,7 @@ DEPENDENCIES
   json_spec (~> 1.1.0)
   launchy
   less-rails!
+  libv8 (~> 3.11.8)
   mysql2
   nested_form
   paperclip (~> 3.0)
