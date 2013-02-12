@@ -11,7 +11,7 @@ class Blog < ActiveRecord::Base
    validates :url, :url => {:allow_blank => false, :verify => [:resolve_redirects]}
 
   ## BEFORE & AFTER
-  before_save :check_url
+  before_validation :check_url
   after_update :fill_new_title
 
   def server_response=(resp)

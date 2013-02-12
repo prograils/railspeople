@@ -16,8 +16,8 @@ describe "Users" do
       fill_in "user[password]", :with => "foobar12"
       fill_in "user[password_confirmation]", :with => "foobar12"
 
-      fill_in "user[latitude]", :with => "1.2"
-      fill_in "user[longitude]", :with => "1.2"
+      #fill_in "user[latitude]", :with => "1.2"
+      #fill_in "user[longitude]", :with => "1.2"
       select @country.printable_name, :from => 'user[country_id]'
 
       fill_in "Bio", :with => 'some description text ...'
@@ -119,13 +119,25 @@ describe "Users" do
       login_as(user, :scope => :user) 
       visit "/users/edit"
       #page.should have_content "Change my username"
-      click_on("Add Next")
-
-      #within "fields" do
-      #  fill_in "Url", :with => "http://rubyonrails.org/"
-      #end
-      #click_button "Save"
-      #page.should have_content("You updated your account successfully")
+      click_on("Add next")
+      find("input[id^='user_blogs_attributes'][id$='url']").set("http://www.pandora.com")
+      click_button "blogs_sub"
+      
+      page.should have_content("You updated your account successfully")
+    end
+    
+    it "allows to change two socials without current password" do
+      user = FactoryGirl.create(:user, :email => "alinde@example4.com", :password => "ilovegrapes", :password_confirmation => 'ilovegrapes')
+      login_as(user, :scope => :user) 
+      visit "/users/edit"
+      click_on("Add service")
+      find("input[id^='user_socials_attributes'][id$='url']").set("http://www.pandora.com")
+      click_on("Add service")
+      #find("input[id^='user_socials_attributes'][id$='url']").set("http://www.pandora.com")
+      all("input[id^='user_socials_attributes'][id$='url']")[1].set("http://www.pandora.com")
+      click_button "blogs_sub"
+      
+      page.should have_content("You updated your account successfully")
     end
   end
 

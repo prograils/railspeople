@@ -117,11 +117,12 @@
           / = simple_nested_form_for resource do |f|
           /   = f.fields_for :blogs
           /   = f.link_to_add t("add_next"), :blogs, :class => 'btn btn-small btn-primary'
-          = f.fields_for :blogs do |b|
-            = b.text_field :url, :placeholder => "Url", :class => "input-xxlarge"
-            = b.link_to_remove "Remove", :class => 'btn btn-small btn-danger'
-            %br
-            %br
+          = f.fields_for :blogs
+          / do |b|
+          /  = b.text_field :url, :placeholder => "Url", :class => "input-xxlarge"
+          /  = b.link_to_remove "Remove", :class => 'btn btn-small btn-danger'
+          /  %br
+          /  %br
           = f.link_to_add "Add next", :blogs, :class => 'btn btn-small btn-primary'
           .act_buttons
             = f.submit "Save", :class => 'btn btn-primary btn-warning', :id => 'blogs_sub'
