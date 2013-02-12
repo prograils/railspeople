@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Tag do
   
-  before(:all) do
+  before(:each) do
     @user = FactoryGirl.create(:user)
     Tag.delete_all
     Tagging.delete_all
@@ -18,6 +18,8 @@ describe Tag do
   end
 
   it "should destroy record in tagging table after change tags" do
+    @user.tag_names = "raz dwa trzy trzy"
+    @user.save
     @user.tag_names = "trzy cztery"
     @user.save  
     
