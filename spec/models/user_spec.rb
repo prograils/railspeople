@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 describe User do
+  after(:all) do
+    User.delete_all
+  end
+
   it "should have valid factory" do
     FactoryGirl.build(:user).should be_valid
   end
@@ -15,20 +19,25 @@ describe User do
     it "should not be valid if password is nil" do
       FactoryGirl.build(:user, :password => nil).should_not be_valid
     end
-    it "should not be valid if password is nil" do
+    it "should not be valid if username is nil" do
       FactoryGirl.build(:user, :username => nil).should_not be_valid
     end
-    it "should not be valid if password is nil" do
+    it "should not be valid if first name is nil" do
       FactoryGirl.build(:user, :first_name => nil).should_not be_valid
     end
-    it "should not be valid if password is nil" do
+    it "should not be valid if last name is nil" do
       FactoryGirl.build(:user, :last_name => nil).should_not be_valid
     end
-    it "should not be valid if password is nil" do
-      FactoryGirl.build(:user, :latitude => nil).should_not be_valid
+    it "should not be valid if looking for work is nil" do
+      FactoryGirl.build(:user, :looking_for_work => nil).should_not be_valid
     end
-    it "should not be valid if password is nil" do
-      FactoryGirl.build(:user, :longitude => nil).should_not be_valid
+    it "should not be valid if email privacy is nil" do
+      FactoryGirl.build(:user, :email_privacy => nil).should_not be_valid
+    end
+
+    it "should not be valid if username is not unique" do
+      FactoryGirl.create(:user, :username => "Abcde")
+      FactoryGirl.build(:user, :username => "Abcde").should_not be_valid
     end
 
     #TO DO -> CHANGE
