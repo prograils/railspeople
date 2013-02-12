@@ -1,6 +1,15 @@
 require 'spec_helper'
 
 describe User do
+
+  before(:all) do
+    User.delete_all
+  end
+
+  after(:all) do
+    User.delete_all
+  end
+
   it "should have valid factory" do
     FactoryGirl.build(:user).should be_valid
   end
@@ -15,20 +24,25 @@ describe User do
     it "should not be valid if password is nil" do
       FactoryGirl.build(:user, :password => nil).should_not be_valid
     end
-    it "should not be valid if password is nil" do
+    it "should not be valid if username is nil" do
       FactoryGirl.build(:user, :username => nil).should_not be_valid
     end
-    it "should not be valid if password is nil" do
+    it "should not be valid if first name is nil" do
       FactoryGirl.build(:user, :first_name => nil).should_not be_valid
     end
-    it "should not be valid if password is nil" do
+    it "should not be valid if last name is nil" do
       FactoryGirl.build(:user, :last_name => nil).should_not be_valid
     end
-    it "should not be valid if password is nil" do
-      FactoryGirl.build(:user, :latitude => nil).should be_valid
+    it "should not be valid if looking for work is nil" do
+      FactoryGirl.build(:user, :looking_for_work => nil).should_not be_valid
     end
-    it "should not be valid if password is nil" do
-      FactoryGirl.build(:user, :longitude => nil).should be_valid
+    it "should not be valid if email privacy is nil" do
+      FactoryGirl.build(:user, :email_privacy => nil).should_not be_valid
+    end
+
+    it "should not be valid if username is not unique" do
+      FactoryGirl.create(:user, :username => "Abcde")
+      FactoryGirl.build(:user, :username => "Abcde").should_not be_valid
     end
   end
 
@@ -41,7 +55,7 @@ describe User do
 
   it 'should to_gmaps4rails return expected json' do
     @user = FactoryGirl.create(:user, :first_name => "ted", :last_name => "tylor",:latitude => '1.2345', :longitude => '6.7890')
-    @json = User.all.to_gmaps4rails
+    @json = User.last.to_gmaps4rails
     expected = %([{"description":"<a href= /users/#{@user.id}-#{@user.username}> #{@user.to_s}</a>","lat":1.2345,"lng":6.7890}])
 
     @json.should be_json_eql(expected)
