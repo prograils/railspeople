@@ -1,7 +1,7 @@
 .blog
   .first-line
     = f.label :url
-    = f.text_field :url, :placeholder => "Url", :class => "input-xxlarge"
+    = f.text_field :url, :placeholder => "http://myblog.com", :class => "input-xxlarge"
   .remove-button
     = f.link_to_remove "[-] Remove", :data => {:confirm => "Are you sure?"}, :class => 'btn btn-small btn-danger'
   %hr

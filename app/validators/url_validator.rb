@@ -80,10 +80,13 @@ class RedirectFollower
         raise Error
       end
     end
-
-    logger.info "redirect limit: #{redirect_limit}"
-    logger.info "response code: #{response.code}"
-    logger.debug "response body: #{response.body}"
+    begin
+      logger.info "redirect limit: #{redirect_limit}"
+      logger.info "response code: #{response.code}"
+      logger.debug "response body: #{response.body}"
+    rescue 
+      raise Error
+    end
 
     if response.kind_of?(Net::HTTPRedirection)
       self.url = redirect_url

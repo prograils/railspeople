@@ -16,8 +16,14 @@ describe Social do
   end
 
   describe "validatable social url" do
-    it "should not be valid if url is empty" do
+    it "should not be valid if url is blank" do
       FactoryGirl.build(:social, :url => "").should_not be_valid
+    end
+    it "should be valid if url is http" do
+      FactoryGirl.build(:social, :url => "http://stackoverflow.com").should be_valid
+    end
+    it "should be valid if url is https" do
+      FactoryGirl.build(:social, :url => "https://twitter.com").should be_valid
     end
     it "should not be valid if url is invalid" do
       FactoryGirl.build(:social, :url => "http://www").should_not be_valid

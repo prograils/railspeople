@@ -10,8 +10,13 @@ describe Blog do
     it "should not be valid if user is nil" do
       FactoryGirl.build(:blog, :user_id => nil).should_not be_valid
     end
-    it "should not be valid if title is empty" do
-      FactoryGirl.build(:blog, :title => "").should_not be_valid
+    #przechodzi bo tytul jest dodawany przed validacja
+    it "should be valid if title is empty, because of before validation" do
+      FactoryGirl.build(:blog, :title => "").should be_valid
+    end
+    it "should fill title before validation" do
+      blog = FactoryGirl.create(:blog, :title => "")
+      blog.title.should eq("Wirtualna Polska - www.wp.pl")
     end
   end
   describe "validatable blog url" do
