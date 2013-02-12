@@ -24,7 +24,14 @@ class UsersController < InheritedResources::Base
   def find_near
     lat = resource.latitude
     lng = resource.longitude
-    @near = User.near([lat, lng], 50).limit(5) # 50 miles
+    range = 10
+    while @near.nil? || @near.count < 5
+      @near = User.near([lat, lng], range).limit(5) # miles
+      range += 50
+      if range >= 500
+        break
+      end
+    end
     @near = @near.where('id != ?', @user.id)
   end
 end
