@@ -45,29 +45,31 @@
         - @user.blogs.each do |blog|
           %li
             = link_to "#{blog.title}", blog.url
-    .span8
-      .span4
+    - if @user.gtalk.present? || @user.skype.present? || @user.jabber.present?
+      .span8
         - if @user.gtalk.present?
-          %p
+          .span3
             = image_tag 'gtalk.png', :size => "40x40"
             = @user.gtalk
         - if @user.skype.present?
-          %p
+          .span3
             = image_tag 'skype.png', :size => "40x40"
             = @user.skype
         - if @user.jabber.present?
-          %p
+          .span3
             = image_tag 'jabber.png', :size => "40x40"
             = @user.jabber
-      .span8
-        - if @user.socials.any?
-          - @user.socials.each do |social|
-            %p
-              - if find_asset("#{social.title}.png")
-                = image_tag("#{social.title}.png", :size => "40x40")
-              - else
-                = image_tag("question.png", :size => "40x40")
-              = link_to "#{social.title}", social.url
+      .clear
+      %br
+    - if @user.socials.any?
+      - @user.socials.in_groups(3, false).each do |group_social|
+        - group_social.each do |social|
+          .span3
+            - if find_asset("#{social.title}.png")
+              = image_tag("#{social.title}.png", :size => "40x40")
+            - else
+              = image_tag("question.png", :size => "40x40")
+            = link_to "#{social.title}", social.url
 
 #near_people.offset6
   %h3 People near #{@user.first_name}:

@@ -105,8 +105,14 @@ describe "Users" do
       click_button "social_sub"
       page.should have_content("You updated your account successfully")
     end
+
+    it "allows to cancel the account" do
+      click_on "destroy_link"
+      page.should have_content("Bye! Your account was successfully cancelled. We hope to see you again soon.")
+    end
   end
   
+  #NESTED ATTRIBUTES
   context "nested attribiutes", :js => true do
     it "allows to change blogs without current password" do
       user = FactoryGirl.create(:user, :email => "alinde@example3.com", :password => "ilovegrapes", :password_confirmation => 'ilovegrapes')
@@ -186,6 +192,43 @@ describe "Users" do
         page.should have_content "Email"
         page.should have_content @user_with_email_for_anyone.email
       end
+
+      it "should show blogs" do
+        @blog = FactoryGirl.create(:blog, :user_id => @user.id)
+        visit user_path(@user)
+        find(:css, "a:contains('wp')")
+      end
+      
+      it "should show socials" do
+        @social = FactoryGirl.create(:social, :user_id => @user.id)
+        visit user_path(@user)
+        find(:css, "a:contains('stackoverflow')")
+      end
+    end
+  end
+
+  describe "GET user show loggedd as user" do
+    before do
+      @user = FactoryGirl.create(:user, :email => "brown@test.pl")
+      login_as(@user, :scope => :user)
+      @country = FactoryGirl.create(:country)
+      @near = FactoryGirl.create(:user, :first_name => "Jessy", :last_name => "Black", :country_id => @country.id,
+        :email_privacy => 0, :latitude => 52.350, :longitude => 16.750, :email => "jb@test.pl")
+    end
+
+    it "should can click on near people" do
+      visit user_path(@user)
+      click_on("Jessy Black")
+      page.should have_content "Jessy Black"
+    end
+
+    it "should show people with the same tags" do
+      @tag = FactoryGirl.create(:tag)
+      FactoryGirl.create(:tagging, :user => @user, :tag => @tag)
+      FactoryGirl.create(:tagging, :user => @near, :tag => @tag)
+      visit user_path(@user)
+      click_on "MyString"
+      page.should have_content "2 Ruby on Rails people mention this skill"
     end
   end
 

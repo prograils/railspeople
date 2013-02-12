@@ -36,30 +36,6 @@ describe User do
       FactoryGirl.create(:user, :username => "Abcde")
       FactoryGirl.build(:user, :username => "Abcde").should_not be_valid
     end
-
-    #TO DO -> CHANGE
-    # describe "validatable url attributes" do
-    #   it "should not be valid if stackoverflow url is invalid" do
-    #     @user = FactoryGirl.build(:user)
-    #     @user.stackoverflow = "http://www"
-    #     @user.should have(1).error_on(:stackoverflow)
-    #     @user.stackoverflow = "http://www.6768"
-    #     @user.should have(2).error_on(:stackoverflow)
-    #     @user.stackoverflow = "httpd://www.onet.pl"
-    #     @user.should have(2).error_on(:stackoverflow)
-    #   end
-    #   it "should be valid if stackoverflow url is valid" do
-    #     @user = FactoryGirl.build(:user)
-    #     @user.stackoverflow = "www.onet.pl"
-    #     @user.should have(0).error_on(:stackoverflow)
-    #     @user.stackoverflow = "http://onet.pl"
-    #     @user.should have(0).error_on(:stackoverflow)
-    #     @user.stackoverflow = "http://www.onet.pl"
-    #     @user.should have(0).error_on(:stackoverflow)
-    #     @user.stackoverflow = "https://poczta.onet.pl/"
-    #     @user.should have(0).error_on(:stackoverflow)
-    #   end
-    # end
   end
 
   it "should add new user with some coordinates values" do
@@ -97,6 +73,16 @@ describe User do
       expect {
         @user.update_attributes(:blogs_attributes => {'0' => {'url'=>'http://rubyonrails.org/', "_destroy"=>"false"}})
       }.to change { Blog.count }.by(1)
+    end
+    it "accept more nested blogs with https" do
+      expect {
+        @user.update_attributes(:blogs_attributes => {'0' => {'url'=>'https://delicious.com/', "_destroy"=>"false"}, '1' => {'url'=>'https://twitter.com/', "_destroy"=>"false"}})
+      }.to change { Blog.count }.by(2)
+    end
+    it "accept more nested socials with https" do
+      expect {
+        @user.update_attributes('socials_attributes' => {'0' => {'url'=>'https://twitter.com/'}, '1' => {'url'=>'https://delicious.com/'}})
+      }.to change { Social.count }.by(2)
     end
   end
 end

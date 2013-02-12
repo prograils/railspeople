@@ -46,7 +46,7 @@ GIT
 
 GIT
   remote: git://github.com/rails/rails.git
-  revision: 759679289e6f22a5e4cfd9015e5102194fb92b29
+  revision: 0268b5d8cdc3c5a1337462135f0a326a2654ba1a
   specs:
     actionmailer (4.0.0.beta)
       actionpack (= 4.0.0.beta)
@@ -167,7 +167,7 @@ GEM
     jquery-rails (2.1.4)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
-    json (1.7.6)
+    json (1.7.7)
     json_spec (1.1.0)
       multi_json (~> 1.0)
       rspec (~> 2.0)
@@ -182,7 +182,7 @@ GEM
       treetop (~> 1.4.8)
     mime-types (1.21)
     minitest (4.6.0)
-    multi_json (1.5.0)
+    multi_json (1.5.1)
     mysql2 (0.3.11)
     nested_form (0.3.1)
     nokogiri (1.5.6)
