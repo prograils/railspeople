@@ -35,8 +35,6 @@ group :assets do
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   #gem 'therubyracer', platforms: :ruby
   #gem "therubyracer", :require => 'v8'
-  #gem 'libv8', '3.11.8.3', platform: :ruby
-  gem 'libv8', '~> 3.11.8', :platform => :ruby
   gem 'therubyracer', :platforms => :ruby, :require => 'v8'
   gem 'libv8', '~> 3.11.8', :platform => :ruby
 
