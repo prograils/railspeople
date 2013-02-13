@@ -1,6 +1,9 @@
 - unless current_user == @user
   = render 'users/profile'
-= image_tag @user.avatar.url(:medium), :class => 'img-circle' if @user.avatar?
+- if @user.avatar?
+  = image_tag @user.avatar.url(:medium), :class => 'img-circle'
+- else
+  = image_tag avatar_url(@user), :class => 'img-circle'
 %span.profile-username= @user.to_s
 %br
 = image_tag("famfamfam_flags/#{@user.country.iso.downcase}.png")
