@@ -51,7 +51,7 @@ class User < ActiveRecord::Base
   attr_writer :tag_names
 
   ## BEFORE & AFTER
-  #after_validation :reverse_geocode  # auto-fetch address
+  after_validation :reverse_geocode  # auto-fetch address
   after_save :assign_tags
 
   def gmaps4rails_infowindow
