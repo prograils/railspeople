@@ -8,17 +8,16 @@ class UrlValidator < ActiveModel::EachValidator
     url = value
 
     # Regex code by 'Arsenic' from http://snippets.dzone.com/posts/show/3654
-    if url =~ /^((https?):\/\/)?([a-z\d]+([\-\.][a-z\d]+)*\.[a-z]{2,6})((:(\d{1,5}))?(\/.*)?)?$/ix
-    #     if url =~ /^
-    # (    (https?):\/\/                            )?
-    # (    [a-z\d]+([\-\.][a-z\d]+)*\.[a-z]{2,6}    )
-    #      (
-    #        (:
-    #      (      \d{1,5}                           )
-    #         )?
-    # (        \/.*                                 )?
-    #      )?
-    # $/ix
+    if url =~ /^
+    (    (https?):\/\/                            )?
+    (    [a-z\d]+([\-\.][a-z\d]+)*\.[a-z]{2,6}    )
+         (
+           (:
+         (      \d{1,5}                           )
+            )?
+    (        \/.*                                 )?
+         )?
+    $/ix
       url = "http#{'s' if $7 == '81'}://#{url}" unless $1
     else
       record.errors[attribute] << 'Not a valid URL'
@@ -26,9 +25,8 @@ class UrlValidator < ActiveModel::EachValidator
 
     if options[:verify]
       begin
-        # url_response = RedirectFollower.new(url).resolve
-        url = RedirectFollower.new(url).resolve.url if options[:verify] == [:resolve_redirects]
-        # url = url_response.url if options[:verify] == [:resolve_redirects]
+        url_response = RedirectFollower.new(url).resolve
+        url = url_response.url if options[:verify] == [:resolve_redirects]
       rescue RedirectFollower::TooManyRedirects
         record.errors[attribute] << 'URL is redirecting too many times'
       rescue RedirectFollower::Error
@@ -68,14 +66,13 @@ class RedirectFollower
       rescue
         raise Error
       end
+    end
     #rozwiazanie z http://www.rubyinside.com/nethttp-cheat-sheet-2940.html
-    elsif url =~ /https:/ix
+    if url =~ /https:/ix
       begin
-        # uri = URI.parse(url)
         http = Net::HTTP.new(URI.parse(url).host, URI.parse(url).port)
         http.use_ssl = true
         http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-        # request = Net::HTTP::Get.new(URI.parse(url).request_uri)
         self.response = http.request(Net::HTTP::Get.new(URI.parse(url).request_uri))
       rescue
         raise Error
