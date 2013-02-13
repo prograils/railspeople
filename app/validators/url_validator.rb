@@ -60,24 +60,8 @@ class RedirectFollower
   def resolve
     raise TooManyRedirects if redirect_limit < 0
 
-    if url =~ /http:/ix
-      begin
-        self.response = Net::HTTP.get_response(URI.parse(url))
-      rescue
-        raise Error
-      end
-    end
-    #rozwiazanie z http://www.rubyinside.com/nethttp-cheat-sheet-2940.html
-    if url =~ /https:/ix
-      begin
-        http = Net::HTTP.new(URI.parse(url).host, URI.parse(url).port)
-        http.use_ssl = true
-        http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-        self.response = http.request(Net::HTTP::Get.new(URI.parse(url).request_uri))
-      rescue
-        raise Error
-      end
-    end
+    http_check
+    
     # begin
     #   logger.info "redirect limit: #{redirect_limit}"
     #   logger.info "response code: #{response.code}"
@@ -96,6 +80,27 @@ class RedirectFollower
 
     self.body = response.body
     self
+  end
+
+  def http_check
+    if url =~ /http:/ix
+      begin
+        self.response = Net::HTTP.get_response(URI.parse(url))
+      rescue
+        raise Error
+      end
+    end
+    #rozwiazanie z http://www.rubyinside.com/nethttp-cheat-sheet-2940.html
+    if url =~ /https:/ix
+      begin
+        http = Net::HTTP.new(URI.parse(url).host, URI.parse(url).port)
+        http.use_ssl = true
+        http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+        self.response = http.request(Net::HTTP::Get.new(URI.parse(url).request_uri))
+      rescue
+        raise Error
+      end
+    end
   end
 
   def redirect_url
