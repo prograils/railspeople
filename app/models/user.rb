@@ -55,8 +55,12 @@ class User < ActiveRecord::Base
   after_save :assign_tags
 
   def gmaps4rails_infowindow
-    self.avatar? ? "<img class=\"img-circle\" src=\"#{self.avatar.url(:medium)}\"> <a href= /users/#{self.id}-#{self.username}> #{self.to_s}</a>"
-    : "<a href= /users/#{self.id}-#{self.username}> #{self.to_s}</a>"
+    if self.avatar?
+      "<img class=\"img-circle\" src=\"#{self.avatar.url(:medium)}\"> <a href= /users/#{self.id}-#{self.username}> #{self.to_s}</a>"
+    else
+      gravatar_id = Digest::MD5::hexdigest(self.email).downcase
+      "<img class=\"img-circle\" src=\"http://gravatar.com/avatar/#{gravatar_id}.png?d=mm\"> <a href= /users/#{self.id}-#{self.username}> #{self.to_s}</a>"
+    end
   end
 
   def gmaps4rails_address
