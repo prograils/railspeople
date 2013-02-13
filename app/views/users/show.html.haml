@@ -1,3 +1,4 @@
+= render 'users/profile'
 = image_tag @user.avatar.url(:medium), :class => 'img-circle' if @user.avatar?
 %span.profile-username= @user.to_s
 %br
@@ -35,7 +36,7 @@
   - if email_is_visible?(@user)
     %i.icon-envelope
     %strong Email:
-    %p= mail_to(@user.email)
+    = mail_to(@user.email)
   - if im_details_visible?(@user)
     %h3 Finding #{@user.first_name}
     - if @user.blogs.any?
@@ -62,20 +63,21 @@
       .clear
       %br
     - if @user.socials.any?
-      - @user.socials.in_groups(3, false).each do |group_social|
-        - group_social.each do |social|
-          .span3
-            - if find_asset("#{social.title}.png")
-              = image_tag("#{social.title}.png", :size => "40x40")
-            - else
-              = image_tag("question.png", :size => "40x40")
-            = link_to "#{social.title}", social.url
+      - @user.socials.each do |social|#.in_groups(2, false).each do |group_social|
+        / - group_social.each do |social|
+        .span3
+          - if find_asset("#{social.title}.png")
+            = image_tag("#{social.title}.png", :size => "40x40")
+          - else
+            = image_tag("question.png", :size => "40x40")
+          = link_to "#{social.title}", social.url
+        .clear
 
 #near_people.offset6
   %h3 People near #{@user.first_name}:
   - @near.each do |n|
     %p
-      =link_to n.to_s, user_path(n)
+      =link_to n.username, user_path(n)
       %br
       = image_tag("famfamfam_flags/#{n.country.iso.downcase}.png")
       = n.country.printable_name

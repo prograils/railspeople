@@ -3,6 +3,7 @@
   %span.selected-country-printable-name 
     = @selected_country.printable_name 
   = pluralize @selected_country.users_count, "person"
+  = render 'users/profile'
   %br/
   %br/
 - else
@@ -11,12 +12,7 @@
       = image_tag('rails.png')
     .pull-left
       %h1= 'Rails People'
-    .pull-right
-      - if user_signed_in?
-        .profile-username
-        = link_to "#{current_user.to_s}", user_path(current_user)
-        - if current_user.avatar?
-          = image_tag current_user.avatar.url(:medium), :class => 'img-circle'
+    = render 'users/profile'
   %div
     Discover users of the 
     = link_to "Ruby on Rails Web", "http://rubyonrails.org/", :target => "_blank"
@@ -31,7 +27,7 @@
   = will_paginate @people
   - @people.each do |person|
     .row.span4
-      = link_to person.email, user_path(person)
+      = link_to person.username, user_path(person)
       %br
       = image_tag("famfamfam_flags/#{person.country.iso.downcase}.png")
       = person.country.printable_name

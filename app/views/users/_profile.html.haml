@@ -1,0 +1,6 @@
+.pull-right
+  - if user_signed_in?
+    .profile-username
+    = link_to "#{current_user.to_s}", user_path(current_user)
+    - if current_user.avatar?
+      = image_tag current_user.avatar.url(:medium), :class => 'img-circle'
