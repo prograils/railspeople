@@ -141,6 +141,13 @@
           %div
             = f.label :jabber
             = f.text_field :jabber, :placeholder => "Nick"
+          %div
+            = f.label :github
+            = f.text_field :github, :placeholder => "Nick"
+          %div
+            = f.label :twitter
+            = f.text_field :twitter, :placeholder => "Nick"
+
           %br
           Services adress
           %br
@@ -148,7 +155,7 @@
           /   = f.fields_for :socials
           /   = f.link_to_add "Add service", :socials, :class => 'btn btn-small btn-primary'
           = f.fields_for :socials do |s|
-            = s.text_field :url, :placeholder => "https://twitter.com", :class => "input-xxlarge"
+            = s.text_field :url, :placeholder => "https://facebook.com", :class => "input-xxlarge"
             = s.link_to_remove "Remove", :class => 'btn btn-small btn-danger'
             %br
             %br

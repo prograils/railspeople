@@ -78,6 +78,12 @@
         %div
           = f.label :jabber
           = f.text_field :jabber, :placeholder => "Nick"
+        %div
+          = f.label :github
+          = f.text_field :github, :placeholder => "Nick"
+        %div
+          = f.label :twitter
+          = f.text_field :twitter, :placeholder => "Nick"
 
         Services adress
         = f.fields_for :socials do |s|

@@ -1,4 +1,5 @@
-= render 'users/profile'
+- unless current_user == @user
+  = render 'users/profile'
 = image_tag @user.avatar.url(:medium), :class => 'img-circle' if @user.avatar?
 %span.profile-username= @user.to_s
 %br
@@ -47,30 +48,38 @@
           %li
             = link_to "#{blog.title}", blog.url
     - if @user.gtalk.present? || @user.skype.present? || @user.jabber.present?
-      .span8
+      .span12
         - if @user.gtalk.present?
-          .span3
+          .span2
             = image_tag 'gtalk.png', :size => "40x40"
             = @user.gtalk
         - if @user.skype.present?
-          .span3
+          .span2
             = image_tag 'skype.png', :size => "40x40"
             = @user.skype
         - if @user.jabber.present?
-          .span3
+          .span2
             = image_tag 'jabber.png', :size => "40x40"
             = @user.jabber
+        - if @user.github.present?
+          .span2
+            = image_tag 'github.png', :size => "40x40"
+            = @user.github
+        - if @user.twitter.present?
+          .span2
+            = image_tag 'twitter.png', :size => "40x40"
+            = @user.twitter
       .clear
       %br
     - if @user.socials.any?
-      - @user.socials.each do |social|#.in_groups(2, false).each do |group_social|
-        / - group_social.each do |social|
-        .span3
-          - if find_asset("#{social.title}.png")
-            = image_tag("#{social.title}.png", :size => "40x40")
-          - else
-            = image_tag("question.png", :size => "40x40")
-          = link_to "#{social.title}", social.url
+      - @user.socials.in_groups(2, false).each do |group_social|
+        - group_social.each do |social|
+          .span4
+            - if find_asset("#{social.title}.png")
+              = image_tag("#{social.title}.png", :size => "40x40")
+            - else
+              = image_tag("question.png", :size => "40x40")
+            = link_to "#{social.title}", social.url
         .clear
 
 #near_people.offset6
