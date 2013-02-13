@@ -211,13 +211,13 @@ describe "Users" do
       @user = FactoryGirl.create(:user, :email => "brown@test.pl")
       login_as(@user, :scope => :user)
       @country = FactoryGirl.create(:country)
-      @near = FactoryGirl.create(:user, :first_name => "Jessy", :last_name => "Black", :country_id => @country.id,
+      @near = FactoryGirl.create(:user, :first_name => "Jessy", :last_name => "Black", :username => "JeBe", :country_id => @country.id,
         :email_privacy => 0, :latitude => 52.350, :longitude => 16.750, :email => "jb@test.pl")
     end
 
     it "should can click on near people" do
       visit user_path(@user)
-      click_on("Jessy Black")
+      click_on("JeBe")
       page.should have_content "Jessy Black"
     end
 
