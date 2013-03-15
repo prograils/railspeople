@@ -13,7 +13,7 @@ gem 'will_paginate', '~> 3.0.0'
 gem 'country_select'
 gem 'inherited_resources'
 gem "json_spec", "~> 1.1.0"
-gem 'haml'
+gem "haml", :github => "haml/haml", :branch => "stable"
 gem 'haml-rails'
 gem 'gmaps4rails'
 gem "cancan"
@@ -39,13 +39,13 @@ group :assets do
   gem 'therubyracer', :platforms => :ruby, :require => 'v8'
   gem 'libv8', '~> 3.11.8', :platform => :ruby
 
-  gem 'uglifier', '>= 1.0.3'
+  gem 'uglifier', '~> 1.0.3'
 end
 
 gem "factory_girl_rails", "~> 4.0"
 
 group :development, :test do
-  gem 'rspec-rails'
+  gem 'rspec-rails', '= 2.12.2'
   gem 'capybara', :git => 'git://github.com/jnicklas/capybara.git'
   gem 'launchy'
   gem 'database_cleaner', :github => 'bmabey/database_cleaner'

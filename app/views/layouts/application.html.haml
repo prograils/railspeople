@@ -47,7 +47,7 @@
         .span12
           - if notice
             %p#notice= notice
-            - elsif alert
+          - elsif alert
             %p#alert= alert
           = yield
 
