@@ -39,14 +39,14 @@ group :assets do
   gem 'therubyracer', :platforms => :ruby, :require => 'v8'
   gem 'libv8', '~> 3.11.8', :platform => :ruby
 
-  gem 'uglifier', '~> 1.0.3'
+  gem 'uglifier', '>= 1.0.3'
 end
 
 gem "factory_girl_rails", "~> 4.0"
 
 group :development, :test do
-  gem 'rspec-rails', '= 2.12.2'
-  gem 'capybara', :git => 'git://github.com/jnicklas/capybara.git'
+  gem 'rspec-rails', '~> 2.12.2'
+  gem 'capybara', '2.0.2'
   gem 'launchy'
   gem 'database_cleaner', :github => 'bmabey/database_cleaner'
 end
