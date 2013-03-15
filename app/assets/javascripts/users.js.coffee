@@ -40,18 +40,19 @@ jQuery ->
             map: map
             draggable: false
           )
-          # infoWindow = new google.maps.InfoWindow()
-          # google.maps.event.addListener marker, "click", ->
-          #   markerContent = "bla"
-          #   infoWindow.setContent markerContent
-          #   infoWindow.open map, marker
 
-  #registration/new
-  # Update form attributes with given coordinates
-  updateFormLocation = (latLng, map) ->
-    $("#user_latitude").val latLng.lat()
-    $("#user_longitude").val latLng.lng()
-    $("#user_zoom").val map.getZoom()
+
+  # Update form attributes with given datas
+  updateFormZoom = (map) ->
+    $("#user_zoom").attr 'value', map.getZoom()
+
+  updateFormPos = (latLng) ->
+    $("#user_latitude").attr 'value', latLng.lat()
+    $("#user_longitude").attr 'value',latLng.lng()
+
+  updateFormZoomAndPos = (map, latLng) ->
+    updateFormZoom(map)
+    updateFormPos(latLng)
 
   # Add a marker with an open infowindow
   placeMarker = (latLng, map) ->
@@ -60,14 +61,13 @@ jQuery ->
       map: map
       draggable: true
     )
-    markersArray.push marker
     # Set and open infowindow
     infowindow = new google.maps.InfoWindow(content: "<div class=\"popup\"><h2>Awesome!</h2><p>Drag me and adjust the zoom level.</p>")
     infowindow.open map, marker
 
     # Listen to drag & drop
     google.maps.event.addListener marker, "dragend", ->
-      updateFormLocation @getPosition()
+      updateFormZoom map
 
   # Removes the overlays from the map
   clearOverlays = ->
@@ -78,13 +78,29 @@ jQuery ->
         i++
     markersArray.length = 0
 
+  addClass = (map_container) ->
+    map_container.addClass "gmaps4rails_map"
+    map_container.addClass "map_container"
+    map_container.addClass('google-maps')
+
+  addListeners = (map, marker) ->
+    google.maps.event.addListener map, "click", (event) ->
+        marker.setPosition(event.latLng)
+        updateFormZoomAndPos map, event.latLng
+
+    google.maps.event.addListener map, "idle", (event)->
+      updateFormZoomAndPos map, marker.getPosition()
+
+    google.maps.event.addListener marker, "dragend", (event) ->
+      updateFormPos marker.getPosition()
+
   $(document).ready ->
     window.markersArray = []
+    #users/id
     if document.getElementById("user_map")
-      newMap = init("user_map", $("#user_lat").data('url'), $("#user_lng").data('url'), $("#user_zoom").data('url'))
-      $('#user_map').addClass('gmaps4rails_map');
-      $('#user_map').addClass('map_container');
-      $('#user_map').addClass('google-maps');
+      newMap = init("user_map", $("#user_lat").data('url'), $("#user_lng").data('url'), $("#user_zoom").data('url') || 5)
+
+      addClass($('#user_map'))
       userMarker = new google.maps.LatLng($("#user_lat").data('url'), $("#user_lng").data('url'))
       placeNormalMarker(userMarker, newMap, false)
       placeNearMarkers(newMap)
@@ -94,9 +110,19 @@ jQuery ->
       #   $('#near_information').addClass('hidden')
       #   google.maps.event.clearListeners(newMap, "click")
 
+    #registration/new
     if document.getElementById("registration_map")
-      #gain acces to country coordinates after select
       window.map
+
+      editMap = new Object
+      latLng = new Object
+      marker = new google.maps.Marker(
+        position: null
+        map: null
+        draggable: true
+      )
+
+      # when listItem selected
       $("#user_country_id").change ->
         $.ajax
           url: "/countries_selection"
@@ -104,44 +130,59 @@ jQuery ->
           dataType: "json"
           data: "id=" + $("#user_country_id").val()
           complete: ->
-
           success: (data, textStatus, xhr) ->
+            addClass($("#registration_map"))
+            latLng = new google.maps.LatLng(data.country.lat, data.country.lng)
+            regMap = init("registration_map", data.country.lat, data.country.lng, 5)
+            marker.setMap(regMap)
+            marker.setPosition(latLng)
 
-            # On click, clear markers, place a new one, update coordinates in the form
-            # map.callback = function() {
-            #   google.maps.event.addListener(map, 'click', function(event) {
-            #     clearOverlays();
-            #     placeMarker(event.latLng);
-            #     updateFormLocation(event.latLng);
-            #   });
-            # };
+            addListeners(regMap, marker)
 
-            $("#registration_map").addClass "gmaps4rails_map"
-            $("#registration_map").addClass "map_container"
-            $('#registration_map').addClass('google-maps');
-            map = init("registration_map", data.country.lat, data.country.lng, 5)
-            google.maps.event.addListener map, "click", (event) ->
-              clearOverlays()
-              placeMarker event.latLng, map
-              updateFormLocation event.latLng, map
+    #registration/edit
     if document.getElementById("edit_map")
-      window.markersArray = []
+      markersArray = []
       window.map
-      $("#edit_map").addClass "gmaps4rails_map"
-      $("#edit_map").addClass "map_container"
-      $('#edit_map').addClass('google-maps');
-      editMap = init("edit_map", $("#user_lat").data('url'), $("#user_lng").data('url'), $("#user_zoom").data('url'))
-      latLng = new google.maps.LatLng($("#user_lat").data('url'), $("#user_lng").data('url'))
+
+      user_latitude = $("#user_latitude").val()
+      user_longitude = $("#user_longitude").val()
+      user_zoom =  parseInt($("#user_zoom").val(), 10)
+      editMap = new Object
+      latLng = new Object
       marker = new google.maps.Marker(
-        position: latLng
-        map: editMap
+        position: null
+        map: null
         draggable: true
       )
-      markersArray.push marker
-      google.maps.event.addListener marker, "dragend", (event) ->
-        $("#user_latitude").val event.latLng.lat()
-        $("#user_longitude").val event.latLng.lng()
-      google.maps.event.addListener editMap, "zoom_changed", (event) ->
-        $("#new_zoom").val editMap.getZoom()
+      user_country_list = $("#user_country_id")
 
+      # when register with oauth, these form fields and user_zoom are empty
+      if user_latitude != "" && user_longitude != ""
+        addClass($("#edit_map"))
+        editMap = init("edit_map", user_latitude, user_longitude, user_zoom)
+        latLng = new google.maps.LatLng(user_latitude, user_longitude)
+        marker.setMap(editMap)
+        marker.setPosition(latLng)
+
+        addListeners(editMap, marker)
+      else
+      # setu country_id as null
+        user_country_list.prepend "<option value='' selected='selected'></option>"
+        $("#sections_container").find("section#map").insertBefore("section#user")
+
+      # when listItem selected
+      user_country_list.change ->
+        $.ajax
+          url: "/countries_selection"
+          type: "GET"
+          dataType: "json"
+          data: "id=" + user_country_list.val()
+          success: (data, textStatus, xhr) ->
+            addClass($("#edit_map"))
+            latLng = new google.maps.LatLng(data.country.lat, data.country.lng)
+            editMap = init("edit_map", data.country.lat, data.country.lng, 5)
+            marker.setMap(editMap)
+            marker.setPosition(latLng)
+
+            addListeners(editMap, marker)
 

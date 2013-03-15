@@ -1,7 +1,12 @@
 Railspeople::Application.routes.draw do
-  devise_for :users, :controllers => {:registrations => "users/registrations", :passwords => "users/passwords"}
+  devise_for :users, :controllers => {
+              :registrations => "users/registrations",
+              :passwords => "users/passwords",
+              :omniauth_callbacks => "users/omniauth_callbacks"
+            }
+
   resources :users, :only => :show do
-    get 'tags', :on => :member 
+    get 'tags', :on => :member
   end
   get 'tags/:tag', to: 'users#tags', as: :tag
   resources :countries, :only => [:new, :create]

@@ -17,8 +17,8 @@ class User < ActiveRecord::Base
   self.per_page = 20
 
   ## DEVISE
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+  devise :database_authenticatable, :registerable, :recoverable,
+         :rememberable, :trackable, :validatable, :omniauthable
 
   ## GMAP
   acts_as_gmappable :process_geocoding => false
@@ -105,4 +105,46 @@ class User < ActiveRecord::Base
       end
     end
   end
+
+  def self.find_for_facebook_oauth(access_token, signed_in_resource=nil)
+    data = access_token.extra.raw_info
+    user = User.where(:email => data.email).first || nil
+    user
+  end
+
+  def self.find_or_create_for_facebook_oauth(access_token, signed_in_resource=nil)
+    data = access_token.extra.raw_info
+    if data.email.present?
+      if user = User.where(:email => data.email).first
+        user
+      else # Create a user with a stub password.
+        uname = self.find_or_create_username(data["first_name"], data["last_name"])
+        User.create!(
+          username: "#{uname}",
+          email: data.email,
+          password: Devise.friendly_token[0,20],
+          first_name: data["first_name"] || "u_firstname",
+          last_name: data["last_name"] || "u_lastname",
+          country_id: 409)
+      end
+    end
+  end
+
+  def self.find_or_create_username(first_n, last_n)
+    first_and_last = []
+    first_and_last << first_n.capitalize if first_n.present?
+    first_and_last << last_n.capitalize if last_n.present?
+    value = first_and_last.join("_")
+    if User.exists?(:username => value)
+      value += "_"
+      (1.. 8).collect{ |n|
+        chr =  (48 + rand(9)).chr
+        value  << chr
+      }.join
+    else
+      #do nothing
+    end
+    value
+  end
+
 end

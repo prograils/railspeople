@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130128121533) do
+ActiveRecord::Schema.define(version: 20130213132932) do
 
   create_table "blogs", force: true do |t|
     t.integer  "user_id",                 null: false
@@ -88,6 +88,8 @@ ActiveRecord::Schema.define(version: 20130128121533) do
     t.string   "gtalk"
     t.string   "skype"
     t.string   "jabber"
+    t.string   "github"
+    t.string   "twitter"
   end
 
   add_index "users", ["country_id"], name: "index_users_on_country_id"
