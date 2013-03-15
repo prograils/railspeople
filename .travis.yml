@@ -1,0 +1,2 @@
+before_script:
+  - mysql -e 'create database railspeople_test;'
