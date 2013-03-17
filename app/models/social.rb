@@ -1,5 +1,5 @@
 class Social < ActiveRecord::Base
-  before_save :check_url
+  before_validation :check_url
   after_update :fill_new_title
   ## SCOPES
   scope :order_by_date, -> { order('created_at DESC')}
