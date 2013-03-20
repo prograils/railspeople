@@ -207,5 +207,5 @@ Devise.setup do |config|
   #   manager.default_strategies(:scope => :user).unshift :some_external_strategy
   # end
 
-  config.omniauth :facebook, '566634863360897', 'c375cf6816fafb4b8f37860a8d56891b', :require => 'omniauth-facebook', :strategy_class => OmniAuth::Strategies::Facebook
+  config.omniauth :facebook, ENV['RAILSPEOPLE_FACEBOOK_OAUTH_CLIENT'], ENV['RAILSPEOPLE_FACEBOOK_OAUTH_SECRET'], :require => 'omniauth-facebook', :strategy_class => OmniAuth::Strategies::Facebook
 end
