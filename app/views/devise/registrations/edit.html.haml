@@ -52,7 +52,10 @@
         =# password
         %section#password.well
           %div.page-header
-            = "Change my password"
+            - if resource.change_password_needed?
+              = "Set my password"
+            - else
+              = "Change my password"
           %div
             = f.label :password
             = f.password_field :password, :autocomplete => 'off'
@@ -61,7 +64,7 @@
           %div
             = f.label :password_confirmation
             = f.password_field :password_confirmation
-          %div
+          %div{:style => "display:#{resource.change_password_needed? ? "none" : "inline"}"}
             = f.label :current_password
             = f.password_field :current_password
             %i (we need your current password to confirm your changes)

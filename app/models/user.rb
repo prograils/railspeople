@@ -42,6 +42,7 @@ class User < ActiveRecord::Base
 
   ## VALIDATIONS
   validates_presence_of :email, :username, :first_name, :last_name, :country_id
+  validate :email_filled, :on => :update
   validates_presence_of :looking_for_work, :email_privacy
   validates_uniqueness_of :username
   validates :looking_for_work, :inclusion=>{:in=>(User::WORK_TYPES.values)}
@@ -53,6 +54,7 @@ class User < ActiveRecord::Base
   ## BEFORE & AFTER
   after_validation :reverse_geocode  # auto-fetch address
   after_save :assign_tags
+  after_update :check_password_changed
 
   def gmaps4rails_infowindow
     if self.avatar?
@@ -61,6 +63,10 @@ class User < ActiveRecord::Base
       gravatar_id = Digest::MD5::hexdigest(self.email).downcase
       "<img class=\"img-circle\" src=\"http://gravatar.com/avatar/#{gravatar_id}.png?d=mm\"> <a href= /users/#{self.id}-#{self.username}> #{self.to_s}</a>"
     end
+  end
+
+  def email_filled
+    errors.add(:email, ' - change to Your valid') if no_email_filled?
   end
 
   def gmaps4rails_address
@@ -92,8 +98,34 @@ class User < ActiveRecord::Base
     self.looking_for_work == 2
   end
 
+  def no_email_filled?
+    email = self.email
+    if (email.present?)
+      index = email.index("@")
+      return (email[index..-1] == "@5h0u1d-change.it")
+    end
+    return 0
+  end
+
   def to_param
     "#{id}-#{username}".parameterize
+  end
+
+  def update_with_password_without_current(params={})
+    params.delete(:current_password)
+    puts "===========PARAMS: #{params}"
+
+    result = update_attributes(params)
+    puts "self:: #{self.errors.inspect}"
+    puts "===========RES: #{result}"
+
+    clean_up_passwords
+    result
+  end
+
+  def update_without_password(params={})
+    params.delete(:current_password)
+    super(params)
   end
 
   private
@@ -125,9 +157,53 @@ class User < ActiveRecord::Base
           password: Devise.friendly_token[0,20],
           first_name: data["first_name"] || "u_firstname",
           last_name: data["last_name"] || "u_lastname",
-          country_id: 409)
+          country_id: 409,
+          change_password_needed: true)
       end
     end
+  end
+
+  def self.find_for_twitter(response)
+    data = response.extra.raw_info
+    user = User.find_by_twitter_id(data["id"]) || nil
+    user
+  end
+
+  def self.find_or_create_for_twitter(response)
+    data = response.extra.raw_info
+    if user = User.find_by_twitter_id(data["id"])
+      user
+    else # Create a user with a stub password.
+      uname = self.find_or_create_username_for_twitter(data["screen_name"])
+      first_name, last_name = data["name"].split
+
+      user = User.new(
+        username: "#{uname}",
+        email: "#{self.temporary_email}",
+        password: Devise.friendly_token[0,20],
+        first_name: first_name || "u_firstname",
+        last_name: last_name || "u_lastname",
+        country_id: 409,
+        change_password_needed: true)
+
+      user.twitter_id = data["id_str"]
+      user.twitter_screen_name = data["screen_name"]
+      user.twitter_display_name = data["name"]
+
+      user.save
+      user
+    end
+  end
+
+  def self.temporary_email
+    email_addr = "your.email-"
+    (1.. 8).collect{ |n|
+        chr =  (48 + rand(9)).chr
+        email_addr  << chr
+      }.join
+
+     email_addr += "@5h0u1d-change.it"
+     email_addr
   end
 
   def self.find_or_create_username(first_n, last_n)
@@ -145,6 +221,25 @@ class User < ActiveRecord::Base
       #do nothing
     end
     value
+  end
+
+  def self.find_or_create_username_for_twitter(screen_name)
+    if User.exists?(:username => screen_name)
+      screen_name += "_"
+      (1.. 8).collect{ |n|
+        chr =  (48 + rand(9)).chr
+        screen_name  << chr
+      }.join
+    else
+      #do nothing
+    end
+    screen_name
+  end
+
+  def check_password_changed
+    if encrypted_password_changed?
+      self.update_column(:change_password_needed, false)
+    end
   end
 
 end

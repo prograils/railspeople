@@ -208,4 +208,5 @@ Devise.setup do |config|
   # end
 
   config.omniauth :facebook, ENV['RAILSPEOPLE_FACEBOOK_OAUTH_CLIENT'], ENV['RAILSPEOPLE_FACEBOOK_OAUTH_SECRET'], :require => 'omniauth-facebook', :strategy_class => OmniAuth::Strategies::Facebook
+  config.omniauth :twitter, ENV['RAILSPEOPLE_TWITTER_OAUTH_CLIENT'], ENV['RAILSPEOPLE_TWITTER_OAUTH_SECRET'], :require => 'omniauth-twitter', :strategy_class => OmniAuth::Strategies::Twitter
 end

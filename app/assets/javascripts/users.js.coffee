@@ -8,6 +8,10 @@ sections.click ->
 
 sections.click()
 
+setCountryAsNull = (list_id) ->
+  user_country_list = $("#" + list_id)
+  user_country_list.prepend "<option value='' selected='selected'></option>"
+
 window.map
 jQuery ->
   #user/show
@@ -94,95 +98,94 @@ jQuery ->
     google.maps.event.addListener marker, "dragend", (event) ->
       updateFormPos marker.getPosition()
 
-  $(document).ready ->
-    window.markersArray = []
-    #users/id
-    if document.getElementById("user_map")
-      newMap = init("user_map", $("#user_lat").data('url'), $("#user_lng").data('url'), $("#user_zoom").data('url') || 5)
+  window.markersArray = []
+  #users/id
+  if document.getElementById("user_map")
+    newMap = init("user_map", $("#user_lat").data('url'), $("#user_lng").data('url'), $("#user_zoom").data('url') || 5)
 
-      addClass($('#user_map'))
-      userMarker = new google.maps.LatLng($("#user_lat").data('url'), $("#user_lng").data('url'))
-      placeNormalMarker(userMarker, newMap, false)
-      placeNearMarkers(newMap)
-      # google.maps.event.addListener newMap, "click", (event) ->
-      #   $('#near_people').removeClass('hidden')
-      #   $('#near_people').addClass('visible')
-      #   $('#near_information').addClass('hidden')
-      #   google.maps.event.clearListeners(newMap, "click")
+    addClass($('#user_map'))
+    userMarker = new google.maps.LatLng($("#user_lat").data('url'), $("#user_lng").data('url'))
+    placeNormalMarker(userMarker, newMap, false)
+    placeNearMarkers(newMap)
+    # google.maps.event.addListener newMap, "click", (event) ->
+    #   $('#near_people').removeClass('hidden')
+    #   $('#near_people').addClass('visible')
+    #   $('#near_information').addClass('hidden')
+    #   google.maps.event.clearListeners(newMap, "click")
 
-    #registration/new
-    if document.getElementById("registration_map")
-      window.map
+  #registration/new
+  if document.getElementById("registration_map")
+    window.map
 
-      editMap = new Object
-      latLng = new Object
-      marker = new google.maps.Marker(
-        position: null
-        map: null
-        draggable: true
-      )
+    editMap = new Object
+    latLng = new Object
+    marker = new google.maps.Marker(
+      position: null
+      map: null
+      draggable: true
+    )
 
-      # when listItem selected
-      $("#user_country_id").change ->
-        $.ajax
-          url: "/countries_selection"
-          type: "GET"
-          dataType: "json"
-          data: "id=" + $("#user_country_id").val()
-          complete: ->
-          success: (data, textStatus, xhr) ->
-            addClass($("#registration_map"))
-            latLng = new google.maps.LatLng(data.country.lat, data.country.lng)
-            regMap = init("registration_map", data.country.lat, data.country.lng, 5)
-            marker.setMap(regMap)
-            marker.setPosition(latLng)
+    # when listItem selected
+    $("#user_country_id").change ->
+      $.ajax
+        url: "/countries_selection"
+        type: "GET"
+        dataType: "json"
+        data: "id=" + $("#user_country_id").val()
+        complete: ->
+        success: (data, textStatus, xhr) ->
+          addClass($("#registration_map"))
+          latLng = new google.maps.LatLng(data.country.lat, data.country.lng)
+          regMap = init("registration_map", data.country.lat, data.country.lng, 5)
+          marker.setMap(regMap)
+          marker.setPosition(latLng)
 
-            addListeners(regMap, marker)
+          addListeners(regMap, marker)
 
-    #registration/edit
-    if document.getElementById("edit_map")
-      markersArray = []
-      window.map
+  #registration/edit
+  if document.getElementById("edit_map")
+    markersArray = []
+    window.map
 
-      user_latitude = $("#user_latitude").val()
-      user_longitude = $("#user_longitude").val()
-      user_zoom =  parseInt($("#user_zoom").val(), 10)
-      editMap = new Object
-      latLng = new Object
-      marker = new google.maps.Marker(
-        position: null
-        map: null
-        draggable: true
-      )
-      user_country_list = $("#user_country_id")
+    user_latitude = $("#user_latitude").val()
+    user_longitude = $("#user_longitude").val()
+    user_zoom =  parseInt($("#user_zoom").val(), 10)
+    editMap = new Object
+    latLng = new Object
+    marker = new google.maps.Marker(
+      position: null
+      map: null
+      draggable: true
+    )
+    user_country_list = $("#user_country_id")
 
-      # when register with oauth, these form fields and user_zoom are empty
-      if user_latitude != "" && user_longitude != ""
-        addClass($("#edit_map"))
-        editMap = init("edit_map", user_latitude, user_longitude, user_zoom)
-        latLng = new google.maps.LatLng(user_latitude, user_longitude)
-        marker.setMap(editMap)
-        marker.setPosition(latLng)
+    # when register with oauth, these form fields and user_zoom are empty
+    if user_latitude != "" && user_longitude != ""
+      addClass($("#edit_map"))
+      editMap = init("edit_map", user_latitude, user_longitude, user_zoom)
+      latLng = new google.maps.LatLng(user_latitude, user_longitude)
+      marker.setMap(editMap)
+      marker.setPosition(latLng)
 
-        addListeners(editMap, marker)
-      else
-      # setu country_id as null
-        user_country_list.prepend "<option value='' selected='selected'></option>"
-        $("#sections_container").find("section#map").insertBefore("section#user")
+      addListeners(editMap, marker)
+    else
+    # set country_id as null
+      setCountryAsNull("user_country_id")
+      $("#sections_container").find("section#map").insertBefore("section#user")
 
-      # when listItem selected
-      user_country_list.change ->
-        $.ajax
-          url: "/countries_selection"
-          type: "GET"
-          dataType: "json"
-          data: "id=" + user_country_list.val()
-          success: (data, textStatus, xhr) ->
-            addClass($("#edit_map"))
-            latLng = new google.maps.LatLng(data.country.lat, data.country.lng)
-            editMap = init("edit_map", data.country.lat, data.country.lng, 5)
-            marker.setMap(editMap)
-            marker.setPosition(latLng)
+    # when listItem selected
+    user_country_list.change ->
+      $.ajax
+        url: "/countries_selection"
+        type: "GET"
+        dataType: "json"
+        data: "id=" + user_country_list.val()
+        success: (data, textStatus, xhr) ->
+          addClass($("#edit_map"))
+          latLng = new google.maps.LatLng(data.lat, data.lng)
+          editMap = init("edit_map", data.lat, data.lng, 5)
+          marker.setMap(editMap)
+          marker.setPosition(latLng)
 
-            addListeners(editMap, marker)
+          addListeners(editMap, marker)
 

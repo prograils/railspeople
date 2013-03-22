@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130213132932) do
+ActiveRecord::Schema.define(version: 20130320120020) do
 
   create_table "blogs", force: true do |t|
     t.integer  "user_id",                 null: false
@@ -90,6 +90,10 @@ ActiveRecord::Schema.define(version: 20130213132932) do
     t.string   "jabber"
     t.string   "github"
     t.string   "twitter"
+    t.string   "twitter_id"
+    t.string   "twitter_screen_name"
+    t.string   "twitter_display_name"
+    t.boolean  "change_password_needed", default: false
   end
 
   add_index "users", ["country_id"], name: "index_users_on_country_id"

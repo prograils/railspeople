@@ -47,13 +47,17 @@ describe "Users" do
 
   describe "GET /users/edit" do
     before do
-      user = FactoryGirl.create(:user, password: 'ilovegrapes', password_confirmation: 'ilovegrapes')
-      login_as(user, :scope => :user)
+      @user = FactoryGirl.create(:user, password: 'ilovegrapes', password_confirmation: 'ilovegrapes')
+      login_as(@user, :scope => :user)
       visit '/users/edit'
     end
 
     it "allows users to see edit page" do
       page.should have_content("Edit User")
+    end
+
+    it "should be set flag change_password_needed to false" do
+      @user.change_password_needed.should == false
     end
 
     it "allows to change username without current password" do
@@ -64,7 +68,7 @@ describe "Users" do
       page.should have_content("You updated your account successfully")
     end
 
-    it "do not allows to change email without current password" do
+    it "doesn't allow to change email without current password" do
       fill_in "Email", :with => "different@test.pl"
       click_button "username_sub"
       page.should_not have_content("You updated your account successfully")
@@ -103,6 +107,85 @@ describe "Users" do
       fill_in "Jabber", :with => "Bar"
       click_button "social_sub"
       page.should have_content("You updated your account successfully")
+    end
+
+    it "allows to cancel the account" do
+      click_on "destroy_link"
+      page.should have_content("Bye! Your account was successfully cancelled. We hope to see you again soon.")
+    end
+  end
+
+  context "GET /users/edit after registration by socials" do
+    before do
+      @user = FactoryGirl.create(:user_after_registration_by_socials)
+      login_as(@user, :scope => :user)
+      visit '/users/edit'
+      second_option_xpath = "//*[@id='user_country_id']/option[2]"
+      @second_option = find(:xpath, second_option_xpath).text
+    end
+
+    it "allows users to see edit page" do
+      page.should have_content("Edit User")
+    end
+
+    it "should be set flag change_password_needed to false" do
+      @user.change_password_needed.should == true
+    end
+
+    it "not allows to change user data without set password first" do
+      fill_in "Username", :with => "Test"
+      fill_in "First name", :with => "Mark"
+      fill_in "Last name", :with => "Twain"
+      click_button "username_sub"
+      page.should_not have_content("You updated your account successfully")
+    end
+
+    it "do not allows to change email without set password first" do
+      fill_in "Email", :with => "different@test.pl"
+      click_button "username_sub"
+      page.should_not have_content("You updated your account successfully")
+    end
+
+    it "do not allows allows to change skills without set password first" do
+      fill_in "Tags", :with => "programmer"
+      click_button "skills_sub"
+      page.should_not have_content("You updated your account successfully")
+    end
+
+    it "do not allows to change password if email is default" do
+      page.select(@second_option, :from => "user_country_id")
+      fill_in "user_password", :with => "admin1"
+      fill_in "user_password_confirmation", :with => "admin1"
+      click_button "password_sub"
+      page.should_not have_content("You updated your account successfully")
+    end
+
+    it "do not allows to change password if country is not set" do
+      #page.execute_script "setCountryAsNull(\"user_country_id\")"
+      #page.select("", :from => "user_country_id")
+      fill_in "Email", :with => "different@test.pl"
+      fill_in "user_password", :with => "admin1"
+      fill_in "user_password_confirmation", :with => "admin1"
+      click_button "password_sub"
+      #page.should_not have_content("You updated your account successfully")
+    end
+
+    it "allows to change password if email is changed to valid" do
+      page.select(@second_option, :from => "user_country_id")
+      fill_in "Email", :with => "different@test.pl"
+      fill_in "user_password", :with => "admin1"
+      fill_in "user_password_confirmation", :with => "admin1"
+      click_button "password_sub"
+      page.should have_content("You updated your account successfully")
+    end
+
+    it "doesn't allow to change password if confirmation doesn't match" do
+      page.select(@second_option, :from => "user_country_id")
+      fill_in "Email", :with => "different@test.pl"
+      fill_in "user_password", :with => "admin1"
+      fill_in "user_password_confirmation", :with => "blablabla"
+      click_button "password_sub"
+      page.should_not have_content("You updated your account successfully")
     end
 
     it "allows to cancel the account" do
