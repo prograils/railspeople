@@ -42,6 +42,8 @@
                   =link_to "Sign up as Rails Person", new_user_registration_path
                 %li
                   = link_to image_tag("icons/facebook_32.png"),user_omniauth_authorize_path(:facebook), :id => "sign_in_with_facebook"
+                %li
+                  = link_to image_tag("icons/twitter_32.png"),user_omniauth_authorize_path(:twitter), :id => "sign_in_with_twitter"
     .container-fluid
       .row-fluid
         .span12

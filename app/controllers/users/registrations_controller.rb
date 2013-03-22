@@ -18,12 +18,15 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def update
     @user = User.find(current_user.id)
-    successfully_updated = if needs_password?(@user, resource_params)
+    puts("-------@user.change_password_needed?--------- : #{@user.change_password_needed?}")
+    successfully_updated = if @user.change_password_needed?
+      @user.update_with_password_without_current(resource_params)
+    elsif needs_password?(@user, resource_params)
       @user.update_with_password(resource_params)
     else
-      resource_params.delete(:current_password)
       @user.update_without_password(resource_params)
     end
+    puts("-------successfully_updated?--------- : #{successfully_updated}")
 
     if successfully_updated
       set_flash_message :notice, :updated
@@ -58,14 +61,16 @@ class Users::RegistrationsController < Devise::RegistrationsController
       :im_privacy,
       :email_privacy,
       :avatar,
+      :twitter,
+      :github,
+      :change_password_needed,
       :blogs_attributes => [:id, :user_id, :title, :url, :_destroy],
       :socials_attributes => [:id, :user_id, :title, :url, :_destroy]
     )
   end
 
   def needs_password?(user, params)
-    user.email != params[:email] ||
-      !params[:password].empty?
+    user.email != params[:email] || !params[:password].empty?
   end
 
   private :resource_params, :needs_password?
