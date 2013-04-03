@@ -25,6 +25,8 @@ gem 'mysql2'
 gem 'curb'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
+gem 'omniauth-github'
+gem 'rest-client'
 
 # Gems used only for assets and not required
 # in production environments by default.

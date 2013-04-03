@@ -169,9 +169,9 @@ jQuery ->
 
       addListeners(editMap, marker)
     else
-    # set country_id as null
-      setCountryAsNull("user_country_id")
-      $("#sections_container").find("section#map").insertBefore("section#user")
+      # set country_id as null
+      # setCountryAsNull("user_country_id")
+      # $("#sections_container").find("section#map").insertBefore("section#user")
 
     # when listItem selected
     user_country_list.change ->

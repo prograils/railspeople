@@ -18,7 +18,7 @@ class User < ActiveRecord::Base
 
   ## DEVISE
   devise :database_authenticatable, :registerable, :recoverable,
-         :rememberable, :trackable, :validatable, :omniauthable
+         :rememberable, :trackable, :omniauthable
 
   ## GMAP
   acts_as_gmappable :process_geocoding => false
@@ -35,26 +35,76 @@ class User < ActiveRecord::Base
   has_many :socials, :dependent => :destroy
   has_many :taggings, :dependent => :destroy
   has_many :tags, :through => :taggings
+  has_many :o_auth_credentials, :dependent=>:destroy
 
   ## ANAF
   accepts_nested_attributes_for :socials, :allow_destroy => true
   accepts_nested_attributes_for :blogs, :allow_destroy => true
 
-  ## VALIDATIONS
-  validates_presence_of :email, :username, :first_name, :last_name, :country_id
-  validate :email_filled, :on => :update
-  validates_presence_of :looking_for_work, :email_privacy
-  validates_uniqueness_of :username
-  validates :looking_for_work, :inclusion=>{:in=>(User::WORK_TYPES.values)}
-  validates :email_privacy, :inclusion=>{:in=>(User::EMAIL_PRIVACY.values)}
-
-  ## ATTR WRITERS
+  ## ATTR WRITERS & ACCESSORS
   attr_writer :tag_names
+  attr_accessor :country_validation
+  attr_accessor :first_name_validation
+  attr_accessor :last_name_validation
+
+  ## VALIDATIONS
+  validates :username,
+            :uniqueness => true
+  validates :username, :looking_for_work, :email_privacy,
+            :presence => true
+  validates :email,
+            :presence => true,
+            :uniqueness => { :case_sensitive => false }
+  validate :email_filled, :on => :update
+  validates :first_name,
+            :presence => true,
+            :on => :create,
+            :if => proc{|u| u.first_name_validation} #TODO test
+  validates :last_name,
+            :presence => true,
+            :on => :create,
+            :if => proc{|u| u.last_name_validation} #TODO test
+  validates :country_id,
+            :presence => true,
+            :on => :create,
+            :if => proc{|u| u.country_validation} #TODO test
+  validates :email, :country_id, :first_name, :last_name,
+            :presence => true,
+            :on => :update #TODO test
+  validates :password,
+            :presence => true,
+            :confirmation => true,
+            :length => {:within => 6..40},
+            :on => :create
+  validates :password,
+            :confirmation => true,
+            :length => {:within => 6..40},
+            :allow_blank => true,
+            :on => :update,
+            :unless => proc{|u| u.change_password_needed} #TODO test
+  validates :password,
+            :confirmation => true,
+            :length => {:within => 6..40},
+            :allow_blank => false,
+            :on => :update,
+            :if => proc{|u| u.change_password_needed} #TODO test
+  validates :looking_for_work,
+            :inclusion => {:in => (User::WORK_TYPES.values)}
+  validates :email_privacy,
+            :inclusion => {:in => (User::EMAIL_PRIVACY.values)}
 
   ## BEFORE & AFTER
   after_validation :reverse_geocode  # auto-fetch address
   after_save :assign_tags
   after_update :check_password_changed
+
+  after_initialize :assign_defaults
+
+  def assign_defaults
+    self.country_validation = true
+    self.first_name_validation = true
+    self.last_name_validation = true
+  end
 
   def gmaps4rails_infowindow
     if self.avatar?
@@ -65,16 +115,14 @@ class User < ActiveRecord::Base
     end
   end
 
-  def email_filled
-    errors.add(:email, ' - change to Your valid') if no_email_filled?
-  end
-
   def gmaps4rails_address
     "#{self.country}"
   end
 
   def to_s
-    "#{self.first_name} #{self.last_name}"
+    self.first_name.present? && self.last_name.present? ?
+     "#{self.first_name} #{self.last_name}" :
+     "noname (#{self.username})"
   end
 
   def self.column_like(column, value)
@@ -98,6 +146,11 @@ class User < ActiveRecord::Base
     self.looking_for_work == 2
   end
 
+  def email_filled
+    errors.add(:email, ' - change to Your valid') if no_email_filled?
+  end
+
+  # to del
   def no_email_filled?
     email = self.email
     if (email.present?)
@@ -113,11 +166,7 @@ class User < ActiveRecord::Base
 
   def update_with_password_without_current(params={})
     params.delete(:current_password)
-    puts "===========PARAMS: #{params}"
-
     result = update_attributes(params)
-    puts "self:: #{self.errors.inspect}"
-    puts "===========RES: #{result}"
 
     clean_up_passwords
     result
@@ -126,6 +175,32 @@ class User < ActiveRecord::Base
   def update_without_password(params={})
     params.delete(:current_password)
     super(params)
+  end
+
+  def set_attrs(auth, provider)
+    data = auth.extra.raw_info if auth.extra.present?
+    if data.present?
+      u = User.where(id:self.id)
+      case provider
+        when "facebook"
+          u.update_all first_name: data.first_name if self.first_name.blank? && data.first_name.present?
+          u.update_all last_name: data.last_name if self.last_name.blank? && data.last_name.present?
+          u.update_all email: data.email if no_email_filled? && data.email.present?
+
+          u.update_all facebook: data.username if self.facebook.blank? && data.username.present?
+        when "twitter"
+          u.update_all twitter: data.screen_name if self.twitter.blank? && data.screen_name.present?
+        when "github"
+          u.update_all github: data.login if self.github.blank? && data.login.present?
+      end
+    end
+  end
+
+  def profile_url(provider)
+    case provider
+      when :facebook
+        "http://www.facebook.com/#{self[provider]}"
+    end
   end
 
   private
@@ -138,42 +213,67 @@ class User < ActiveRecord::Base
     end
   end
 
-  def self.find_for_facebook_oauth(access_token, signed_in_resource=nil)
-    data = access_token.extra.raw_info
-    user = User.where(:email => data.email).first || nil
-    user
+  def no_email_filled?
+    email = self.email
+    if (email.present?)
+      index = email.index("@")
+      return email[index..-1] == "@5h0u1d-change.it"
+    end
+    true
   end
 
-  def self.find_or_create_for_facebook_oauth(access_token, signed_in_resource=nil)
-    data = access_token.extra.raw_info
-    if data.email.present?
-      if user = User.where(:email => data.email).first
-        user
-      else # Create a user with a stub password.
-        uname = self.find_or_create_username(data["first_name"], data["last_name"])
-        User.create!(
-          username: "#{uname}",
-          email: data.email,
-          password: Devise.friendly_token[0,20],
-          first_name: data["first_name"] || "u_firstname",
-          last_name: data["last_name"] || "u_lastname",
-          country_id: 409,
-          change_password_needed: true)
+  def self.temporary_email
+    email_addr = "your.email-"
+    (1.. 15).collect{ |n|
+        chr = (48 + rand(9)).chr
+        email_addr << chr
+      }.join
+
+     email_addr += "@5h0u1d-change.it"
+     email_addr
+  end
+
+  def self.find_for_facebook_oauth(credentials)
+    credentials.present? ? credentials.user : nil
+  end
+
+  def self.find_or_create_for_facebook_oauth(auth, credentials)
+    if credentials.present?
+      credentials.user
+    else
+      data = auth.extra.raw_info
+      if data.email.present?
+        if user = User.where(:email => data.email).first
+          user
+        else # Create a user with a stub password.
+          uname = self.find_or_create_username_for_facebook(data["first_name"], data["last_name"])
+
+          user = User.new(
+            username: "#{uname}",
+            email: data.email,
+            password: Devise.friendly_token[0,20],
+            first_name: data["first_name"] || "u_firstname",
+            last_name: data["last_name"] || "u_lastname",
+            facebook: data.username,
+            change_password_needed: true)
+          user.country_validation = false
+          user.save
+          user
+        end
       end
     end
   end
 
-  def self.find_for_twitter(response)
-    data = response.extra.raw_info
-    user = User.find_by_twitter_id(data["id"]) || nil
-    user
+  def self.find_for_twitter_oauth(credentials)
+    credentials.present? ? credentials.user : nil
   end
 
-  def self.find_or_create_for_twitter(response)
-    data = response.extra.raw_info
-    if user = User.find_by_twitter_id(data["id"])
-      user
-    else # Create a user with a stub password.
+  def self.find_or_create_for_twitter_oauth(auth, credentials)
+    if credentials.present?
+      credentials.user
+    else
+      data = auth.extra.raw_info
+      #Create a user with a stub password.
       uname = self.find_or_create_username_for_twitter(data["screen_name"])
       first_name, last_name = data["name"].split
 
@@ -183,40 +283,50 @@ class User < ActiveRecord::Base
         password: Devise.friendly_token[0,20],
         first_name: first_name || "u_firstname",
         last_name: last_name || "u_lastname",
-        country_id: 409,
+        twitter: data.screen_name,
         change_password_needed: true)
-
-      user.twitter_id = data["id_str"]
-      user.twitter_screen_name = data["screen_name"]
-      user.twitter_display_name = data["name"]
-
+      user.country_validation = false
       user.save
       user
     end
   end
 
-  def self.temporary_email
-    email_addr = "your.email-"
-    (1.. 8).collect{ |n|
-        chr =  (48 + rand(9)).chr
-        email_addr  << chr
-      }.join
-
-     email_addr += "@5h0u1d-change.it"
-     email_addr
+  def self.find_for_github_oauth(credentials)
+    credentials.present? ? credentials.user : nil
   end
 
-  def self.find_or_create_username(first_n, last_n)
+  def self.find_or_create_for_github_oauth(auth, credentials)
+    if credentials.present?
+      credentials.user
+    else
+      data = auth.extra.raw_info
+      if data.email.present? && user = User.where(:email => data.email).first
+        user
+      else # Create a user with a stub password.
+        uname = self.find_or_create_username_for_github(data["login"])
+
+        user = User.new(
+          username: "#{uname}",
+          email: "#{self.temporary_email}",
+          password: Devise.friendly_token[0,20],
+          github: data["login"],
+          change_password_needed: true)
+        user.country_validation = false
+        user.first_name_validation = false
+        user.last_name_validation = false
+        user.save
+        user
+      end
+    end
+  end
+
+  def self.find_or_create_username_for_facebook(first_n, last_n)
     first_and_last = []
     first_and_last << first_n.capitalize if first_n.present?
     first_and_last << last_n.capitalize if last_n.present?
     value = first_and_last.join("_")
     if User.exists?(:username => value)
-      value += "_"
-      (1.. 8).collect{ |n|
-        chr =  (48 + rand(9)).chr
-        value  << chr
-      }.join
+      value = self.add_num_chars(value)
     else
       #do nothing
     end
@@ -225,15 +335,29 @@ class User < ActiveRecord::Base
 
   def self.find_or_create_username_for_twitter(screen_name)
     if User.exists?(:username => screen_name)
-      screen_name += "_"
-      (1.. 8).collect{ |n|
-        chr =  (48 + rand(9)).chr
-        screen_name  << chr
-      }.join
+      screen_name = self.add_num_chars(screen_name)
     else
       #do nothing
     end
     screen_name
+  end
+
+  def self.find_or_create_username_for_github(login)
+    if User.exists?(:username => login)
+      login = self.add_num_chars(login)
+    else
+      #do nothing
+    end
+    login
+  end
+
+  def self.add_num_chars(str)
+    str += "_"
+      (1.. 8).collect{ |n|
+        chr =  (48 + rand(9)).chr
+        str  << chr
+      }.join
+    return str
   end
 
   def check_password_changed
@@ -241,5 +365,4 @@ class User < ActiveRecord::Base
       self.update_column(:change_password_needed, false)
     end
   end
-
 end

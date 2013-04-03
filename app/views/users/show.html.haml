@@ -6,8 +6,9 @@
   = image_tag avatar_url(@user), :class => 'img-circle'
 %span.profile-username= @user.to_s
 %br
-= image_tag("famfamfam_flags/#{@user.country.iso.downcase}.png")
-= @user.country.printable_name
+- if @user.country.present?
+  = image_tag("famfamfam_flags/#{@user.country.iso.downcase}.png")
+  = @user.country.printable_name
 / %p= gmaps({"map_options" => {"auto_adjust" => false, "zoom" => @user.zoom, "center_latitude" => @user.latitude, "center_longitude" => @user.longitude}, "markers" => {"data" => @json }})
 #user_id{"data-url" => @user.id}
 #user_lng{"data-url" => @user.longitude}
@@ -29,51 +30,54 @@
       =link_to tag.name, tag_path(:tag => tag.name), :class => 'btn btn-info btn-small btn-tags'
     .clear
   - if @user.looking_for_freelance_work?
-    .work 
+    .work
     %i.icon-star-empty
-    %span Looking for freelance work 
+    %span Looking for freelance work
   - elsif @user.looking_for_full_time_work?
     .work
     %i.icon-star
     %span Looking for full-time work
-  %br
   - if email_is_visible?(@user)
+    %br
     %i.icon-envelope
     %strong Email:
     = mail_to(@user.email)
   - if im_details_visible?(@user)
-    %h3 Finding #{@user.first_name}
+    %h3 Finding #{@user.first_name}:
     - if @user.blogs.any?
-      %p 
+      %p
         Blogs:
         %ul
         - @user.blogs.each do |blog|
           %li
             = link_to "#{blog.title}", blog.url
-    - if @user.gtalk.present? || @user.skype.present? || @user.jabber.present?
-      .span12
-        - if @user.gtalk.present?
-          .span2
-            = image_tag 'gtalk.png', :size => "40x40"
-            = @user.gtalk
-        - if @user.skype.present?
-          .span2
-            = image_tag 'skype.png', :size => "40x40"
-            = @user.skype
-        - if @user.jabber.present?
-          .span2
-            = image_tag 'jabber.png', :size => "40x40"
-            = @user.jabber
-        - if @user.github.present?
-          .span2
-            = image_tag 'github.png', :size => "40x40"
-            = @user.github
-        - if @user.twitter.present?
-          .span2
-            = image_tag 'twitter.png', :size => "40x40"
-            = @user.twitter
-      .clear
-      %br
+    .span12
+      - if @user.gtalk.present?
+        .span2
+          = image_tag 'gtalk.png', :size => "40x40"
+          = @user.gtalk
+      - if @user.skype.present?
+        .span2
+          = image_tag 'skype.png', :size => "40x40"
+          = @user.skype
+      - if @user.jabber.present?
+        .span2
+          = image_tag 'jabber.png', :size => "40x40"
+          = @user.jabber
+      - if @user.facebook.present?
+        .span2
+          = image_tag 'facebook.png', :size => "40x40"
+          = link_to @user.facebook, @user.profile_url(:facebook)
+      - if @user.github.present?
+        .span2
+          = image_tag 'github.png', :size => "40x40"
+          = @user.github
+      - if @user.twitter.present?
+        .span2
+          = image_tag 'twitter.png', :size => "40x40"
+          = @user.twitter
+    .clear
+    %br
     - if @user.socials.any?
       - @user.socials.in_groups(2, false).each do |group_social|
         - group_social.each do |social|

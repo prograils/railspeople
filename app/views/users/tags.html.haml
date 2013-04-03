@@ -2,7 +2,7 @@
 %h1=@tag.name
 %h3
   =@users.count
-  Ruby on Rails 
+  Ruby on Rails
   =@users.count == 1 ? "person" : "people"
   mention this skill
 
@@ -12,6 +12,7 @@
 - @users.each do |user|
   .row.span4
     = link_to user.username, user_path(user)
-    %br
-    = image_tag("famfamfam_flags/#{user.country.iso.downcase}.png")
-    = user.country.printable_name
+    - if user.country.present?
+      %br
+      = image_tag("famfamfam_flags/#{user.country.iso.downcase}.png")
+      = user.country.printable_name

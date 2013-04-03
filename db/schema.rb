@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130320120020) do
+ActiveRecord::Schema.define(version: 20130403135651) do
 
   create_table "blogs", force: true do |t|
     t.integer  "user_id",                 null: false
@@ -33,6 +33,17 @@ ActiveRecord::Schema.define(version: 20130320120020) do
     t.datetime "updated_at"
     t.integer  "users_count",    default: 0
   end
+
+  create_table "o_auth_credentials", force: true do |t|
+    t.string   "provider"
+    t.string   "uid"
+    t.text     "params"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "o_auth_credentials", ["user_id"], name: "index_o_auth_credentials_on_user_id"
 
   create_table "socials", force: true do |t|
     t.integer  "user_id",                 null: false
@@ -90,10 +101,8 @@ ActiveRecord::Schema.define(version: 20130320120020) do
     t.string   "jabber"
     t.string   "github"
     t.string   "twitter"
-    t.string   "twitter_id"
-    t.string   "twitter_screen_name"
-    t.string   "twitter_display_name"
     t.boolean  "change_password_needed", default: false
+    t.string   "facebook"
   end
 
   add_index "users", ["country_id"], name: "index_users_on_country_id"
