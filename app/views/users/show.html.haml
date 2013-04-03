@@ -51,29 +51,29 @@
         - @user.blogs.each do |blog|
           %li
             = link_to "#{blog.title}", blog.url
-    .span12
+    .span12#profiles
       - if @user.gtalk.present?
-        .span2
+        .row-fluid
           = image_tag 'gtalk.png', :size => "40x40"
           = @user.gtalk
       - if @user.skype.present?
-        .span2
+        .row-fluid
           = image_tag 'skype.png', :size => "40x40"
           = @user.skype
       - if @user.jabber.present?
-        .span2
+        .row-fluid
           = image_tag 'jabber.png', :size => "40x40"
           = @user.jabber
       - if @user.facebook.present?
-        .span2
+        .row-fluid
           = image_tag 'facebook.png', :size => "40x40"
           = link_to @user.facebook, @user.profile_url(:facebook)
       - if @user.github.present?
-        .span2
+        .row-fluid
           = image_tag 'github.png', :size => "40x40"
           = @user.github
       - if @user.twitter.present?
-        .span2
+        .row-fluid
           = image_tag 'twitter.png', :size => "40x40"
           = @user.twitter
     .clear
