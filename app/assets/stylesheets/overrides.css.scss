@@ -149,5 +149,12 @@ hr{
 .alert{
   opacity: 0.7;
 }
-
-
+#profiles{
+  .row-fluid{
+    margin: 2px;
+    img{
+      width: 30px;
+      height: 30px;
+    }
+  }
+}
