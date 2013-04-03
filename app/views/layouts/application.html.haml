@@ -40,17 +40,16 @@
                   = link_to 'Login', new_user_session_path
                 %li
                   =link_to "Sign up as Rails Person", new_user_registration_path
-                %li
-                  = link_to image_tag("icons/facebook_32.png"),user_omniauth_authorize_path(:facebook), :id => "sign_in_with_facebook"
-                %li
-                  = link_to image_tag("icons/twitter_32.png"),user_omniauth_authorize_path(:twitter), :id => "sign_in_with_twitter"
+              %li
+                = link_to image_tag("icons/facebook_32.png"),user_omniauth_authorize_path(:facebook), :id => "sign_in_with_facebook"
+              %li
+                = link_to image_tag("icons/twitter_32.png"),user_omniauth_authorize_path(:twitter), :id => "sign_in_with_twitter"
+              %li
+                = link_to image_tag("icons/github_32.png"),user_omniauth_authorize_path(:github), :id => "sign_in_with_github"
     .container-fluid
       .row-fluid
         .span12
-          - if notice
-            %p#notice= notice
-          - elsif alert
-            %p#alert= alert
+          = render :partial => 'common/flashes'
           = yield
 
       %footer

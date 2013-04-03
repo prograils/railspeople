@@ -2,63 +2,76 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   def initialize
     @registration_is_allowed = true
+    @user = nil
+  end
+
+  def set_auth_vars(auth)
+    @auth = auth
+    @provider = @auth['provider']
+    @credentials = OAuthCredential.where(uid: @auth["uid"]).where(provider: @provider).first
+  end
+
+  def create_credentials(user)
+    @credentials = OAuthCredential.new(uid: @auth["uid"], provider: @provider)
+    if user.present?
+      user.set_attrs(@auth, @provider)
+      user.reload
+      @credentials.user = user
+    end
+    @credentials.save!
+  end
+
+  def do_auth(provider)
+    set_auth_vars(request.env["omniauth.auth"])
+    if current_user
+      flash[:notice] = if @credentials.nil?
+        create_credentials(current_user) ? "Succesfull merged with #{provider}" : "Unsuccesfull merged with #{provider}"
+      else
+        "Account has previously merged with #{provider}"
+      end
+      flash[:alert] = current_user.errors.full_messages.join(', ') if current_user.invalid?
+      redirect_to edit_user_registration_url
+    else
+      if @registration_is_allowed == true
+        @user = User.send("find_or_create_for_#{provider}_oauth", @auth, @credentials)
+        create_credentials(@user) if @credentials.nil?
+      else
+        @user = User.send("find_for_#{provider}_oauth", @credentials)
+      end
+      if @user.present?
+        if @user.persisted?
+          flash[:notice] = I18n.t "devise.omniauth_callbacks.success", :kind => "#{provider}"
+          sign_in @user, :event => :authentication
+          @user.valid? ? (redirect_to root_url) : (redirect_to edit_user_registration_url)
+          flash[:alert] = @user.errors.full_messages.join(', ') if @user.errors.any?
+        else
+          redirect_to new_user_registration_url
+        end
+      else
+        flash[:alert] = "Sorry, registration is not allowed at this moment"
+        redirect_to root_url
+      end
+    end
   end
 
   def facebook
-    if @registration_is_allowed == true
-      @user = User.find_or_create_for_facebook_oauth(request.env["omniauth.auth"], current_user)
-    else
-      @user = User.find_for_facebook_oauth(request.env["omniauth.auth"], current_user)
-    end
-
-    if @user.present?
-      if @user.persisted?
-        flash[:notice] = I18n.t "devise.omniauth_callbacks.success", :kind => "Facebook"
-        sign_in @user, :event => :authentication
-        if (@user.latitude.blank? || @user.longitude.blank?)
-          @user.country_id = nil
-          redirect_to edit_user_registration_url
-        else
-          redirect_to root_url
-        end
-      else
-        session["devise.facebook_data"] = request.env["omniauth.auth"]
-        redirect_to new_user_registration_url
-      end
-    else
-      flash[:notice] = "Sorry, registration is not allowed at this moment"
-      redirect_to root_url
-    end
+    do_auth("facebook")
   end
 
   def twitter
-    if @registration_is_allowed == true
-      @user = User.find_or_create_for_twitter(request.env["omniauth.auth"])
-    else
-      @user = User.find_for_twitter(request.env["omniauth.auth"])
-    end
+    do_auth("twitter")
+  end
 
-    if @user.present?
-      if @user.persisted?
-        sign_in @user, :event => :authentication
-        notice = []
-        notice << "Please select Your location" if (@user.latitude.blank? || @user.longitude.blank?)
-        notice << "fill e-mail field" if @user.no_email_filled?
-        notice = notice.join(" and ")
-        if notice.blank?
-          redirect_to root_url
-          flash[:notice] = I18n.t "devise.omniauth_callbacks.success", :kind => "Twitter"
-        else
-          redirect_to edit_user_registration_url
-          flash[:notice] = notice
-        end
-      else
-        redirect_to new_user_registration_url
-      end
-    else
-      flash[:notice] = "Sorry, registration is not allowed at this moment"
-      redirect_to root_url
-    end
+  def github
+    do_auth("github")
+  end
+
+  def country_is_not_set
+    @user.latitude.blank? || @user.longitude.blank? || @user.country_id.blank?
+  end
+
+  def email_is_not_set
+    @user.email.blank?
   end
 
   def failure

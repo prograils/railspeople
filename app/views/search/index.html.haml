@@ -15,9 +15,10 @@
           - result_group.each do |user|
             %p
               = link_to user.to_s, user_path(user)
-              %br
-              = image_tag("famfamfam_flags/#{user.country.iso.downcase}.png")
-              = user.country.printable_name
+              - if user.country.present?
+                %br
+                = image_tag("famfamfam_flags/#{user.country.iso.downcase}.png")
+                = user.country.printable_name
   - else
     No users found.
 
