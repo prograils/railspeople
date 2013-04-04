@@ -124,7 +124,7 @@ describe "Users" do
 
   context "GET /users/edit after registration by facebook" do
     before do
-      @user = FactoryGirl.create(:user_facebook_auth)
+      @user = FactoryGirl.create(:user_facebook_auth, country_validation: false)
       login_as(@user, :scope => :user)
       visit '/users/edit'
       second_option_xpath = "//*[@id='user_country_id']/option[2]"
@@ -201,7 +201,179 @@ describe "Users" do
     end
   end
 
+  context "GET /users/edit after registration by twitter" do
+    before do
+      @user = FactoryGirl.create(:user_twitter_auth, country_validation: false)
+      login_as(@user, :scope => :user)
+      visit '/users/edit'
+      second_option_xpath = "//*[@id='user_country_id']/option[2]"
+      @second_option = find(:xpath, second_option_xpath).text
+    end
 
+    it "allows users to see edit page" do
+      page.should have_content("Edit User")
+    end
+
+    it "should be set flag change_password_needed to true" do
+      @user.change_password_needed.should == true
+    end
+
+    it "should be set flag change_password_needed to false after profile updated" do
+      page.select(@second_option, :from => "user_country_id")
+      fill_in "Email", :with => "some_email@test.pl"
+      fill_in "user_password", :with => "admin1"
+      fill_in "user_password_confirmation", :with => "admin1"
+      click_button "password_sub"
+      @user.reload
+      @user.change_password_needed.should == false
+    end
+
+    it "not allows to change user data without set password first" do
+      fill_in "Username", :with => "Test"
+      fill_in "First name", :with => "Mark"
+      fill_in "Last name", :with => "Twain"
+      fill_in "Email", :with => "some_email@test.pl"
+      click_button "username_sub"
+      page.should_not have_content("You updated your account successfully")
+    end
+
+    it "do not allows to change email without set password first" do
+      fill_in "Email", :with => "some_email@test.pl"
+      click_button "username_sub"
+      page.should_not have_content("You updated your account successfully")
+    end
+
+    it "do not allows allows to change skills and etc. without set password first" do
+      fill_in "Email", :with => "some_email@test.pl"
+      fill_in "Tags", :with => "programmer"
+      click_button "skills_sub"
+      page.should_not have_content("You updated your account successfully")
+    end
+
+    it "do not allows to change password if country is not set" do
+      fill_in "Email", :with => "some_email@test.pl"
+      fill_in "user_password", :with => "admin1"
+      fill_in "user_password_confirmation", :with => "admin1"
+      click_button "password_sub"
+      #page.should_not have_content("You updated your account successfully")
+    end
+
+    it "allows to update profile if country, password and password confirmation and email are set" do
+      page.select(@second_option, :from => "user_country_id")
+      fill_in "Email", :with => "some_email@test.pl"
+      fill_in "user_password", :with => "admin1"
+      fill_in "user_password_confirmation", :with => "admin1"
+      click_button "password_sub"
+      page.should have_content("You updated your account successfully")
+    end
+
+    it "doesn't allow to update profile if email is not changed" do
+      page.select(@second_option, :from => "user_country_id")
+      fill_in "user_password", :with => "admin1"
+      fill_in "user_password_confirmation", :with => "admin1"
+      click_button "password_sub"
+      page.should_not have_content("You updated your account successfully")
+    end
+
+    it "doesn't allow to change password if confirmation doesn't match" do
+      page.select(@second_option, :from => "user_country_id")
+      fill_in "Email", :with => "some_email@test.pl"
+      fill_in "user_password", :with => "admin1"
+      fill_in "user_password_confirmation", :with => "blablabla"
+      click_button "password_sub"
+      page.should_not have_content("You updated your account successfully")
+    end
+
+    it "allows to cancel the account" do
+      click_on "destroy_link"
+      page.should have_content("Bye! Your account was successfully cancelled. We hope to see you again soon.")
+    end
+  end
+
+  context "GET /users/edit after registration by github" do
+    before do
+      @user = FactoryGirl.create(:user_github_auth, country_validation: false, first_name_validation: false, last_name_validation: false)
+      login_as(@user, :scope => :user)
+      visit '/users/edit'
+      @old_email = @user.email
+      second_option_xpath = "//*[@id='user_country_id']/option[2]"
+      @second_option = find(:xpath, second_option_xpath).text
+
+      # fill form with default values
+      page.select(@second_option, :from => "user_country_id")
+      fill_in "user_first_name", :with => "Mark"
+      fill_in "user_last_name", :with => "Twain"
+      fill_in "Email", :with => "some_email@test.pl"
+      fill_in "user_password", :with => "admin1"
+      fill_in "user_password_confirmation", :with => "admin1"
+    end
+
+    it "allows users to see edit page" do
+      page.should have_content("Edit User")
+    end
+
+    it "should be set flag change_password_needed to true" do
+      @user.change_password_needed.should == true
+    end
+
+    it "should be set flag change_password_needed to false after profile updated" do
+      click_button "password_sub"
+      @user.reload
+      @user.change_password_needed.should == false
+    end
+
+    it "not allows to change user data without set password first" do
+      fill_in "Username", :with => "Test"
+      fill_in "user_password", :with => ""
+      fill_in "user_password_confirmation", :with => ""
+      click_button "username_sub"
+      page.should_not have_content("You updated your account successfully")
+    end
+
+    it "do not allows to change skills and etc. without set password first" do
+      fill_in "user_password", :with => ""
+      fill_in "user_password_confirmation", :with => ""
+      fill_in "Tags", :with => "programmer"
+      click_button "skills_sub"
+      page.should_not have_content("You updated your account successfully")
+    end
+
+    it "do not allows to change password if country is not set" do
+      click_button "password_sub"
+      #page.should_not have_content("You updated your account successfully")
+    end
+
+    it "allows to update profile if country, password and password confirmation, email and first and last names are set" do
+      click_button "password_sub"
+      page.should have_content("You updated your account successfully")
+    end
+
+    it "doesn't allow to update profile if email is not changed" do
+      fill_in "Email", :with => @old_email
+      click_button "password_sub"
+      page.should_not have_content("You updated your account successfully")
+    end
+
+    it "doesn't allow to update profile if first and last name are not filled" do
+      page.select(@second_option, :from => "user_country_id")
+      fill_in "First name", :with => ""
+      fill_in "Last name", :with => ""
+      click_button "password_sub"
+      page.should_not have_content("You updated your account successfully")
+    end
+
+    it "doesn't allow to change password if confirmation doesn't match" do
+      fill_in "user_password", :with => "admin1"
+      fill_in "user_password_confirmation", :with => "blablabla"
+      click_button "password_sub"
+      page.should_not have_content("You updated your account successfully")
+    end
+
+    it "allows to cancel the account" do
+      click_on "destroy_link"
+      page.should have_content("Bye! Your account was successfully cancelled. We hope to see you again soon.")
+    end
+  end
 
   #NESTED ATTRIBUTES
   context "nested attribiutes", :js => true do
