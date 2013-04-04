@@ -203,6 +203,17 @@ class User < ActiveRecord::Base
     end
   end
 
+  def temporary_email
+    email_addr = "your.email-"
+    (1.. 15).collect{ |n|
+        chr = (48 + rand(9)).chr
+        email_addr << chr
+      }.join
+
+     email_addr += "@5h0u1d-change.it"
+     email_addr
+  end
+
   private
 
   def assign_tags
@@ -220,17 +231,6 @@ class User < ActiveRecord::Base
       return email[index..-1] == "@5h0u1d-change.it"
     end
     true
-  end
-
-  def self.temporary_email
-    email_addr = "your.email-"
-    (1.. 15).collect{ |n|
-        chr = (48 + rand(9)).chr
-        email_addr << chr
-      }.join
-
-     email_addr += "@5h0u1d-change.it"
-     email_addr
   end
 
   def self.find_for_facebook_oauth(credentials)
@@ -279,12 +279,12 @@ class User < ActiveRecord::Base
 
       user = User.new(
         username: "#{uname}",
-        email: "#{self.temporary_email}",
         password: Devise.friendly_token[0,20],
         first_name: first_name || "u_firstname",
         last_name: last_name || "u_lastname",
         twitter: data.screen_name,
         change_password_needed: true)
+      user.email = user.temporary_email
       user.country_validation = false
       user.save
       user
@@ -307,10 +307,10 @@ class User < ActiveRecord::Base
 
         user = User.new(
           username: "#{uname}",
-          email: "#{self.temporary_email}",
           password: Devise.friendly_token[0,20],
           github: data["login"],
           change_password_needed: true)
+        user.email = user.temporary_email
         user.country_validation = false
         user.first_name_validation = false
         user.last_name_validation = false
