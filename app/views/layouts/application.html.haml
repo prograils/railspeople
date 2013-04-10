@@ -34,6 +34,8 @@
                 %li
                   = link_to 'Logout', destroy_user_session_path, :method => 'delete'
                 %li
+                  =link_to "Show Account", user_path(current_user)
+                %li
                   =link_to "Edit Account", edit_user_registration_path
               -else
                 %li
