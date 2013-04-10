@@ -159,6 +159,18 @@ describe User do
     end
   end
 
+  context "has_account_merged_with? method" do
+    it "should return false if user's account has not been merged with facebook yet" do
+      user = FactoryGirl.create(:user)
+      user.has_account_merged_with?(:facebook).should be_false
+    end
+
+    it "should return true if user's account has been merged with facebook" do
+      user = FactoryGirl.create(:user_facebook_valid_profile)
+      user.has_account_merged_with?(:facebook).should be_true
+    end
+  end
+
   it "should add new user with some coordinates values" do
     lambda{
     @user = FactoryGirl.create(:user, :latitude => "1.2", :longitude => "1.2")
