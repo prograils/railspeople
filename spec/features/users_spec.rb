@@ -411,6 +411,9 @@ describe "Users" do
       @user_with_email_for_no_one = FactoryGirl.create(:user, :email_privacy => 0)
       @user_with_email_for_logged_in = FactoryGirl.create(:user, :email_privacy => 1)
       @user_with_email_for_anyone = FactoryGirl.create(:user, :email_privacy => 2)
+
+      @user_with_im_details_for_logged_in = FactoryGirl.create(:user, im_privacy: false)
+      @user_with_im_details_for_anyone = FactoryGirl.create(:user, im_privacy: true)
     end
 
     after (:each) { Warden.test_reset! }
@@ -428,10 +431,38 @@ describe "Users" do
         page.should_not have_content @user.email
       end
 
-      it "should show email for anyone" do
+      it "should show email for all" do
        visit user_path(@user_with_email_for_anyone)
        page.should have_content "Email"
        page.should have_content @user_with_email_for_anyone.email
+      end
+
+      it "should show im_details only for logged in" do
+        visit user_path(@user_with_im_details_for_logged_in)
+        page.should_not have_content "Finding"
+      end
+
+      it "should show im_details for all" do
+       visit user_path(@user_with_im_details_for_anyone)
+       page.should have_content "Finding"
+      end
+
+      it "im_details should show facebook profile" do
+        user = FactoryGirl.create(:user_facebook_valid_profile, im_privacy: true)
+        visit user_path(user)
+        page.should have_content user.facebook
+      end
+
+      it "im_details should show twitter profile" do
+        user = FactoryGirl.create(:user_twitter_valid_profile, im_privacy: true)
+        visit user_path(user)
+        page.should have_content user.twitter
+      end
+
+      it "im_details should show github profile" do
+        user = FactoryGirl.create(:user_github_valid_profile, im_privacy: true)
+        visit user_path(user)
+        page.should have_content user.github
       end
     end
 
@@ -450,10 +481,38 @@ describe "Users" do
         page.should have_content @user_with_email_for_logged_in.email
       end
 
-      it "should show email for anyone" do
+      it "should show email for all" do
         visit user_path(@user_with_email_for_anyone)
         page.should have_content "Email"
         page.should have_content @user_with_email_for_anyone.email
+      end
+
+      it "should show im_details only for logged in" do
+        visit user_path(@user_with_im_details_for_logged_in)
+        page.should have_content "Finding"
+      end
+
+      it "should show im_details for all" do
+        visit user_path(@user_with_im_details_for_anyone)
+        page.should have_content "Finding"
+      end
+
+      it "im_details should show facebook profile" do
+        user = FactoryGirl.create(:user_facebook_valid_profile, im_privacy: true)
+        visit user_path(user)
+        page.should have_content user.facebook
+      end
+
+      it "im_details should show twitter profile" do
+        user = FactoryGirl.create(:user_twitter_valid_profile, im_privacy: true)
+        visit user_path(user)
+        page.should have_content user.twitter
+      end
+
+      it "im_details should show github profile" do
+        user = FactoryGirl.create(:user_github_valid_profile, im_privacy: true)
+        visit user_path(user)
+        page.should have_content user.github
       end
 
       it "should show blogs" do

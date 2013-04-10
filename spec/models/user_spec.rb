@@ -151,11 +151,11 @@ describe User do
     end
     it "should return twitter profile url" do
       user = FactoryGirl.create(:user)
-      user.profile_url(:twitter).should include("http://www.twitter.com/")
+      user.profile_url(:twitter).should include("https://twitter.com/")
     end
     it "should return github profile url" do
       user = FactoryGirl.create(:user)
-      user.profile_url(:github).should include("http://www.github.com/")
+      user.profile_url(:github).should include("https://github.com/")
     end
   end
 
