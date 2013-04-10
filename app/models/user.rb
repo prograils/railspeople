@@ -207,6 +207,12 @@ class User < ActiveRecord::Base
     end
   end
 
+  # Check, if user account is merged with social service
+  # (str) -> bool
+  def has_account_merged_with?(provider)
+    self.o_auth_credentials.where(provider: provider).any?
+  end
+
   def temporary_email
     email_addr = "your.email-"
     (1.. 15).collect{ |n|

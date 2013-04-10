@@ -158,3 +158,15 @@ hr{
     }
   }
 }
+
+section#socials.well{
+  a.social-btn {
+    opacity: 1;
+    img{
+      margin-top: -10px;
+    }
+  }
+  a.social-btn.activated {
+    opacity: 0.5;
+  }
+}
