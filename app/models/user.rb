@@ -200,6 +200,10 @@ class User < ActiveRecord::Base
     case provider
       when :facebook
         "http://www.facebook.com/#{self[provider]}"
+      when :twitter
+        "https://twitter.com/#{self[provider]}"
+      when :github
+        "https://github.com/#{self[provider]}"
     end
   end
 

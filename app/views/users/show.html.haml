@@ -71,11 +71,11 @@
       - if @user.github.present?
         .row-fluid
           = image_tag 'github.png', :size => "40x40"
-          = @user.github
+          = link_to @user.github, @user.profile_url(:github)
       - if @user.twitter.present?
         .row-fluid
           = image_tag 'twitter.png', :size => "40x40"
-          = @user.twitter
+          = link_to @user.twitter, @user.profile_url(:twitter)
     .clear
     %br
     - if @user.socials.any?

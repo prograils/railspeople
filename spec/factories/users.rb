@@ -23,6 +23,12 @@ FactoryGirl.define do
       u.after(:create) do |user|
         user.o_auth_credentials << FactoryGirl.create(:facebook_credential)
       end
+
+      factory :user_facebook_valid_profile do |u|
+        latitude "52.417"
+        longitude "16.883"
+        country_id 1
+      end
     end
 
     factory :user_twitter_auth do |u|
@@ -36,6 +42,13 @@ FactoryGirl.define do
 
       u.after(:create) do |user|
         user.o_auth_credentials << FactoryGirl.create(:twitter_credential)
+      end
+
+      factory :user_twitter_valid_profile do |u|
+        latitude "52.417"
+        longitude "16.883"
+        sequence(:email) { |n| "user_#{n}@railspeople.com" }
+        country_id 1
       end
     end
 
@@ -52,6 +65,15 @@ FactoryGirl.define do
 
       u.after(:create) do |user|
         user.o_auth_credentials << FactoryGirl.create(:github_credential)
+      end
+
+      factory :user_github_valid_profile do |u|
+        sequence(:first_name) { |n| "User#{n}_first_name" }
+        sequence(:last_name) { |n| "User#{n}_last_name" }
+        latitude "52.417"
+        longitude "16.883"
+        sequence(:email) { |n| "user#{n}@railspeople.com" }
+        country_id 1
       end
     end
   end
