@@ -1,4 +1,4 @@
-def set_omniauth(my_provider)
+def get_credentials(my_provider)
   credentials = {:provider => my_provider,
              :uuid     => "1234567890",
              :facebook => {
@@ -15,7 +15,18 @@ def set_omniauth(my_provider)
                             :login => "foo_bar",
                           }
             }
+end
 
+def get_omniauth_email(my_provider)
+  credentials = get_credentials(my_provider)
+  provider = credentials[:provider]
+  user_hash = credentials[provider]
+  user_hash[:email]
+end
+
+def set_omniauth(my_provider)
+
+  credentials = get_credentials(my_provider)
   provider = credentials[:provider]
   user_hash = credentials[provider]
 
