@@ -150,15 +150,15 @@
           %div
             = f.label :facebook
             = f.text_field :facebook, :placeholder => "Nick"
-            = link_to image_tag("icons/facebook_32.png"),user_omniauth_authorize_path(:facebook), :id => "sign_in_with_facebook", class: "social-btn #{"activated" if @user.has_account_merged_with?("facebook")}"
+            = link_to image_tag("icons/facebook_32.png"),user_omniauth_authorize_path(:facebook), :id => "merge_account_with_facebook", class: "social-btn #{"activated" if @user.has_account_merged_with?("facebook")}"
           %div
             = f.label :github
             = f.text_field :github, :placeholder => "Nick"
-            = link_to image_tag("icons/github_32.png"),user_omniauth_authorize_path(:github), :id => "sign_in_with_github", class: "social-btn #{"activated" if @user.has_account_merged_with?("github")}"
+            = link_to image_tag("icons/github_32.png"),user_omniauth_authorize_path(:github), :id => "merge_account_with_github", class: "social-btn #{"activated" if @user.has_account_merged_with?("github")}"
           %div
             = f.label :twitter
             = f.text_field :twitter, :placeholder => "Nick"
-            = link_to image_tag("icons/twitter_32.png"),user_omniauth_authorize_path(:twitter), :id => "sign_in_with_twitter", class: "social-btn #{"activated" if @user.has_account_merged_with?("twitter")}"
+            = link_to image_tag("icons/twitter_32.png"),user_omniauth_authorize_path(:twitter), :id => "merge_account_with_twitter", class: "social-btn #{"activated" if @user.has_account_merged_with?("twitter")}"
 
           %br
           Services adress
