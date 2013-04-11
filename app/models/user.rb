@@ -283,8 +283,6 @@ class User < ActiveRecord::Base
     if credentials.present?
       credentials.user
     else
-      puts "----------------------"
-      puts auth.inspect
       data = auth.extra.raw_info
       #Create a user with a stub password.
       uname = self.find_or_create_username_for_twitter(data["screen_name"])
@@ -312,8 +310,6 @@ class User < ActiveRecord::Base
     if credentials.present?
       credentials.user
     else
-      puts "----------------------"
-      puts auth.inspect
       data = auth.extra.raw_info
       if data.email.present? && user = User.where(:email => data.email).first
         user
