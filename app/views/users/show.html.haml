@@ -89,6 +89,12 @@
             = link_to "#{social.title}", social.url
         .clear
 
+.span6
+  - if @user.github.present?
+    %h3 Github repos:
+    #github_repos{"data-login" => @user.github}
+    %br
+
 #near_people.offset6
   %h3 People near #{@user.first_name}:
   - @near.each do |n|
