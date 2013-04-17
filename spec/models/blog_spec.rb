@@ -24,7 +24,7 @@ describe Blog do
       FactoryGirl.build(:blog, :url => "").should_not be_valid
     end
     it "should not be valid if url is invalid" do
-      FactoryGirl.build(:blog, :url => "http://www").should_not be_valid
+      FactoryGirl.build(:blog, :url => "http://.jhjkhjhk5ffkhugg58gfthrf").should_not be_valid
     end
   end
 
