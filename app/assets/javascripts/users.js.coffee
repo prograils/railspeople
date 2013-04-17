@@ -45,6 +45,26 @@ jQuery ->
             draggable: false
           )
 
+  getGithubRepos = () ->
+    $.ajax
+      url: "/user_github_repos"
+      type: "GET"
+      dataType: "json"
+      data: "login=" + $("#github_repos").data('login')
+      success: (outputformserver) ->
+        $.each outputformserver, (index, data) ->
+          link = $("<a>",
+            text: data.name
+            title: data.description
+            href: data.url
+            target: 'blank'
+          )
+          container = $("<div>",
+            class: 'repo_item'
+          )
+          link.appendTo container
+          container.appendTo "#github_repos"
+          link.fadeIn index*200
 
   # Update form attributes with given datas
   updateFormZoom = (map) ->
@@ -112,6 +132,9 @@ jQuery ->
     #   $('#near_people').addClass('visible')
     #   $('#near_information').addClass('hidden')
     #   google.maps.event.clearListeners(newMap, "click")
+
+  if document.getElementById("github_repos")
+    getGithubRepos()
 
   #registration/new
   if document.getElementById("registration_map")
