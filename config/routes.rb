@@ -12,6 +12,7 @@ Railspeople::Application.routes.draw do
   resources :countries, :only => [:new, :create]
 
   get 'near_coordinates' => "users#near_coordinates"
+  get 'user_github_repos' => "users#github_repos"
   get "countries_selection" => "countries#countries_selection"
   get "search/index"
   get "about/index"

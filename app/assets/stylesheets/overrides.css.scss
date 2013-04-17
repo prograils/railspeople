@@ -170,3 +170,12 @@ section#socials.well{
     opacity: 0.5;
   }
 }
+
+#github_repos{
+  .repo_item{
+    a {
+      display: none;
+      float: none;
+    }
+  }
+}
