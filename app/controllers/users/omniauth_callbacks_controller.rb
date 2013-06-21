@@ -78,7 +78,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     @user.email.blank?
   end
 
-  def failure
+  def Auth failure
     redirect_to new_user_registration_url,
     :notice => "Auth failure, try again or register a new account below:"
   end

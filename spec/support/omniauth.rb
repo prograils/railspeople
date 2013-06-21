@@ -41,14 +41,3 @@ def set_omniauth(my_provider)
       }
     })
 end
-
-def set_invalid_omniauth(my_provider)
-
-  credentials = { :provider => :my_provider,
-                  :invalid  => :invalid_crendentials
-                 }.merge(opts)
-
-  OmniAuth.config.test_mode = true
-  OmniAuth.config.mock_auth[credentials[:provider]] = credentials[:invalid]
-
-end
