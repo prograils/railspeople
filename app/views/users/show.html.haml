@@ -21,88 +21,89 @@
 
 %br
 %br
-.span6
-  - if @user.bio.present?
-    .bio
-      %p= @user.bio
-  - if @user.tags.present?
-    - @user.tags.each do |tag|
-      =link_to tag.name, tag_path(:tag => tag.name), :class => 'btn btn-info btn-small btn-tags'
-    .clear
-  - if @user.looking_for_freelance_work?
-    .work
-    %i.icon-star-empty
-    %span Looking for freelance work
-  - elsif @user.looking_for_full_time_work?
-    .work
-    %i.icon-star
-    %span Looking for full-time work
-  - if email_is_visible?(@user)
-    %br
-    %i.icon-envelope
-    %strong Email:
-    = mail_to(@user.email)
-  - if im_details_visible?(@user)
-    %h3 Finding #{@user.first_name}:
-    - if @user.blogs.any?
+.offset0
+  .span8.user_info
+    - if @user.bio.present?
+      .bio
+        %p= @user.bio
+    - if @user.tags.present?
+      - @user.tags.each do |tag|
+        =link_to tag.name, tag_path(:tag => tag.name), :class => 'btn btn-info btn-small btn-tags'
+      .clear
+    - if @user.looking_for_freelance_work?
+      .work
+      %i.icon-star-empty
+      %span Looking for freelance work
+    - elsif @user.looking_for_full_time_work?
+      .work
+      %i.icon-star
+      %span Looking for full-time work
+    - if email_is_visible?(@user)
+      %br
+      %i.icon-envelope
+      %strong Email:
+      = mail_to(@user.email)
+
+    - if im_details_visible?(@user)
+      .container-fluid
+        .row-fluid
+          .span6
+            %h3 Finding #{@user.first_name}
+            %h4 Socials:
+            - if @user.gtalk.present?
+              .row-fluid
+                = image_tag 'gtalk.png', :size => "40x40"
+                = @user.gtalk
+            - if @user.skype.present?
+              .row-fluid
+                = image_tag 'skype.png', :size => "40x40"
+                = @user.skype
+            - if @user.jabber.present?
+              .row-fluid
+                = image_tag 'jabber.png', :size => "40x40"
+                = @user.jabber
+            - if @user.facebook.present?
+              .row-fluid
+                = image_tag 'facebook.png', :size => "40x40"
+                = link_to @user.facebook, @user.profile_url(:facebook)
+            - if @user.github.present?
+              .row-fluid
+                = image_tag 'github.png', :size => "40x40"
+                = link_to @user.github, @user.profile_url(:github)
+            - if @user.twitter.present?
+              .row-fluid
+                = image_tag 'twitter.png', :size => "40x40"
+                = link_to @user.twitter, @user.profile_url(:twitter)
+            - if @user.socials.any?
+              - @user.socials.in_groups(2, false).each do |group_social|
+                - group_social.each do |social|
+                  .row-fluid
+                    - if find_asset("#{social.title}.png")
+                      = image_tag("#{social.title}.png", :size => "40x40")
+                    - else
+                      = image_tag("question.png", :size => "40x40")
+                    = link_to "#{social.title}", social.url
+                .clear
+          .span6
+            - if @user.blogs.any?
+              %h4 Blogs:
+              %ul
+                - @user.blogs.each do |blog|
+                  %li
+                    = link_to "#{blog.title}", blog.url
+
+            - if @user.github.present?
+              %h4 Github repos:
+              #github_repos{"data-login" => @user.github}
+
+  .span4
+    %h3 People near #{@user.first_name}:
+    - @near.each do |n|
       %p
-        Blogs:
-        %ul
-        - @user.blogs.each do |blog|
-          %li
-            = link_to "#{blog.title}", blog.url
-    .span12#profiles
-      - if @user.gtalk.present?
-        .row-fluid
-          = image_tag 'gtalk.png', :size => "40x40"
-          = @user.gtalk
-      - if @user.skype.present?
-        .row-fluid
-          = image_tag 'skype.png', :size => "40x40"
-          = @user.skype
-      - if @user.jabber.present?
-        .row-fluid
-          = image_tag 'jabber.png', :size => "40x40"
-          = @user.jabber
-      - if @user.facebook.present?
-        .row-fluid
-          = image_tag 'facebook.png', :size => "40x40"
-          = link_to @user.facebook, @user.profile_url(:facebook)
-      - if @user.github.present?
-        .row-fluid
-          = image_tag 'github.png', :size => "40x40"
-          = link_to @user.github, @user.profile_url(:github)
-      - if @user.twitter.present?
-        .row-fluid
-          = image_tag 'twitter.png', :size => "40x40"
-          = link_to @user.twitter, @user.profile_url(:twitter)
-    .clear
-    %br
-    - if @user.socials.any?
-      - @user.socials.in_groups(2, false).each do |group_social|
-        - group_social.each do |social|
-          .span4
-            - if find_asset("#{social.title}.png")
-              = image_tag("#{social.title}.png", :size => "40x40")
-            - else
-              = image_tag("question.png", :size => "40x40")
-            = link_to "#{social.title}", social.url
-        .clear
-
-.span6
-  - if @user.github.present?
-    %h3 Github repos:
-    #github_repos{"data-login" => @user.github}
-    %br
-
-#near_people.offset6
-  %h3 People near #{@user.first_name}:
-  - @near.each do |n|
-    %p
-      =link_to n.username, user_path(n)
-      %br
-      = image_tag("famfamfam_flags/#{n.country.iso.downcase}.png")
-      = n.country.printable_name
-      %br
-      = pluralize n.distance_from([resource.latitude, resource.longitude]).round(1), "mile"
-      away
+        =link_to n.username, user_path(n)
+        %br
+        = image_tag("famfamfam_flags/#{n.country.iso.downcase}.png")
+        = n.country.printable_name
+        %br
+        = pluralize n.distance_from([resource.latitude, resource.longitude]).round(1), "mile"
+        away

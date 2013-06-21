@@ -159,6 +159,12 @@ hr{
   }
 }
 
+.user_info{
+  .row-fluid{
+    margin: 5px;
+  }
+}
+
 section#socials.well{
   a.social-btn {
     opacity: 1;
@@ -172,10 +178,16 @@ section#socials.well{
 }
 
 #github_repos{
-  .repo_item{
+  .repo_items{
+    .repo_item{
+    line-height: 10px;
     a {
       display: none;
       float: none;
     }
   }
+  }
+}
+footer{
+  margin: 10px 0px;
 }
