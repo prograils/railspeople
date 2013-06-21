@@ -27,7 +27,11 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       flash[:notice] = if @credentials.nil?
         create_credentials(current_user) ? "Succesfull merged with #{provider}" : "Unsuccesfull merged with #{provider}"
       else
-        "Account has previously merged with #{provider}"
+        if @credentials.user.id == current_user.id
+          "Account has previously merged with #{provider}"
+        else
+          "The system has an account with the same #{provider}. Sign in by #{provider} and delete them. At the end add this #{provider} to the present account."
+        end
       end
       flash[:alert] = current_user.errors.full_messages.join(', ') if current_user.invalid?
       redirect_to edit_user_registration_url
@@ -74,7 +78,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     @user.email.blank?
   end
 
-  def failure
+  def Auth failure
     redirect_to new_user_registration_url,
     :notice => "Auth failure, try again or register a new account below:"
   end

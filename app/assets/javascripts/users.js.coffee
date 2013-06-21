@@ -59,11 +59,20 @@ jQuery ->
             href: data.url
             target: 'blank'
           )
-          container = $("<div>",
+          star_container = $("<div>",
+            class: 'star'
+          )
+          star_container.append data.stars
+          container_li = $("<li>",
             class: 'repo_item'
           )
-          link.appendTo container
-          container.appendTo "#github_repos"
+          container_ul = $("<ul>",
+            class: 'repo_items'
+          )
+          star_container.appendTo link
+          link.appendTo container_li
+          container_li.appendTo container_ul
+          container_ul.appendTo "#github_repos"
           link.fadeIn index*200
 
   # Update form attributes with given datas

@@ -159,6 +159,12 @@ hr{
   }
 }
 
+.user_info{
+  .row-fluid{
+    margin: 5px;
+  }
+}
+
 section#socials.well{
   a.social-btn {
     opacity: 1;
@@ -167,15 +173,36 @@ section#socials.well{
     }
   }
   a.social-btn.activated {
-    opacity: 0.5;
+    opacity: 0.4;
+  }
+}
+
+ul.blogs{
+  li{
+    line-height: 27px;
   }
 }
 
 #github_repos{
-  .repo_item{
+  .repo_items{
+    .repo_item{
+    line-height: 20px;
     a {
       display: none;
-      float: none;
+      float: left;
+      .star{
+        float: right;
+        background:  asset-url('star.jpg') no-repeat;
+        background-size: contain;
+        background-position: right;
+        float: right;
+        height: 20px;
+        padding: 0 25px 0 10px;
+      }
     }
   }
+  }
+}
+footer{
+  margin: 10px 0px;
 }
