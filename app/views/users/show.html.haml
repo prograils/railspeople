@@ -87,7 +87,7 @@
           .span6
             - if @user.blogs.any?
               %h4 Blogs:
-              %ul
+              %ul.blogs
                 - @user.blogs.each do |blog|
                   %li
                     = link_to "#{blog.title}", blog.url

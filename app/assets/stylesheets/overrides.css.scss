@@ -177,13 +177,28 @@ section#socials.well{
   }
 }
 
+ul.blogs{
+  li{
+    line-height: 27px;
+  }
+}
+
 #github_repos{
   .repo_items{
     .repo_item{
-    line-height: 10px;
+    line-height: 20px;
     a {
       display: none;
-      float: none;
+      float: left;
+      .star{
+        float: right;
+        background:  asset-url('star.jpg') no-repeat;
+        background-size: contain;
+        background-position: right;
+        float: right;
+        height: 20px;
+        padding: 0 25px 0 10px;
+      }
     }
   }
   }

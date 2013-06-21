@@ -27,11 +27,11 @@ class UsersController < InheritedResources::Base
       begin
         response = RestClient.get endpoint, headers = headers
         json_repos = JSON.load response
-        puts json_repos.to_yaml
         json_repos.each do |repo|
           @repos << {:name => repo['name'],
                      :url => repo['html_url'],
-                     :description => repo['description'][0..200]
+                     :description => repo['description'][0..200],
+                     :stars => repo['watchers_count']
                     }
         end
       rescue => e

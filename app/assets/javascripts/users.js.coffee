@@ -59,12 +59,17 @@ jQuery ->
             href: data.url
             target: 'blank'
           )
+          star_container = $("<div>",
+            class: 'star'
+          )
+          star_container.append data.stars
           container_li = $("<li>",
             class: 'repo_item'
           )
           container_ul = $("<ul>",
             class: 'repo_items'
           )
+          star_container.appendTo link
           link.appendTo container_li
           container_li.appendTo container_ul
           container_ul.appendTo "#github_repos"
