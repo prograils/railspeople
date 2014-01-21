@@ -17,6 +17,8 @@
 
 /config/database.yml
 .DS_Store
+/config/deploy.rb
+.env
 
 # Ignore Paperclip images
 /public/system/*

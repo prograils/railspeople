@@ -4,7 +4,7 @@ Devise.setup do |config|
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class with default "from" parameter.
-  config.mailer_sender = "please-change-me-at-config-initializers-devise@example.com"
+  config.mailer_sender = "robot@railspeople.com"
 
   # Configure the class responsible to send e-mails.
   # config.mailer = "Devise::Mailer"
@@ -102,7 +102,7 @@ Devise.setup do |config|
 
   # ==> Configuration for :validatable
   # Range for password length. Default is 6..128.
-  # config.password_length = 6..128
+  config.password_length = 6..128
 
   # Email regex used to validate email formats. It simply asserts that
   # an one (and only one) @ exists in the given string. This is mainly
@@ -206,6 +206,8 @@ Devise.setup do |config|
   #   manager.intercept_401 = false
   #   manager.default_strategies(:scope => :user).unshift :some_external_strategy
   # end
+
+  config.secret_key = ENV['DEVISE_SECRET_KEY']
 
   config.omniauth :facebook, ENV['RAILSPEOPLE_FACEBOOK_OAUTH_CLIENT'], ENV['RAILSPEOPLE_FACEBOOK_OAUTH_SECRET'], :require => 'omniauth-facebook', :strategy_class => OmniAuth::Strategies::Facebook
   config.omniauth :twitter, ENV['RAILSPEOPLE_TWITTER_OAUTH_CLIENT'], ENV['RAILSPEOPLE_TWITTER_OAUTH_SECRET'], :require => 'omniauth-twitter', :strategy_class => OmniAuth::Strategies::Twitter

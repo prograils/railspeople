@@ -1,5 +1,5 @@
 test:
-  adapter: mysql2
+  adapter: pg
   encoding: utf8
   database: railspeople_test
   username: root
