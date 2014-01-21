@@ -30,6 +30,7 @@ gem 'sass-rails', '~> 4.0'
 gem 'coffee-rails', '~> 4.0'
 gem 'less-rails', '~> 2.4.2'
 gem 'jquery-rails', "~> 2.1.4"
+gem 'uglifier', '>= 2.4.0'
 gem 'therubyracer', platform: :ruby
 
 gem 'turbolinks'
