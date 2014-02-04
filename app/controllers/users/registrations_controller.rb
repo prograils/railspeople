@@ -1,4 +1,6 @@
 class Users::RegistrationsController < Devise::RegistrationsController
+  before_filter :configure_permitted_parameters, if: :devise_controller?
+
 
   def new
     @json = User.new.to_gmaps4rails
@@ -41,40 +43,51 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end
   end
 
-  def resource_params
-    @resource_params ||= params.require(:user).permit(
-      :username,
-      :first_name,
-      :last_name,
-      :email,
-      :password,
-      :password_confirmation,
-      :current_password,
-      :latitude,
-      :longitude,
-      :zoom,
-      :country_id,
-      :bio,
-      :gtalk,
-      :skype,
-      :jabber,
-      :tag_names,
-      :looking_for_work,
-      :search_visibility,
-      :im_privacy,
-      :email_privacy,
-      :avatar,
-      :change_password_needed,
-      :skip_country_validation,
-      :skip_email_validation,
-      :blogs_attributes => [:id, :user_id, :title, :url, :_destroy],
-      :socials_attributes => [:id, :user_id, :title, :url, :_destroy]
-    )
-  end
+  protected
 
-  def needs_password?(user, params)
-    user.email != params[:email] || !params[:password].empty?
-  end
+    def configure_permitted_parameters
+      devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(*permitted_params) }
+      devise_parameter_sanitizer.for(:account_update) { |u| u.permit(*permitted_params) }
+    end
 
-  private :resource_params, :needs_password?
+    def resource_params
+      params.require(:user).permit(*permitted_params)
+    end
+
+    def permitted_params
+      [
+        :username,
+        :first_name,
+        :last_name,
+        :email,
+        :password,
+        :password_confirmation,
+        :current_password,
+        :latitude,
+        :longitude,
+        :zoom,
+        :country_id,
+        :bio,
+        :gtalk,
+        :skype,
+        :jabber,
+        :tag_names,
+        :looking_for_work,
+        :search_visibility,
+        :im_privacy,
+        :email_privacy,
+        :avatar,
+        :change_password_needed,
+        :skip_country_validation,
+        :skip_email_validation,
+        :blogs_attributes => [:id, :user_id, :title, :url, :_destroy],
+        :socials_attributes => [:id, :user_id, :title, :url, :_destroy]
+      ]
+    end
+
+  private
+    def needs_password?(user, params)
+      user.email != params[:email] || !params[:password].empty?
+    end
+
 end

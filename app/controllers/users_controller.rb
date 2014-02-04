@@ -35,7 +35,7 @@ class UsersController < InheritedResources::Base
                     }
         end
       rescue => e
-        puts e.response
+        #puts e.response
       end
     end
 
