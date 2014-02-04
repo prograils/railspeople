@@ -1,8 +1,8 @@
 language: ruby
 rvm:
-  - 1.9.3
+  - 2.0.0-p353
 script:
   - bundle exec rake db:migrate
 before_script:
   - cp config/database.travis.yml config/database.yml
-  - mysql -e 'create database railspeople_test;'
+  - psql -c 'create database railspeople_test;' -U postgres

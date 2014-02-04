@@ -1,5 +1,5 @@
 test:
-  adapter: pg
-  encoding: utf8
+  adapter: postgresql
+  encoding: unicode
   database: railspeople_test
-  username: root
+  username: postgres
