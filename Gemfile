@@ -38,6 +38,7 @@ gem 'turbolinks'
 gem "factory_girl_rails", "~> 4.0"
 
 gem 'dotenv-rails'
+gem 'airbrake'
 
 group :development, :test do
   gem 'rspec-rails', '~> 2.12.2'
