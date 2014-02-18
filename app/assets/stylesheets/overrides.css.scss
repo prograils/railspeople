@@ -31,7 +31,6 @@
     float: none;
     font-size: 12px;
     margin-top: -20px;
-    width: 200px;
   }
   .blog{
     position: relative;
@@ -205,4 +204,11 @@ ul.blogs{
 }
 footer{
   margin: 10px 0px;
+}
+.remove_nested_fields {
+  margin-bottom: 10px;
+}
+select {
+  height: 32px;
+  width: 320px;
 }
