@@ -212,3 +212,9 @@ select {
   height: 32px;
   width: 320px;
 }
+input[type="radio"] {
+  margin: 2px;
+}
+input[type="file"] {
+  line-height: normal;
+}

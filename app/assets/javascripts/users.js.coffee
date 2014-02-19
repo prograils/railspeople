@@ -167,8 +167,8 @@ jQuery ->
         complete: ->
         success: (data, textStatus, xhr) ->
           addClass($("#registration_map"))
-          latLng = new google.maps.LatLng(data.country.lat, data.country.lng)
-          regMap = init("registration_map", data.country.lat, data.country.lng, 5)
+          latLng = new google.maps.LatLng(data.lat, data.lng)
+          regMap = init("registration_map", data.lat, data.lng, 5)
           marker.setMap(regMap)
           marker.setPosition(latLng)
 
