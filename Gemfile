@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.0.2'
+gem 'rails', '4.0.3'
 gem 'devise'
 gem 'activerecord-deprecated_finders', github: 'rails/activerecord-deprecated_finders'
 
