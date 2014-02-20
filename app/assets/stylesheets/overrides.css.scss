@@ -218,3 +218,10 @@ input[type="radio"] {
 input[type="file"] {
   line-height: normal;
 }
+.field_with_errors {
+  color: #EB0200;
+  input {
+    border-color: #EB0200;
+    color: #EB0200;
+  }
+}

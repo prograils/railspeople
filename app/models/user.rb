@@ -68,7 +68,7 @@ class User < ActiveRecord::Base
             :presence => true,
             :on => :create,
             :if => proc{|u| u.country_validation} #TODO test
-  validates :email, :country_id, :first_name, :last_name,
+  validates :country_id, :first_name, :last_name,
             :presence => true,
             :on => :update #TODO test
   validates :password,
