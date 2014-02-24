@@ -96,14 +96,15 @@
               %h4 Github repos:
               #github_repos{"data-login" => @user.github}
 
-  .span4
-    %h3 People near #{@user.first_name}:
-    - @near.each do |n|
-      %p
-        =link_to n.username, user_path(n)
-        %br
-        = image_tag("famfamfam_flags/#{n.country.iso.downcase}.png")
-        = n.country.printable_name
-        %br
-        = pluralize n.distance_from([resource.latitude, resource.longitude]).round(1), "mile"
-        away
+  - if @near.present?
+    .span4
+      %h3 People near #{@user.first_name}:
+      - @near.each do |n|
+        %p
+          =link_to n.username, user_path(n)
+          %br
+          = image_tag("famfamfam_flags/#{n.country.iso.downcase}.png")
+          = n.country.printable_name
+          %br
+          = pluralize n.distance_from([resource.latitude, resource.longitude]).round(1), "mile"
+          away

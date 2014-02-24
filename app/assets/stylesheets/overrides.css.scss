@@ -162,6 +162,10 @@ hr{
   .row-fluid{
     margin: 5px;
   }
+  i {
+    margin-top: 4px;
+  }
+
 }
 
 section#socials.well{
@@ -220,8 +224,20 @@ input[type="file"] {
 }
 .field_with_errors {
   color: #EB0200;
-  input {
+  display: inline; 
+  input, select {
     border-color: #EB0200;
     color: #EB0200;
+  }
+}
+#new_user {
+  label[for=user_remember_me] {
+  display: inline-block;
+  }
+  input[type="checkbox"] {
+    margin: 0;
+  }
+  input[type="submit"] {
+    display: block;
   }
 }

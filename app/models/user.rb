@@ -38,8 +38,9 @@ class User < ActiveRecord::Base
   has_many :o_auth_credentials, :dependent=>:destroy
 
   ## ANAF
-  accepts_nested_attributes_for :socials, :allow_destroy => true
-  accepts_nested_attributes_for :blogs, :allow_destroy => true
+  accepts_nested_attributes_for :socials, allow_destroy: true, reject_if: proc{|p| p['url'].blank?}
+  accepts_nested_attributes_for :blogs, allow_destroy: true, reject_if: proc{|p| p['url'].blank?}
+
 
   ## ATTR WRITERS & ACCESSORS
   attr_writer :tag_names

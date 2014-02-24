@@ -1,14 +1,14 @@
 class Blog < ActiveRecord::Base
   require "net/http"
-   ## SCOPES
+  ## SCOPES
   scope :order_by_date, -> { order('created_at DESC')}
 
   ## ASSOCIATIONS
   belongs_to :user
 
   ## VALIDATIONS
-   validates_presence_of :url, :user_id, :title
-   validates :url, :url => {:allow_blank => false, :verify => [:resolve_redirects]}
+  validates_presence_of :url, :user_id, :title
+  validates :url, :url => {:allow_blank => false, :verify => [:resolve_redirects]}
 
   ## BEFORE & AFTER
   before_validation :check_url
@@ -76,7 +76,7 @@ class Blog < ActiveRecord::Base
     title = all_titles[1] if all_titles.present?
     new_title = ""
     if (title.present?)
-        new_title = title.force_encoding('utf-8')
+      new_title = title.force_encoding('utf-8')
     else
       new_title = self.url.to_s
     end
