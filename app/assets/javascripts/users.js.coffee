@@ -2,12 +2,6 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-sections = $("form#new_user").find('#socials h4, #skills h4, #work h4, #privacy h4, #avatar h4')
-sections.click ->
-  $(this).parent().find('.content').toggle();
-
-sections.click()
-
 setCountryAsNull = (list_id) ->
   user_country_list = $("#" + list_id)
   user_country_list.prepend "<option value='' selected='selected'></option>"
@@ -167,8 +161,8 @@ jQuery ->
         complete: ->
         success: (data, textStatus, xhr) ->
           addClass($("#registration_map"))
-          latLng = new google.maps.LatLng(data.country.lat, data.country.lng)
-          regMap = init("registration_map", data.country.lat, data.country.lng, 5)
+          latLng = new google.maps.LatLng(data.lat, data.lng)
+          regMap = init("registration_map", data.lat, data.lng, 5)
           marker.setMap(regMap)
           marker.setPosition(latLng)
 

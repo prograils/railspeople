@@ -31,7 +31,6 @@
     float: none;
     font-size: 12px;
     margin-top: -20px;
-    width: 200px;
   }
   .blog{
     position: relative;
@@ -163,6 +162,10 @@ hr{
   .row-fluid{
     margin: 5px;
   }
+  i {
+    margin-top: 4px;
+  }
+
 }
 
 section#socials.well{
@@ -205,4 +208,36 @@ ul.blogs{
 }
 footer{
   margin: 10px 0px;
+}
+.remove_nested_fields {
+  margin-bottom: 10px;
+}
+select {
+  height: 32px;
+  width: 320px;
+}
+input[type="radio"] {
+  margin: 2px;
+}
+input[type="file"] {
+  line-height: normal;
+}
+.field_with_errors {
+  color: #EB0200;
+  display: inline; 
+  input, select {
+    border-color: #EB0200;
+    color: #EB0200;
+  }
+}
+#new_user {
+  label[for=user_remember_me] {
+  display: inline-block;
+  }
+  input[type="checkbox"] {
+    margin: 0;
+  }
+  input[type="submit"] {
+    display: block;
+  }
 }
