@@ -82,5 +82,4 @@ class Blog < ActiveRecord::Base
     end
     self.title = new_title
   end
-
 end

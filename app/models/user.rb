@@ -21,26 +21,25 @@ class User < ActiveRecord::Base
          :rememberable, :trackable, :omniauthable
 
   ## GMAP
-  acts_as_gmappable :process_geocoding => false
+  acts_as_gmappable process_geocoding: false
   reverse_geocoded_by :latitude, :longitude
 
   ## PAPERCLIP
-  has_attached_file :avatar, :styles => { :medium => "84x84#", :thumb => "40x40#" }
+  has_attached_file :avatar, styles: { medium: "84x84#", thumb: "40x40#" }
 
   ## SCOPES
 
   ## ASSOCIATIONS
-  belongs_to :country, :counter_cache => true
-  has_many :blogs, :dependent => :destroy
-  has_many :socials, :dependent => :destroy
-  has_many :taggings, :dependent => :destroy
-  has_many :tags, :through => :taggings
-  has_many :o_auth_credentials, :dependent=>:destroy
+  belongs_to :country, counter_cache: true
+  has_many :blogs, dependent: :destroy
+  has_many :socials, dependent: :destroy
+  has_many :taggings, dependent: :destroy
+  has_many :tags, through: :taggings
+  has_many :o_auth_credentials, dependent: :destroy
 
   ## ANAF
   accepts_nested_attributes_for :socials, allow_destroy: true, reject_if: proc{|p| p['url'].blank?}
   accepts_nested_attributes_for :blogs, allow_destroy: true, reject_if: proc{|p| p['url'].blank?}
-
 
   ## ATTR WRITERS & ACCESSORS
   attr_writer :tag_names
@@ -50,56 +49,55 @@ class User < ActiveRecord::Base
 
   ## VALIDATIONS
   validates :username,
-            :uniqueness => true
+            uniqueness: true
   validates :username, :looking_for_work, :email_privacy,
-            :presence => true
+            presence: true
   validates :email,
-            :presence => true,
-            :uniqueness => { :case_sensitive => false }
-  validate :email_filled, :on => :update
+            presence: true,
+            uniqueness: { case_sensitive: false }
+  validate :email_filled, on: :update
   validates :first_name,
-            :presence => true,
-            :on => :create,
-            :if => proc{|u| u.first_name_validation} #TODO test
+            presence: true,
+            on: :create,
+            if: proc{|u| u.first_name_validation} #TODO test
   validates :last_name,
-            :presence => true,
-            :on => :create,
-            :if => proc{|u| u.last_name_validation} #TODO test
+            presence: true,
+            on: :create,
+            if: proc{|u| u.last_name_validation} #TODO test
   validates :country_id,
-            :presence => true,
-            :on => :create,
-            :if => proc{|u| u.country_validation} #TODO test
+            presence: true,
+            on: :create,
+            if: proc{|u| u.country_validation} #TODO test
   validates :country_id, :first_name, :last_name,
-            :presence => true,
-            :on => :update #TODO test
+            presence: true,
+            on: :update #TODO test
   validates :password,
-            :presence => true,
-            :confirmation => true,
-            :length => {:within => 6..40},
-            :on => :create
+            presence: true,
+            confirmation: true,
+            length: {within: 6..40},
+            on: :create
   validates :password,
-            :confirmation => true,
-            :length => {:within => 6..40},
-            :allow_blank => true,
-            :on => :update,
-            :unless => proc{|u| u.change_password_needed} #TODO test
+            confirmation: true,
+            length: {within: 6..40},
+            allow_blank: true,
+            on: :update,
+            unless: proc{|u| u.change_password_needed} #TODO test
   validates :password,
-            :confirmation => true,
-            :length => {:within => 6..40},
-            :allow_blank => false,
-            :on => :update,
-            :if => proc{|u| u.change_password_needed} #TODO test
+            confirmation: true,
+            length: {within: 6..40},
+            presence: true, #allow_blank: false,
+            on: :update,
+            if: proc{|u| u.change_password_needed} #TODO test
   validates :looking_for_work,
-            :inclusion => {:in => (User::WORK_TYPES.values)}
+            inclusion: {in: (User::WORK_TYPES.values)}
   validates :email_privacy,
-            :inclusion => {:in => (User::EMAIL_PRIVACY.values)}
+            inclusion: {in: (User::EMAIL_PRIVACY.values)}
 
   ## BEFORE & AFTER
-  after_validation :reverse_geocode  # auto-fetch address
+  after_initialize :assign_defaults
+  after_validation :reverse_geocode, if: ->(obj){ obj.latitute.present? and obj.longitude.present and (obj.latitude_changed? or obj.longitude_changed?) }
   after_save :assign_tags
   after_update :check_password_changed
-
-  after_initialize :assign_defaults
 
   def assign_defaults
     self.country_validation = true
@@ -179,15 +177,14 @@ class User < ActiveRecord::Base
   end
 
   def set_attrs(auth, provider)
-    data = auth.extra.raw_info if auth.extra.present?
-    if data.present?
-      u = User.where(id:self.id)
+    if auth.extra.present?
+      data = auth.extra.raw_info
+      u = User.where(id: self.id)
       case provider
         when "facebook"
           u.update_all first_name: data.first_name if self.first_name.blank? && data.first_name.present?
           u.update_all last_name: data.last_name if self.last_name.blank? && data.last_name.present?
           u.update_all email: data.email if no_email_filled? && data.email.present?
-
           u.update_all facebook: data.username if self.facebook.blank? && data.username.present?
         when "twitter"
           u.update_all twitter: data.screen_name if self.twitter.blank? && data.screen_name.present?
@@ -198,14 +195,7 @@ class User < ActiveRecord::Base
   end
 
   def profile_url(provider)
-    case provider
-      when :facebook
-        "http://www.facebook.com/#{self[provider]}"
-      when :twitter
-        "https://twitter.com/#{self[provider]}"
-      when :github
-        "https://github.com/#{self[provider]}"
-    end
+    "https://#{provider}.com/#{self[provider]}"
   end
 
   # Check, if user account is merged with social service
@@ -230,7 +220,7 @@ class User < ActiveRecord::Base
   def assign_tags
     if @tag_names
       self.tags = @tag_names.split(/\s+/).uniq.map do |name|
-        Tag.where(:name => name).first_or_create
+        Tag.where(name: name).first_or_create
       end
     end
   end
@@ -244,7 +234,7 @@ class User < ActiveRecord::Base
     true
   end
 
-  def self.find_for_facebook_oauth(credentials)
+  def self.find_for_oauth(credentials)
     credentials.present? ? credentials.user : nil
   end
 
@@ -255,7 +245,7 @@ class User < ActiveRecord::Base
       data = auth.extra.raw_info
 
       if data.email.present?
-        if user = User.where(:email => data.email).first
+        if user = User.where(email: data.email).first
           user
         else # Create a user with a stub password.
           uname = self.find_or_create_username_for_facebook(data["first_name"], data["last_name"])
@@ -276,17 +266,13 @@ class User < ActiveRecord::Base
     end
   end
 
-  def self.find_for_twitter_oauth(credentials)
-    credentials.present? ? credentials.user : nil
-  end
-
   def self.find_or_create_for_twitter_oauth(auth, credentials)
     if credentials.present?
       credentials.user
     else
       data = auth.extra.raw_info
       #Create a user with a stub password.
-      uname = self.find_or_create_username_for_twitter(data["screen_name"])
+      uname = self.find_or_create_username(data["screen_name"])
       first_name, last_name = data["name"].split
 
       user = User.new(
@@ -303,10 +289,6 @@ class User < ActiveRecord::Base
     end
   end
 
-  def self.find_for_github_oauth(credentials)
-    credentials.present? ? credentials.user : nil
-  end
-
   def self.find_or_create_for_github_oauth(auth, credentials)
     if credentials.present?
       credentials.user
@@ -315,7 +297,7 @@ class User < ActiveRecord::Base
       if data.email.present? && user = User.where(:email => data.email).first
         user
       else # Create a user with a stub password.
-        uname = self.find_or_create_username_for_github(data["login"])
+        uname = self.find_or_create_username(data["login"])
 
         user = User.new(
           username: "#{uname}",
@@ -337,25 +319,11 @@ class User < ActiveRecord::Base
     first_and_last << first_n.capitalize if first_n.present?
     first_and_last << last_n.capitalize if last_n.present?
     value = first_and_last.join("_")
-    if User.exists?(:username => value)
-      value = self.add_num_chars(value)
-    else
-      #do nothing
-    end
-    value
+    self.find_or_create_username(value)
   end
 
-  def self.find_or_create_username_for_twitter(screen_name)
-    if User.exists?(:username => screen_name)
-      screen_name = self.add_num_chars(screen_name)
-    else
-      #do nothing
-    end
-    screen_name
-  end
-
-  def self.find_or_create_username_for_github(login)
-    if User.exists?(:username => login)
+  def self.find_or_create_username(login)
+    if User.exists?(username: login)
       login = self.add_num_chars(login)
     else
       #do nothing

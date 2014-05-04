@@ -14,16 +14,7 @@ describe "Users" do
       fill_in "Email", :with => "ruby@rails.com"
       fill_in "user[password]", :with => "foobar12"
       fill_in "user[password_confirmation]", :with => "foobar12"
-
-      #fill_in "user[latitude]", :with => "1.2"
-      #fill_in "user[longitude]", :with => "1.2"
       select @country.printable_name, :from => 'user[country_id]'
-
-      fill_in "Bio", :with => 'some description text ...'
-      fill_in "Gtalk", :with => "nick"
-      fill_in "Skype", :with => "nick"
-      fill_in "Jabber", :with => "nick"
-
       click_button "Sign me up"
       page.should have_content("Welcome! You have signed up successfully.")
     end
@@ -293,7 +284,7 @@ describe "Users" do
   context "GET /users/edit after registration by github" do
     before do
       @user = FactoryGirl.create(:user_github_auth, country_validation: false, first_name_validation: false, last_name_validation: false)
-      login_as(@user, :scope => :user)
+      login_as(@user, scope: :user)
       visit '/users/edit'
       @old_email = @user.email
       second_option_xpath = "//*[@id='user_country_id']/option[2]"

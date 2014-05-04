@@ -48,7 +48,7 @@ class UsersController < InheritedResources::Base
     @tag = Tag.find_by name: params[:tag]
     scope = @tag.users
     @json = scope.to_gmaps4rails
-    @users = scope.paginate(:page => params[:page])
+    @users = scope.paginate(page: params[:page])
   end
 
   def find_near

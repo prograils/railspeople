@@ -32,7 +32,8 @@ describe Social do
 
   describe "social title" do
     before do
-      @social = FactoryGirl.create(:social, :user_id => 1)
+      @user = FactoryGirl.create(:user)
+      @social = FactoryGirl.create(:social, :user_id => @user.id)
     end
     it "should be added after create" do
       @social.title.should eq("stackoverflow")

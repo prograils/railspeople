@@ -147,7 +147,7 @@ describe User do
   context "profile_url method" do
     it "should return facebook profile url" do
       user = FactoryGirl.create(:user)
-      user.profile_url(:facebook).should include("http://www.facebook.com/")
+      user.profile_url(:facebook).should include("https://facebook.com/")
     end
     it "should return twitter profile url" do
       user = FactoryGirl.create(:user)

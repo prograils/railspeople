@@ -20,6 +20,6 @@ class OAuthCredential < ActiveRecord::Base
   #attr_accessible :params, :provider, :uid
 
   def to_s
-    "#{self.provider} (#{self.uid})"
+    "#{self.provider} #{self.uid}"
   end
 end

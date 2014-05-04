@@ -40,7 +40,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
         @user = User.send("find_or_create_for_#{provider}_oauth", @auth, @credentials)
         create_credentials(@user) if @credentials.nil?
       else
-        @user = User.send("find_for_#{provider}_oauth", @credentials)
+        @user = User.send("find_for_oauth", @credentials)
       end
       if @user.present?
         if @user.persisted?
