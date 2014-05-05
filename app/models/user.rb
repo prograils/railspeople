@@ -95,7 +95,7 @@ class User < ActiveRecord::Base
 
   ## BEFORE & AFTER
   after_initialize :assign_defaults
-  after_validation :reverse_geocode, if: ->(obj){ obj.latitute.present? and obj.longitude.present and (obj.latitude_changed? or obj.longitude_changed?) }
+  after_validation :reverse_geocode, if: ->(obj){ obj.latitude.present? and obj.longitude.present? and (obj.latitude_changed? or obj.longitude_changed?) }
   after_save :assign_tags
   after_update :check_password_changed
 
@@ -227,7 +227,7 @@ class User < ActiveRecord::Base
 
   def no_email_filled?
     email = self.email
-    if (email.present?)
+    if email.present?
       index = email.index("@")
       return email[index..-1] == "@5h0u1d-change.it"
     end
