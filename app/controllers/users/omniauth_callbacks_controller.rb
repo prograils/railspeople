@@ -37,10 +37,12 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       redirect_to edit_user_registration_url
     else
       if @registration_is_allowed == true
-        @user = User.send("find_or_create_for_#{provider}_oauth", @auth, @credentials)
+        #@user = User.send("find_or_create_for_oauth", @auth, @credentials, provider)
+        @user = User.find_or_create_for_oauth(@auth, @credentials, provider)
         create_credentials(@user) if @credentials.nil?
       else
-        @user = User.send("find_for_oauth", @credentials)
+        #@user = User.send("find_for_oauth", @credentials)
+        @user = User.find_for_oauth(@credentials)
       end
       if @user.present?
         if @user.persisted?

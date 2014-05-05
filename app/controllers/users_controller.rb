@@ -55,7 +55,7 @@ class UsersController < InheritedResources::Base
     lat = resource.latitude
     lng = resource.longitude
     range = 10
-    while @near.nil? || @near.count < 5
+    while @near.nil? || @near.count(:all) < 5
       @near = User.near([lat, lng], range).limit(5) # miles
       range += 50
       if range >= 500

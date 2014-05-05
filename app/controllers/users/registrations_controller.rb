@@ -1,7 +1,6 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   before_filter :configure_permitted_parameters, if: :devise_controller?
 
-
   def new
     @json = User.new.to_gmaps4rails
     super
@@ -24,7 +23,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def update
-    @user = User.find(current_user.id)
+    @user = current_user#User.find(current_user.id)
     successfully_updated = if @user.change_password_needed?
       @user.update_with_password_without_current(resource_params)
     elsif needs_password?(@user, resource_params)
