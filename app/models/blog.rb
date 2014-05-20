@@ -70,7 +70,7 @@ class Blog < ActiveRecord::Base
     end
   end
 
-  def generate_title()
+  def generate_title
     all_titles = server_response.to_s.match(/<title>\s*(.*)\s*<\/title>/)
 
     title = all_titles[1] if all_titles.present?

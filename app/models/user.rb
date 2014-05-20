@@ -149,16 +149,6 @@ class User < ActiveRecord::Base
     errors.add(:email, ' - change to Your valid') if no_email_filled?
   end
 
-  # to del
-  def no_email_filled?
-    email = self.email
-    if (email.present?)
-      index = email.index("@")
-      return (email[index..-1] == "@5h0u1d-change.it")
-    end
-    return 0
-  end
-
   def to_param
     "#{id}-#{username}".parameterize
   end
@@ -244,68 +234,63 @@ class User < ActiveRecord::Base
       credentials.user
     else
       data = auth.extra.raw_info
-      User.send("find_or_create_for_#{provider}_oauth", data, credentials)
+      User.send("create_for_#{provider}_oauth", data, credentials)
     end
   end
 
-  def self.find_or_create_for_facebook_oauth(data, credentials)
+  def self.create_for_facebook_oauth(data, credentials)
     if data.email.present?
       if user = User.where(email: data.email).first
         user
-      else # Create a user with a stub password.
+      else
         uname = self.find_or_create_username_for_facebook(data["first_name"], data["last_name"])
-
         user = User.new(
           username: "#{uname}",
           email: data.email,
-          password: Devise.friendly_token[0,20],
           first_name: data["first_name"] || "u_firstname",
           last_name: data["last_name"] || "u_lastname",
-          facebook: data.username,
-          change_password_needed: true)
-        user.country_validation = false
-        user.save
+          facebook: data.username)
+        self.assign_values_to_created_from_auth(user)
         user
       end
     end
   end
 
-  def self.find_or_create_for_twitter_oauth(data, credentials)
-    #Create a user with a stub password.
+  def self.create_for_twitter_oauth(data, credentials)
     uname = self.find_or_create_username(data["screen_name"])
     first_name, last_name = data["name"].split
-
     user = User.new(
       username: "#{uname}",
-      password: Devise.friendly_token[0,20],
       first_name: first_name || "u_firstname",
       last_name: last_name || "u_lastname",
-      twitter: data.screen_name,
-      change_password_needed: true)
+      twitter: data.screen_name)
     user.email = user.temporary_email
-    user.country_validation = false
-    user.save
+    self.assign_values_to_created_from_auth(user)
     user
   end
 
-  def self.find_or_create_for_github_oauth(data, credentials)
-    if data.email.present? && user = User.where(:email => data.email).first
+  def self.create_for_github_oauth(data, credentials)
+    if data.email.present? && user = User.where(email: data.email).first
       user
-    else # Create a user with a stub password.
+    else
       uname = self.find_or_create_username(data["login"])
-
+      first_name, last_name = data["name"].split if data["name"]
       user = User.new(
         username: "#{uname}",
-        password: Devise.friendly_token[0,20],
-        github: data["login"],
-        change_password_needed: true)
+        first_name: first_name || "u_firstname",
+        last_name: last_name || "u_lastname",
+        github: data["login"])
       user.email = user.temporary_email
-      user.country_validation = false
-      user.first_name_validation = false
-      user.last_name_validation = false
-      user.save
+      self.assign_values_to_created_from_auth(user)
       user
     end
+  end
+
+  def self.assign_values_to_created_from_auth(user)
+    user.country_validation = false
+    user.password = Devise.friendly_token[0,20]
+    user.change_password_needed = true
+    user.save
   end
 
   def self.find_or_create_username_for_facebook(first_n, last_n)
@@ -317,11 +302,7 @@ class User < ActiveRecord::Base
   end
 
   def self.find_or_create_username(login)
-    if User.exists?(username: login)
-      login = self.add_num_chars(login)
-    else
-      #do nothing
-    end
+    login = self.add_num_chars(login) if User.exists?(username: login)
     login
   end
 

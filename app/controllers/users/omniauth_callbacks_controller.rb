@@ -37,11 +37,9 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       redirect_to edit_user_registration_url
     else
       if @registration_is_allowed == true
-        #@user = User.send("find_or_create_for_oauth", @auth, @credentials, provider)
         @user = User.find_or_create_for_oauth(@auth, @credentials, provider)
         create_credentials(@user) if @credentials.nil?
       else
-        #@user = User.send("find_for_oauth", @credentials)
         @user = User.find_for_oauth(@credentials)
       end
       if @user.present?
@@ -70,14 +68,6 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   def github
     do_auth("github")
-  end
-
-  def country_is_not_set
-    @user.latitude.blank? || @user.longitude.blank? || @user.country_id.blank?
-  end
-
-  def email_is_not_set
-    @user.email.blank?
   end
 
   def Auth failure
