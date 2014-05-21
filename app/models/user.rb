@@ -44,8 +44,7 @@ class User < ActiveRecord::Base
   ## ATTR WRITERS & ACCESSORS
   attr_writer :tag_names
   attr_accessor :country_validation
-  attr_accessor :first_name_validation
-  attr_accessor :last_name_validation
+  attr_accessor :name_validation
 
   ## VALIDATIONS
   validates :username,
@@ -56,14 +55,10 @@ class User < ActiveRecord::Base
             presence: true,
             uniqueness: { case_sensitive: false }
   validate :email_filled, on: :update
-  validates :first_name,
+  validates :first_name, :last_name,
             presence: true,
             on: :create,
-            if: proc{|u| u.first_name_validation} #TODO test
-  validates :last_name,
-            presence: true,
-            on: :create,
-            if: proc{|u| u.last_name_validation} #TODO test
+            if: proc{|u| u.name_validation} #TODO test
   validates :country_id,
             presence: true,
             on: :create,
@@ -101,8 +96,7 @@ class User < ActiveRecord::Base
 
   def assign_defaults
     self.country_validation = true
-    self.first_name_validation = true
-    self.last_name_validation = true
+    self.name_validation = true
   end
 
   def gmaps4rails_infowindow
@@ -245,12 +239,9 @@ class User < ActiveRecord::Base
       else
         uname = self.find_or_create_username_for_facebook(data["first_name"], data["last_name"])
         user = User.new(
-          username: "#{uname}",
           email: data.email,
-          first_name: data["first_name"] || "u_firstname",
-          last_name: data["last_name"] || "u_lastname",
           facebook: data.username)
-        self.assign_values_to_created_from_auth(user)
+        self.assign_common_values_to_created_from_auth(user, uname, data["first_name"], data["last_name"])
         user
       end
     end
@@ -259,13 +250,9 @@ class User < ActiveRecord::Base
   def self.create_for_twitter_oauth(data, credentials)
     uname = self.find_or_create_username(data["screen_name"])
     first_name, last_name = data["name"].split
-    user = User.new(
-      username: "#{uname}",
-      first_name: first_name || "u_firstname",
-      last_name: last_name || "u_lastname",
-      twitter: data.screen_name)
+    user = User.new(twitter: data.screen_name)
     user.email = user.temporary_email
-    self.assign_values_to_created_from_auth(user)
+    self.assign_common_values_to_created_from_auth(user, uname, first_name, last_name)
     user
   end
 
@@ -275,18 +262,17 @@ class User < ActiveRecord::Base
     else
       uname = self.find_or_create_username(data["login"])
       first_name, last_name = data["name"].split if data["name"]
-      user = User.new(
-        username: "#{uname}",
-        first_name: first_name || "u_firstname",
-        last_name: last_name || "u_lastname",
-        github: data["login"])
+      user = User.new(github: data["login"])
       user.email = user.temporary_email
-      self.assign_values_to_created_from_auth(user)
+      self.assign_common_values_to_created_from_auth(user, uname, first_name, last_name)
       user
     end
   end
 
-  def self.assign_values_to_created_from_auth(user)
+  def self.assign_common_values_to_created_from_auth(user, uname, first_name, last_name)
+    user.username =  uname
+    user.first_name = first_name || "u_firstname"
+    user.last_name = last_name || "u_lastname"
     user.country_validation = false
     user.password = Devise.friendly_token[0,20]
     user.change_password_needed = true
@@ -294,10 +280,7 @@ class User < ActiveRecord::Base
   end
 
   def self.find_or_create_username_for_facebook(first_n, last_n)
-    first_and_last = []
-    first_and_last << first_n.capitalize if first_n.present?
-    first_and_last << last_n.capitalize if last_n.present?
-    value = first_and_last.join("_")
+    value = first_n.capitalize || "" + last_n.capitalize || ""
     self.find_or_create_username(value)
   end
 

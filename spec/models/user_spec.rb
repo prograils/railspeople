@@ -63,16 +63,16 @@ describe User do
     end
   end
 
-  context "validate depends on first_name_validation" do
+  context "validate depends on name_validation" do
     it "should set prop to true after initialize" do
       user = FactoryGirl.build(:user)
-      user.first_name_validation.should be_true
+      user.name_validation.should be_true
     end
     it "should be valid on create if prop is set to false" do
-      FactoryGirl.build(:user, :first_name => nil, first_name_validation: false).should be_valid
+      FactoryGirl.build(:user, first_name: nil, name_validation: false).should be_valid
     end
     it "should not be valid on create if prop is set to true" do
-      FactoryGirl.build(:user, :first_name => nil, first_name_validation: true).should_not be_valid
+      FactoryGirl.build(:user, first_name: nil, name_validation: true).should_not be_valid
     end
     it "should not be valid on update if prop is default" do
       user = FactoryGirl.create(:user)
@@ -82,33 +82,8 @@ describe User do
     it "should not be valid on update if prop is false" do
       # = does not depend on prop of update action
       user = FactoryGirl.create(:user)
-      user.first_name_validation = false
+      user.name_validation = false
       user.first_name = nil
-      user.should_not be_valid
-    end
-  end
-
-  context "validate depends on last_name_validation" do
-    it "should set prop to true after initialize" do
-      user = FactoryGirl.build(:user)
-      user.last_name_validation.should be_true
-    end
-    it "should be valid on create if prop is set to false" do
-      FactoryGirl.build(:user, :last_name => nil, last_name_validation: false).should be_valid
-    end
-    it "should not be valid on create if prop is set to true" do
-      FactoryGirl.build(:user, :last_name => nil, last_name_validation: true).should_not be_valid
-    end
-    it "should not be valid on update if prop is default" do
-      user = FactoryGirl.create(:user)
-      user.last_name = nil
-      user.should_not be_valid
-    end
-    it "should not be valid on update if prop is false" do
-      # = does not depend on prop of update action
-      user = FactoryGirl.create(:user)
-      user.last_name_validation = false
-      user.last_name = nil
       user.should_not be_valid
     end
   end

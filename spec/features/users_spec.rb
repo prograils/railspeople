@@ -283,7 +283,7 @@ describe "Users" do
 
   context "GET /users/edit after registration by github" do
     before do
-      @user = FactoryGirl.create(:user_github_auth, country_validation: false, first_name_validation: false, last_name_validation: false)
+      @user = FactoryGirl.create(:user_github_auth, country_validation: false, name_validation: false)
       login_as(@user, scope: :user)
       visit '/users/edit'
       @old_email = @user.email
