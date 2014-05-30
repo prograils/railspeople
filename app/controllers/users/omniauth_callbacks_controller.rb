@@ -15,7 +15,6 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     @credentials = OAuthCredential.new(uid: @auth["uid"], provider: @provider)
     if user.present?
       user.set_attrs(@auth, @provider)
-      user.reload
       @credentials.user = user
     end
     @credentials.save!
@@ -24,14 +23,12 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def do_auth_for_signed_user
     flash[:notice] = if @credentials.nil?
       create_credentials(current_user) ? "Succesfull merged with #{@provider}" : "Unsuccesfull merged with #{@provider}"
+    elsif @credentials.user.id == current_user.id
+      "Account has previously merged with #{@provider}"
     else
-      if @credentials.user.id == current_user.id
-        "Account has previously merged with #{@provider}"
-      else
-        "The system has an account with the same #{@provider}. Sign in by #{@provider} and delete them. At the end add this #{@provider} to the present account."
-      end
+      "The system has an account with the same #{@provider}. Sign in by #{@provider} and delete them. At the end add this #{@provider} to the present account."
     end
-    flash[:alert] = current_user.errors.full_messages.join(', ') if current_user.invalid?
+    flash[:alert] = current_user.errors.full_messages.to_sentence if current_user.invalid?
     redirect_to edit_user_registration_url
   end
 
@@ -47,7 +44,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
         flash[:notice] = I18n.t "devise.omniauth_callbacks.success", kind: "#{@provider}"
         sign_in @user, event: :authentication
         @user.valid? ? (redirect_to root_url) : (redirect_to edit_user_registration_url)
-        flash[:alert] = @user.errors.full_messages.join(', ') if @user.errors.any?
+        flash[:alert] = @user.errors.full_messages.to_sentence if @user.errors.any?
       else
         redirect_to new_user_registration_url
       end
@@ -57,7 +54,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     end
   end
 
-  def do_auth(provider)
+  def do_auth
     set_auth_vars(request.env["omniauth.auth"])
     if current_user
       do_auth_for_signed_user
@@ -66,20 +63,12 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     end
   end
 
-  def facebook
-    do_auth("facebook")
-  end
-
-  def twitter
-    do_auth("twitter")
-  end
-
-  def github
-    do_auth("github")
-  end
-
   def Auth failure
     redirect_to new_user_registration_url,
     :notice => "Auth failure, try again or register a new account below:"
   end
+  
+  alias_method :facebook, :do_auth
+  alias_method :twitter, :do_auth
+  alias_method :github, :do_auth
 end

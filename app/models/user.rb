@@ -109,7 +109,7 @@ class User < ActiveRecord::Base
   end
 
   def gmaps4rails_address
-    "#{self.country}"
+    self.country
   end
 
   def to_s
@@ -163,17 +163,16 @@ class User < ActiveRecord::Base
   def set_attrs(auth, provider)
     if auth.extra.present?
       data = auth.extra.raw_info
-      u = User.where(id: self.id)
       case provider
         when "facebook"
-          u.update_all first_name: data.first_name if self.first_name.blank? && data.first_name.present?
-          u.update_all last_name: data.last_name if self.last_name.blank? && data.last_name.present?
-          u.update_all email: data.email if no_email_filled? && data.email.present?
-          u.update_all facebook: data.username if self.facebook.blank? && data.username.present?
+          self.update_attribute :first_name, data.first_name if self.first_name.blank? && data.first_name.present?
+          self.update_attribute :last_name, data.last_name if self.last_name.blank? && data.last_name.present?
+          self.update_attribute :email, data.email if no_email_filled? && data.email.present?
+          self.update_attribute :facebook, data.username if self.facebook.blank? && data.username.present?
         when "twitter"
-          u.update_all twitter: data.screen_name if self.twitter.blank? && data.screen_name.present?
+          self.update_attribute :twitter, data.screen_name if self.twitter.blank? && data.screen_name.present?
         when "github"
-          u.update_all github: data.login if self.github.blank? && data.login.present?
+          self.update_attribute :github, data.login if self.github.blank? && data.login.present?
       end
     end
   end
@@ -182,23 +181,16 @@ class User < ActiveRecord::Base
     "https://#{provider}.com/#{self[provider]}"
   end
 
-  # Check, if user account is merged with social service
-  # (str) -> bool
   def has_account_merged_with?(provider)
     self.o_auth_credentials.where(provider: provider).any?
   end
 
   def temporary_email
-    email_addr = "your.email-"
-    (1.. 15).collect{ |n|
-        chr = (48 + rand(9)).chr
-        email_addr << chr
-      }.join
-
-     email_addr += "@5h0u1d-change.it"
-     email_addr
+    email_addr = "your.email"
+    email_addr = add_num_chars(email_addr, 15)
+    email_addr += "@5h0u1d-change.it"
+    email_addr
   end
-
 
   private
 
@@ -228,70 +220,51 @@ class User < ActiveRecord::Base
       credentials.user
     else
       data = auth.extra.raw_info
-      User.send("create_for_#{provider}_oauth", data, credentials)
-    end
-  end
-
-  def self.create_for_facebook_oauth(data, credentials)
-    if data.email.present?
-      if user = User.where(email: data.email).first
+      if data.email.present? && user = User.where(email: data.email).first
         user
       else
-        uname = self.find_or_create_username_for_facebook(data["first_name"], data["last_name"])
-        user = User.new(
-          email: data.email,
-          facebook: data.username)
-        self.assign_common_values_to_created_from_auth(user, uname, data["first_name"], data["last_name"])
-        user
+        User.send("create_for_#{provider}_oauth", data)
       end
     end
   end
 
-  def self.create_for_twitter_oauth(data, credentials)
-    uname = self.find_or_create_username(data["screen_name"])
-    first_name, last_name = data["name"].split
+  def self.create_for_facebook_oauth(data)
+    user = User.new(facebook: data.username)
+    uname = (data.first_name.capitalize || "") + (data.last_name.capitalize || "")
+    user.send :assign_common_values_to_created_from_auth, data, uname
+  end
+
+  def self.create_for_twitter_oauth(data)
     user = User.new(twitter: data.screen_name)
-    user.email = user.temporary_email
-    self.assign_common_values_to_created_from_auth(user, uname, first_name, last_name)
-    user
+    user.send :assign_common_values_to_created_from_auth, data, data.screen_name
   end
 
-  def self.create_for_github_oauth(data, credentials)
-    if data.email.present? && user = User.where(email: data.email).first
-      user
-    else
-      uname = self.find_or_create_username(data["login"])
-      first_name, last_name = data["name"].split if data["name"]
-      user = User.new(github: data["login"])
-      user.email = user.temporary_email
-      self.assign_common_values_to_created_from_auth(user, uname, first_name, last_name)
-      user
-    end
+  def self.create_for_github_oauth(data)
+    user = User.new(github: data.login)
+    user.send :assign_common_values_to_created_from_auth, data, data.login
   end
 
-  def self.assign_common_values_to_created_from_auth(user, uname, first_name, last_name)
-    user.username =  uname
-    user.first_name = first_name || "u_firstname"
-    user.last_name = last_name || "u_lastname"
-    user.country_validation = false
-    user.password = Devise.friendly_token[0,20]
-    user.change_password_needed = true
-    user.save
+  def assign_common_values_to_created_from_auth(data, uname)
+    first_name, last_name = (data.name.split if data.name.present?) || [data.first_name, data.last_name]
+    self.first_name = first_name || "u_firstname"
+    self.last_name = last_name || "u_lastname"
+    self.username = find_or_create_username(uname)
+    self.email = (data.email if data.email.present?) || self.temporary_email
+    self.password = Devise.friendly_token[0,20]
+    self.country_validation = false
+    self.change_password_needed = true
+    self.save
+    self
   end
 
-  def self.find_or_create_username_for_facebook(first_n, last_n)
-    value = first_n.capitalize || "" + last_n.capitalize || ""
-    self.find_or_create_username(value)
-  end
-
-  def self.find_or_create_username(login)
-    login = self.add_num_chars(login) if User.exists?(username: login)
+  def find_or_create_username(login)
+    login = add_num_chars(login, 8) if User.exists?(username: login)
     login
   end
 
-  def self.add_num_chars(str)
+  def add_num_chars(str, nb)
     str += "_"
-      (1.. 8).collect{ |n|
+      (1.. nb).collect{ |n|
         chr =  (48 + rand(9)).chr
         str  << chr
       }.join

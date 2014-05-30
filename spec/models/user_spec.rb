@@ -166,7 +166,7 @@ describe User do
   it 'should geocode return valid address' do
     @user = FactoryGirl.create(:user)
     @user.address.should_not be_empty
-    @user.address.should include("60-575")
+    @user.address.should include("Poznan")
     @user.address.should include("Poland")
   end
 

@@ -88,5 +88,4 @@ class Users::RegistrationsController < Devise::RegistrationsController
     def needs_password?(user, params)
       user.email != params[:email] || !params[:password].empty?
     end
-
 end
